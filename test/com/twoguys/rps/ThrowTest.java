@@ -9,21 +9,17 @@ public class ThrowTest {
 
     @Test
     public void testRockBeatsScissors() {
-	assertBeats(new Rock(), new Scissors());
+	Throw rock = new Rock();
+	Throw scissors = new Scissors();
+	boolean result = rock.beats(scissors);
+	assertTrue(result);
     }
 
     @Test
     public void testRockLosesToPaper() {
-	assertLosesTo(new Rock(), new Paper());
-    }
-
-    public void assertBeats(Throw thrown, Throw other) {
-	boolean result = thrown.beats(other);
-	assertTrue(result);
-    }
-
-    public void assertLosesTo(Throw thrown, Throw other) {
-	boolean result = thrown.beats(other);
+	Throw rock = new Rock();
+	Throw paper = new Paper();
+	boolean result = rock.beats(paper);
 	assertFalse(result);
     }
 }
