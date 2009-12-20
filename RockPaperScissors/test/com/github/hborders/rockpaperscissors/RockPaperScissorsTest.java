@@ -53,6 +53,13 @@ public class RockPaperScissorsTest {
 	}
 
 	@Test
+	public void play_calls_UsagePrinter_when_to_option_is_not_a_number() {
+		testObject.play(new String[] { "-to", "foo" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
 	public void play_calls_UsagePrinter_when_four_argument_array_first_argument_is_not_to_or_bestof() {
 		testObject.play(new String[] { "foo", "bar", "foo", "foo" });
 
