@@ -21,8 +21,7 @@ public class DefaultGameFactory extends AbstractGameFactory {
 
 	@Override
 	public Game createGame(String[] args) {
-		// TODO Auto-generated method stub
-		return null;
+		return gameProvider.provide();
 	}
 
 }
