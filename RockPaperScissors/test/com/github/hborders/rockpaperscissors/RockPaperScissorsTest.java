@@ -46,7 +46,7 @@ public class RockPaperScissorsTest {
 	}
 
 	@Test
-	public void play_calls_UsagePrinter_when_two_argument_array_second_argument_is_not_integer_greater_than_0() {
+	public void play_calls_UsagePrinter_when_to_option_is_not_greater_than_zero() {
 		testObject.play(new String[] { "-to", "0" });
 
 		verify(mockUsagePrinter).printUsage();
