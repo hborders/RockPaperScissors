@@ -15,9 +15,13 @@ public class RockPaperScissors {
 		if (args.length == 0) {
 
 		} else if (args.length == 2) {
-
+			if (!"-to".equals(args[0])) {
+				usagePrinter.printUsage();
+			}
 		} else if (args.length == 4) {
-
+			if (!"-to".equals(args[0]) || !"-by".equals(args[2])) {
+				usagePrinter.printUsage();
+			}
 		} else {
 			usagePrinter.printUsage();
 		}
