@@ -5,11 +5,11 @@ import com.github.hborders.rockpaperscissors.Game.Provider;
 public class BestofGameFactory extends AbstractGameFactory {
 
 	public BestofGameFactory() {
-		this(new Game.Provider(), new UsagePrinter());
+		this(new Game.Provider());
 	}
 
-	BestofGameFactory(Provider gameProvider, UsagePrinter usagePrinter) {
-		super(gameProvider, usagePrinter);
+	BestofGameFactory(Provider gameProvider) {
+		super(gameProvider);
 	}
 
 	@Override

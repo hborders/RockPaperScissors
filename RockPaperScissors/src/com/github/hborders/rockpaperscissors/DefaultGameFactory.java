@@ -8,19 +8,18 @@ public class DefaultGameFactory extends AbstractGameFactory {
 	private final BestofGameFactory bestofGameFactory;
 
 	public DefaultGameFactory() {
-		this(new Game.Provider(), new UsagePrinter(), new ToGameFactory(),
-				new BestofGameFactory());
+		this(new Game.Provider(), new ToGameFactory(), new BestofGameFactory());
 	}
 
-	DefaultGameFactory(Provider gameProvider, UsagePrinter usagePrinter,
-			ToGameFactory toGameFactory, BestofGameFactory bestofGameFactory) {
-		super(gameProvider, usagePrinter);
+	DefaultGameFactory(Provider gameProvider, ToGameFactory toGameFactory,
+			BestofGameFactory bestofGameFactory) {
+		super(gameProvider);
 		this.toGameFactory = toGameFactory;
 		this.bestofGameFactory = bestofGameFactory;
 	}
 
 	@Override
-	public Game createGame(String[] args) {
+	public Game createGame(String[] args) throws InvalidGameArgumentsException {
 		return gameProvider.provide();
 	}
 
