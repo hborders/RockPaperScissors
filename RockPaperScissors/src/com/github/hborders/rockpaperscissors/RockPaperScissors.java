@@ -31,6 +31,16 @@ public class RockPaperScissors {
 			if (!"-to".equals(args[0]) || !"-by".equals(args[2])) {
 				usagePrinter.printUsage();
 			}
+
+			try {
+				int games = Integer.parseInt(args[1]);
+				int margin = Integer.parseInt(args[3]);
+				if ((games < 1) || (margin < 1)) {
+					usagePrinter.printUsage();
+				}
+			} catch (NumberFormatException e) {
+				usagePrinter.printUsage();
+			}
 		} else {
 			usagePrinter.printUsage();
 		}
