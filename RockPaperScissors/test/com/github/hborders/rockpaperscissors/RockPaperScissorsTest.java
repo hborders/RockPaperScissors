@@ -53,6 +53,20 @@ public class RockPaperScissorsTest {
 	}
 
 	@Test
+	public void play_calls_UsagePrinter_when_bestof_option_is_not_a_number() {
+		testObject.play(new String[] { "-bestof", "foo" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
+	public void play_calls_UsagePrinter_when_bestof_option_is_not_greater_than_zero() {
+		testObject.play(new String[] { "-bestof", "0" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
 	public void play_calls_UsagePrinter_when_to_option_is_not_a_number() {
 		testObject.play(new String[] { "-to", "foo" });
 
