@@ -1,6 +1,16 @@
 package com.github.hborders.rockpaperscissors;
 
-public class BestofGameFactory implements IGameFactory {
+import com.github.hborders.rockpaperscissors.Game.Provider;
+
+public class BestofGameFactory extends AbstractGameFactory {
+
+	public BestofGameFactory() {
+		this(new Game.Provider(), new UsagePrinter());
+	}
+
+	BestofGameFactory(Provider gameProvider, UsagePrinter usagePrinter) {
+		super(gameProvider, usagePrinter);
+	}
 
 	@Override
 	public Game createGame(String[] args) {
