@@ -20,7 +20,15 @@ public class DefaultGameFactory extends AbstractGameFactory {
 
 	@Override
 	public Game createGame(String[] args) throws InvalidGameArgumentsException {
-		return gameProvider.provide();
+		if (args.length == 0) {
+			return gameProvider.provide();
+		} else if ("-to".equals(args[0])) {
+			return toGameFactory.createGame(args);
+		} else if ("-bestof".equals(args[0])) {
+			return bestofGameFactory.createGame(args);
+		} else {
+			throw new InvalidGameArgumentsException();
+		}
 	}
 
 }
