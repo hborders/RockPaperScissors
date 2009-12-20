@@ -40,7 +40,7 @@ public class RockPaperScissorsTest {
 
 	@Test
 	public void play_calls_UsagePrinter_when_two_argument_array_first_argument_is_not_to_or_bestof() {
-		testObject.play(new String[] { "foo", "bar" });
+		testObject.play(new String[] { "foo", "1" });
 
 		verify(mockUsagePrinter).printUsage();
 	}
@@ -48,6 +48,13 @@ public class RockPaperScissorsTest {
 	@Test
 	public void play_calls_UsagePrinter_when_to_option_is_not_greater_than_zero() {
 		testObject.play(new String[] { "-to", "0" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
+	public void play_calls_UsagePrinter_when_to_option_is_not_a_number() {
+		testObject.play(new String[] { "-to", "foo" });
 
 		verify(mockUsagePrinter).printUsage();
 	}
@@ -67,22 +74,43 @@ public class RockPaperScissorsTest {
 	}
 
 	@Test
-	public void play_calls_UsagePrinter_when_to_option_is_not_a_number() {
-		testObject.play(new String[] { "-to", "foo" });
+	public void play_calls_UsagePrinter_when_to_by_array_first_argument_is_not_to_or_bestof() {
+		testObject.play(new String[] { "foo", "1", "foo", "1" });
 
 		verify(mockUsagePrinter).printUsage();
 	}
 
 	@Test
-	public void play_calls_UsagePrinter_when_four_argument_array_first_argument_is_not_to_or_bestof() {
-		testObject.play(new String[] { "foo", "bar", "foo", "foo" });
+	public void play_calls_UsagePrinter_when_to_by_array_third_argument_is_not_by() {
+		testObject.play(new String[] { "-to", "1", "foo", "1" });
 
 		verify(mockUsagePrinter).printUsage();
 	}
 
 	@Test
-	public void play_calls_UsagePrinter_when_four_argument_array_third_argument_is_not_by() {
-		testObject.play(new String[] { "-to", "bar", "foo", "foo" });
+	public void play_calls_UsagePrinter_when_to_by_to_option_is_not_a_number() {
+		testObject.play(new String[] { "-to", "bar", "-by", "1" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
+	public void play_calls_UsagePrinter_when_to_by_by_option_is_not_a_number() {
+		testObject.play(new String[] { "-to", "1", "-by", "foo" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
+	public void play_calls_UsagePrinter_when_to_by_to_option_is_not_greater_than_zero() {
+		testObject.play(new String[] { "-to", "0", "-by", "1" });
+
+		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
+	public void play_calls_UsagePrinter_when_to_by_by_option_is_not_greater_than_zero() {
+		testObject.play(new String[] { "-to", "1", "-by", "0" });
 
 		verify(mockUsagePrinter).printUsage();
 	}
