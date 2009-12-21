@@ -32,12 +32,6 @@ public class ToByGameFactoryTest extends AbstractGameFactoryTest {
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_3rd_arg_is_not_by()
-			throws Exception {
-		testObject.createGame(new String[] { "", "", "foo", "" });
-	}
-
-	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_greater_than_4()
 			throws Exception {
 		testObject.createGame(new String[5]);

@@ -16,7 +16,7 @@ public class ToByGameFactory extends AbstractGameFactory {
 	@Override
 	public Game createGame(String[] args) throws InvalidGameArgumentsException {
 		try {
-			if ((args.length == 4) && "-by".equals(args[2])) {
+			if (args.length == 4) {
 				gameCountProvider.provide(args[3]);
 				return gameProvider.provide();
 			}
