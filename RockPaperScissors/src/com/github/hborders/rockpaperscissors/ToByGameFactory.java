@@ -1,6 +1,7 @@
 package com.github.hborders.rockpaperscissors;
 
 import com.github.hborders.rockpaperscissors.Game.Provider;
+import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException;
 
 public class ToByGameFactory extends AbstractGameFactory {
 
@@ -15,10 +16,11 @@ public class ToByGameFactory extends AbstractGameFactory {
 	@Override
 	public Game createGame(String[] args) throws InvalidGameArgumentsException {
 		try {
-			if ((args.length == 4) && (0 < new Integer(args[3]))) {
+			if ((args.length == 4) && "-by".equals(args[2])) {
+				gameCountProvider.provide(args[3]);
 				return gameProvider.provide();
 			}
-		} catch (NumberFormatException numberFormatException) {
+		} catch (InvalidGameCountException invalidGameCountException) {
 		}
 
 		throw new InvalidGameArgumentsException();

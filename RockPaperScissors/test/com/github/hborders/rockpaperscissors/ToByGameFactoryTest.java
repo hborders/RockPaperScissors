@@ -7,19 +7,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException;
 
-public class ToByGameFactoryTest {
-	private Game.Provider mockGameProvider;
-
+public class ToByGameFactoryTest extends AbstractGameFactoryTest {
 	private ToByGameFactory testObject;
 
 	private Game mockGame;
 
+	@Override
 	@Before
 	public void setup() {
-		mockGameProvider = mock(Game.Provider.class);
+		super.setup();
 
-		testObject = new ToByGameFactory(mockGameProvider, new GameCount.Provider());
+		testObject = new ToByGameFactory(mockGameProvider,
+				mockGameCountProvider);
 
 		mockGame = mock(Game.class);
 	}
@@ -33,7 +34,7 @@ public class ToByGameFactoryTest {
 	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_3rd_arg_is_not_by()
 			throws Exception {
-		testObject.createGame(new String[] { "", "", "-by", "" });
+		testObject.createGame(new String[] { "", "", "foo", "" });
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -43,23 +44,22 @@ public class ToByGameFactoryTest {
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_by_is_not_a_number()
+	public void createGame_throws_InvalidGameArgumentsException_when_GameCountProvider_throws_InvalidGameCountException()
 			throws Exception {
-		testObject.createGame(new String[] { "", "", "", "foo" });
-	}
+		when(mockGameCountProvider.provide("foo")).thenThrow(
+				new InvalidGameCountException());
 
-	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_by_is_less_than_1()
-			throws Exception {
-		testObject.createGame(new String[] { "", "", "", "0" });
+		testObject.createGame(new String[] { "", "", "-by", "foo" });
 	}
 
 	@Test
-	public void createGame_returns_Game_from_GameProvider_when_by_is_greater_than_zero()
+	public void createGame_returns_Game_from_GameProvider_when_GameCountProvider_returns_GameCount()
 			throws Exception {
 		when(mockGameProvider.provide()).thenReturn(mockGame);
+		when(mockGameCountProvider.provide("foo")).thenReturn(mockGameCount);
 
-		Game game = testObject.createGame(new String[] { "", "", "", "1" });
+		Game game = testObject
+				.createGame(new String[] { "", "", "-by", "foo" });
 
 		assertEquals(mockGame, game);
 	}

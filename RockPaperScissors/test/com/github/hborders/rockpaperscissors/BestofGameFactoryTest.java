@@ -7,23 +7,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException;
 
-public class BestofGameFactoryTest {
-	private Game.Provider mockGameProvider;
-	private GameCount.Provider mockGameCountProvider;
-
+public class BestofGameFactoryTest extends AbstractGameFactoryTest {
 	private BestofGameFactory testObject;
 
-	private Game mockGame;
-
+	@Override
 	@Before
 	public void setup() {
-		mockGameProvider = mock(Game.Provider.class);
+		super.setup();
 
 		testObject = new BestofGameFactory(mockGameProvider,
 				mockGameCountProvider);
-
-		mockGame = mock(Game.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -33,22 +28,20 @@ public class BestofGameFactoryTest {
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_arg_1_is_not_a_number()
+	public void createGame_throws_InvalidGameArgumentsException_when_GameCountProvider_throws_InvalidGameCountException()
 			throws Exception {
+		when(mockGameCountProvider.provide("foo")).thenThrow(
+				new InvalidGameCountException());
+
 		testObject.createGame(new String[] { "", "foo" });
 	}
 
-	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_arg_1_is_less_than_zero()
-			throws Exception {
-		testObject.createGame(new String[] { "", "0" });
-	}
-
-	public void createGame_returns_Game_from_GameProvider_when_args_length_is_2_and_arg_1_is_a_number_greater_than_zero()
+	public void createGame_returns_Game_from_GameProvider_when_args_length_is_2_and_GameCountProvider_returns_GameCount()
 			throws Exception {
 		when(mockGameProvider.provide()).thenReturn(mockGame);
+		when(mockGameCountProvider.provide("foo")).thenReturn(mockGameCount);
 
-		Game game = testObject.createGame(new String[] { "", "1" });
+		Game game = testObject.createGame(new String[] { "", "foo" });
 
 		assertEquals(mockGameProvider, game);
 	}

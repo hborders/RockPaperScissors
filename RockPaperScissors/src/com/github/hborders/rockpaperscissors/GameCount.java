@@ -1,7 +1,17 @@
 package com.github.hborders.rockpaperscissors;
 
 public class GameCount {
+	private final int gameCount;
+
 	public GameCount(String gameCount) throws InvalidGameCountException {
+		try {
+			this.gameCount = new Integer(gameCount);
+			if (this.gameCount < 1) {
+				throw new InvalidGameCountException();
+			}
+		} catch (NumberFormatException numberFormatException) {
+			throw new InvalidGameCountException();
+		}
 	}
 
 	static class Provider {

@@ -8,25 +8,22 @@ import org.junit.Test;
 
 import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
 
-public class DefaultGameFactoryTest {
-	private Game.Provider mockGameProvider;
+public class DefaultGameFactoryTest extends AbstractGameFactoryTest {
 	private ToGameFactory mockToGameFactory;
 	private BestofGameFactory mockBestofGameFactory;
 
 	private DefaultGameFactory testObject;
 
-	private Game mockGame;
-
+	@Override
 	@Before
 	public void setup() {
+		super.setup();
+
 		mockToGameFactory = mock(ToGameFactory.class);
 		mockBestofGameFactory = mock(BestofGameFactory.class);
-		mockGameProvider = mock(Game.Provider.class);
 
 		testObject = new DefaultGameFactory(mockGameProvider,
-				new GameCount.Provider(), mockToGameFactory, mockBestofGameFactory);
-
-		mockGame = mock(Game.class);
+				mockGameCountProvider, mockToGameFactory, mockBestofGameFactory);
 	}
 
 	@Test
