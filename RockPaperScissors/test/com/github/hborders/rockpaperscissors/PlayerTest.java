@@ -10,4 +10,10 @@ public class PlayerTest {
 			throws Exception {
 		new Player("  ");
 	}
+
+	@Test(expected = InvalidPlayerException.class)
+	public void constructor_throws_InvalidPlayerException_when_player_is_null()
+			throws Exception {
+		new Player(null);
+	}
 }

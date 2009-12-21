@@ -63,8 +63,14 @@ public class DefaultGameFactoryTest extends AbstractGameFactoryTest {
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentException_when_first_arg_is_not_to_or_bestof()
+	public void createGame_throws_InvalidGameArgumentsException_when_first_arg_is_not_to_or_bestof()
 			throws Exception {
 		testObject.createGame(new String[] { "foo" });
+	}
+
+	@Test(expected = InvalidGameArgumentsException.class)
+	public void createGame_throws_InvalidGameArgumentsException_when_args_is_null()
+			throws Exception {
+		testObject.createGame(null);
 	}
 }
