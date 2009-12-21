@@ -61,7 +61,7 @@ public class ToGameFactoryTest extends AbstractGameFactoryTest {
 		assertEquals(mockGame, game);
 	}
 
-	@Test
+	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_3rd_argument_is_not_by()
 			throws Exception {
 		testObject.createGame(new String[] { "", "foo", "bar" });
