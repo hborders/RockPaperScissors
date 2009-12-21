@@ -13,9 +13,15 @@ public class ToByGameFactory extends AbstractGameFactory {
 	}
 
 	@Override
-	public Game createGame(String[] args) {
-		// TODO Auto-generated method stub
-		return null;
+	public Game createGame(String[] args) throws InvalidGameArgumentsException {
+		try {
+			if ((args.length == 4) && (0 < new Integer(args[3]))) {
+				return gameProvider.provide();
+			}
+		} catch (NumberFormatException numberFormatException) {
+		}
+
+		throw new InvalidGameArgumentsException();
 	}
 
 }

@@ -25,9 +25,21 @@ public class ToByGameFactoryTest {
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_not_4()
+	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_3()
 			throws Exception {
 		testObject.createGame(new String[3]);
+	}
+
+	@Test(expected = InvalidGameArgumentsException.class)
+	public void createGame_throws_InvalidGameArgumentsException_when_3rd_arg_is_not_by()
+			throws Exception {
+		testObject.createGame(new String[] { "", "", "-by", "" });
+	}
+
+	@Test(expected = InvalidGameArgumentsException.class)
+	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_greater_than_4()
+			throws Exception {
+		testObject.createGame(new String[5]);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
