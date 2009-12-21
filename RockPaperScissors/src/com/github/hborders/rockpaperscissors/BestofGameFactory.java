@@ -14,8 +14,13 @@ public class BestofGameFactory extends AbstractGameFactory {
 
 	@Override
 	public Game createGame(String[] args) throws InvalidGameArgumentsException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			if ((args.length == 2) && 0 < new Integer(args[1])) {
+				return gameProvider.provide();
+			}
+		} catch (NumberFormatException numberFormatException) {
+		}
+		throw new InvalidGameArgumentsException();
 	}
 
 }
