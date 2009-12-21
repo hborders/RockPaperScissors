@@ -1,5 +1,7 @@
 package com.github.hborders.rockpaperscissors;
 
+import com.github.hborders.rockpaperscissors.Player.InvalidPlayerException;
+
 public class PlayerFactory {
 	private final Console console;
 	private final Player.Provider playerProvider;
@@ -14,6 +16,15 @@ public class PlayerFactory {
 	}
 
 	public Player createPlayer(int number) {
-		return null;
+		Player player = null;
+		while (player == null) {
+			try {
+				String input = console.readLine("Player %d Name: ", number);
+				player = playerProvider.provide(input);
+			} catch (InvalidPlayerException invalidPlayerException) {
+			}
+		}
+
+		return player;
 	}
 }
