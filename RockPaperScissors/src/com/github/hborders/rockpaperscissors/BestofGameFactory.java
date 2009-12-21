@@ -13,7 +13,7 @@ public class BestofGameFactory extends AbstractGameFactory {
 	}
 
 	@Override
-	public Game createGame(String[] args) {
+	public Game createGame(String[] args) throws InvalidGameArgumentsException {
 		// TODO Auto-generated method stub
 		return null;
 	}
