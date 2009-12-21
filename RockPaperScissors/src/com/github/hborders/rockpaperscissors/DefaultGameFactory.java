@@ -22,6 +22,10 @@ public class DefaultGameFactory extends AbstractGameFactory {
 
 	@Override
 	public Game createGame(String[] args) throws InvalidGameArgumentsException {
+		if (args == null) {
+			throw new InvalidGameArgumentsException();
+		}
+
 		if (args.length == 0) {
 			return gameProvider.provide();
 		} else if ("-to".equals(args[0])) {
