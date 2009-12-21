@@ -1,47 +1,29 @@
 package com.github.hborders.rockpaperscissors;
 
+import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
+
 public class RockPaperScissors {
 	public static void main(String[] args) {
-		new RockPaperScissors(new UsagePrinter()).play(args);
+		new RockPaperScissors().play(args);
 	}
 
 	private final UsagePrinter usagePrinter;
+	private final DefaultGameFactory defaultGameFactory;
 
-	public RockPaperScissors(UsagePrinter usagePrinter) {
+	public RockPaperScissors() {
+		this(new UsagePrinter(), new DefaultGameFactory());
+	}
+
+	public RockPaperScissors(UsagePrinter usagePrinter,
+			DefaultGameFactory defaultGameFactory) {
 		this.usagePrinter = usagePrinter;
+		this.defaultGameFactory = defaultGameFactory;
 	}
 
 	public void play(String[] args) {
-		if (args.length == 0) {
-
-		} else if (args.length == 2) {
-			if (!"-to".equals(args[0])) {
-				usagePrinter.printUsage();
-			} else {
-				try {
-					int games = Integer.parseInt(args[1]);
-					if (games < 1) {
-						usagePrinter.printUsage();
-					}
-				} catch (NumberFormatException e) {
-					usagePrinter.printUsage();
-				}
-			}
-		} else if (args.length == 4) {
-			if (!"-to".equals(args[0]) || !"-by".equals(args[2])) {
-				usagePrinter.printUsage();
-			}
-
-			try {
-				int games = Integer.parseInt(args[1]);
-				int margin = Integer.parseInt(args[3]);
-				if ((games < 1) || (margin < 1)) {
-					usagePrinter.printUsage();
-				}
-			} catch (NumberFormatException e) {
-				usagePrinter.printUsage();
-			}
-		} else {
+		try {
+			defaultGameFactory.createGame(args);
+		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {
 			usagePrinter.printUsage();
 		}
 	}
