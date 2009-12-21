@@ -8,12 +8,14 @@ public class DefaultGameFactory extends AbstractGameFactory {
 	private final BestofGameFactory bestofGameFactory;
 
 	public DefaultGameFactory() {
-		this(new Game.Provider(), new ToGameFactory(), new BestofGameFactory());
+		this(new Game.Provider(), new GameCount.Provider(),
+				new ToGameFactory(), new BestofGameFactory());
 	}
 
-	DefaultGameFactory(Provider gameProvider, ToGameFactory toGameFactory,
+	DefaultGameFactory(Provider gameProvider,
+			GameCount.Provider gameCountProvider, ToGameFactory toGameFactory,
 			BestofGameFactory bestofGameFactory) {
-		super(gameProvider);
+		super(gameProvider, null);
 		this.toGameFactory = toGameFactory;
 		this.bestofGameFactory = bestofGameFactory;
 	}

@@ -24,7 +24,7 @@ public class DefaultGameFactoryTest {
 		mockGameProvider = mock(Game.Provider.class);
 
 		testObject = new DefaultGameFactory(mockGameProvider,
-				mockToGameFactory, mockBestofGameFactory);
+				new GameCount.Provider(), mockToGameFactory, mockBestofGameFactory);
 
 		mockGame = mock(Game.class);
 	}

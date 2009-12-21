@@ -5,11 +5,11 @@ import com.github.hborders.rockpaperscissors.Game.Provider;
 public class ToByGameFactory extends AbstractGameFactory {
 
 	public ToByGameFactory() {
-		this(new Game.Provider());
+		this(new Game.Provider(), new GameCount.Provider());
 	}
 
-	ToByGameFactory(Provider gameProvider) {
-		super(gameProvider);
+	ToByGameFactory(Provider gameProvider, GameCount.Provider gameCountProvider) {
+		super(gameProvider, gameCountProvider);
 	}
 
 	@Override

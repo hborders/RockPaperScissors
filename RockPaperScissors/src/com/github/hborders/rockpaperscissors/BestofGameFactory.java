@@ -1,15 +1,15 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.Game.Provider;
 
 public class BestofGameFactory extends AbstractGameFactory {
 
 	public BestofGameFactory() {
-		this(new Game.Provider());
+		this(new Game.Provider(), new GameCount.Provider());
 	}
 
-	BestofGameFactory(Provider gameProvider) {
-		super(gameProvider);
+	BestofGameFactory(Game.Provider gameProvider,
+			GameCount.Provider gameCountProvider) {
+		super(gameProvider, gameCountProvider);
 	}
 
 	@Override

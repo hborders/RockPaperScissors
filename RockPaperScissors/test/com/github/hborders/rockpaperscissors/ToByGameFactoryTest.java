@@ -19,7 +19,7 @@ public class ToByGameFactoryTest {
 	public void setup() {
 		mockGameProvider = mock(Game.Provider.class);
 
-		testObject = new ToByGameFactory(mockGameProvider);
+		testObject = new ToByGameFactory(mockGameProvider, new GameCount.Provider());
 
 		mockGame = mock(Game.class);
 	}

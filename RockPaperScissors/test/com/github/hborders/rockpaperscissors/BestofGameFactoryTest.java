@@ -10,6 +10,7 @@ import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgu
 
 public class BestofGameFactoryTest {
 	private Game.Provider mockGameProvider;
+	private GameCount.Provider mockGameCountProvider;
 
 	private BestofGameFactory testObject;
 
@@ -19,7 +20,8 @@ public class BestofGameFactoryTest {
 	public void setup() {
 		mockGameProvider = mock(Game.Provider.class);
 
-		testObject = new BestofGameFactory(mockGameProvider);
+		testObject = new BestofGameFactory(mockGameProvider,
+				mockGameCountProvider);
 
 		mockGame = mock(Game.class);
 	}

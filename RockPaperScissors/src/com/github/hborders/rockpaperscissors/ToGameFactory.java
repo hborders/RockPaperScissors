@@ -7,11 +7,13 @@ public class ToGameFactory extends AbstractGameFactory {
 	private final ToByGameFactory toByGameFactory;
 
 	public ToGameFactory() {
-		this(new Game.Provider(), new ToByGameFactory());
+		this(new Game.Provider(), new GameCount.Provider(),
+				new ToByGameFactory());
 	}
 
-	ToGameFactory(Provider gameProvider, ToByGameFactory toByGameFactory) {
-		super(gameProvider);
+	ToGameFactory(Provider gameProvider, GameCount.Provider gameCountProvider,
+			ToByGameFactory toByGameFactory) {
+		super(gameProvider, gameCountProvider);
 
 		this.toByGameFactory = toByGameFactory;
 	}
