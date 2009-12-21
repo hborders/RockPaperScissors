@@ -9,15 +9,17 @@ public class RockPaperScissors {
 
 	private final UsagePrinter usagePrinter;
 	private final DefaultGameFactory defaultGameFactory;
+	private final PlayerFactory playerFactory;
 
 	public RockPaperScissors() {
-		this(new UsagePrinter(), new DefaultGameFactory());
+		this(new UsagePrinter(), new DefaultGameFactory(), new PlayerFactory());
 	}
 
 	public RockPaperScissors(UsagePrinter usagePrinter,
-			DefaultGameFactory defaultGameFactory) {
+			DefaultGameFactory defaultGameFactory, PlayerFactory playerFactory) {
 		this.usagePrinter = usagePrinter;
 		this.defaultGameFactory = defaultGameFactory;
+		this.playerFactory = playerFactory;
 	}
 
 	public void play(String[] args) {
