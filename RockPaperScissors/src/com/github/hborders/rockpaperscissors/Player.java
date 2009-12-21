@@ -14,6 +14,12 @@ public class Player {
 		}
 	}
 
+	static class Provider {
+		public Player provide(String player) throws InvalidPlayerException {
+			return new Player(player);
+		}
+	}
+
 	public static class InvalidPlayerException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
