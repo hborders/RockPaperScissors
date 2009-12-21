@@ -1,8 +1,13 @@
 package com.github.hborders.rockpaperscissors;
 
 public class Player {
-	public Player(String player) throws InvalidPlayerException {
+	private final String player;
 
+	public Player(String player) throws InvalidPlayerException {
+		this.player = player.trim();
+		if (this.player.length() == 0) {
+			throw new InvalidPlayerException();
+		}
 	}
 
 	public static class InvalidPlayerException extends Exception {
