@@ -1,6 +1,6 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
 
 public class RockPaperScissors {
 	public static void main(String[] args) {
@@ -8,23 +8,23 @@ public class RockPaperScissors {
 	}
 
 	private final UsagePrinter usagePrinter;
-	private final DefaultGameFactory defaultGameFactory;
+	private final DefaultGameFactoryFactory defaultGameFactoryFactory;
 	private final PlayerFactory playerFactory;
 
 	public RockPaperScissors() {
-		this(new UsagePrinter(), new DefaultGameFactory(), new PlayerFactory());
+		this(new UsagePrinter(), new DefaultGameFactoryFactory(), new PlayerFactory());
 	}
 
 	public RockPaperScissors(UsagePrinter usagePrinter,
-			DefaultGameFactory defaultGameFactory, PlayerFactory playerFactory) {
+			DefaultGameFactoryFactory defaultGameFactoryFactory, PlayerFactory playerFactory) {
 		this.usagePrinter = usagePrinter;
-		this.defaultGameFactory = defaultGameFactory;
+		this.defaultGameFactoryFactory = defaultGameFactoryFactory;
 		this.playerFactory = playerFactory;
 	}
 
 	public void play(String[] args) {
 		try {
-			defaultGameFactory.createGame(args);
+			defaultGameFactoryFactory.createGameFactory(args);
 			playerFactory.createPlayer(1);
 			playerFactory.createPlayer(2);
 		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {

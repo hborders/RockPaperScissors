@@ -4,19 +4,19 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 
-public class AbstractGameFactoryTest {
-	Game.Provider mockGameProvider;
+public class AbstractGameFactoryFactoryTest {
+	GameFactory.Provider mockGameFactoryProvider;
 	GameCount.Provider mockGameCountProvider;
 
-	Game mockGame;
+	GameFactory mockGameFactory;
 	GameCount mockGameCount;
 
 	@Before
 	public void setup() {
-		mockGameProvider = mock(Game.Provider.class);
+		mockGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockGameCountProvider = mock(GameCount.Provider.class);
 
-		mockGame = mock(Game.class);
+		mockGameFactory = mock(GameFactory.class);
 		mockGameCount = mock(GameCount.class);
 	}
 }

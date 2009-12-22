@@ -1,18 +1,16 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.Game.Provider;
-
-public abstract class AbstractGameFactory {
-	final Game.Provider gameProvider;
+public abstract class AbstractGameFactoryFactory {
+	final GameFactory.Provider gameFactoryProvider;
 	final GameCount.Provider gameCountProvider;
 
-	AbstractGameFactory(Provider gameProvider,
+	AbstractGameFactoryFactory(GameFactory.Provider gameFactoryProvider,
 			GameCount.Provider gameCountProvider) {
-		this.gameProvider = gameProvider;
+		this.gameFactoryProvider = gameFactoryProvider;
 		this.gameCountProvider = gameCountProvider;
 	}
 
-	public abstract Game createGame(String[] args)
+	public abstract GameFactory createGameFactory(String[] args)
 			throws InvalidGameArgumentsException;
 
 	public static class InvalidGameArgumentsException extends Exception {

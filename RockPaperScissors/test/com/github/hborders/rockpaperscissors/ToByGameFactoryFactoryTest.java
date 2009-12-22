@@ -6,35 +6,31 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
 import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException;
 
-public class ToByGameFactoryTest extends AbstractGameFactoryTest {
-	private ToByGameFactory testObject;
-
-	private Game mockGame;
+public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
+	private ToByGameFactoryFactory testObject;
 
 	@Override
 	@Before
 	public void setup() {
 		super.setup();
 
-		testObject = new ToByGameFactory(mockGameProvider,
+		testObject = new ToByGameFactoryFactory(mockGameFactoryProvider,
 				mockGameCountProvider);
-
-		mockGame = mock(Game.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_3()
 			throws Exception {
-		testObject.createGame(new String[3]);
+		testObject.createGameFactory(new String[3]);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_greater_than_4()
 			throws Exception {
-		testObject.createGame(new String[5]);
+		testObject.createGameFactory(new String[5]);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -43,18 +39,18 @@ public class ToByGameFactoryTest extends AbstractGameFactoryTest {
 		when(mockGameCountProvider.provide("foo")).thenThrow(
 				new InvalidGameCountException());
 
-		testObject.createGame(new String[] { "", "", "-by", "foo" });
+		testObject.createGameFactory(new String[] { "", "", "-by", "foo" });
 	}
 
 	@Test
 	public void createGame_returns_Game_from_GameProvider_when_GameCountProvider_returns_GameCount()
 			throws Exception {
-		when(mockGameProvider.provide()).thenReturn(mockGame);
+		when(mockGameFactoryProvider.provide()).thenReturn(mockGameFactory);
 		when(mockGameCountProvider.provide("foo")).thenReturn(mockGameCount);
 
-		Game game = testObject
-				.createGame(new String[] { "", "", "-by", "foo" });
+		GameFactory gameFactory = testObject.createGameFactory(new String[] {
+				"", "", "-by", "foo" });
 
-		assertEquals(mockGame, game);
+		assertEquals(mockGameFactory, gameFactory);
 	}
 }

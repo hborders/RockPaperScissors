@@ -5,29 +5,29 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.hborders.rockpaperscissors.AbstractGameFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
 
 public class RockPaperScissorsTest {
 
 	private UsagePrinter mockUsagePrinter;
-	private DefaultGameFactory mockDefaultGameFactory;
+	private DefaultGameFactoryFactory mockDefaultGameFactoryFactory;
 	private PlayerFactory mockPlayerFactory;
 	private RockPaperScissors testObject;
 
-	private Game mockGame;
+	private GameFactory mockGameFactory;
 	private Player mockPlayer1;
 	private Player mockPlayer2;
 
 	@Before
 	public void setUp() {
 		mockUsagePrinter = mock(UsagePrinter.class);
-		mockDefaultGameFactory = mock(DefaultGameFactory.class);
+		mockDefaultGameFactoryFactory = mock(DefaultGameFactoryFactory.class);
 		mockPlayerFactory = mock(PlayerFactory.class);
 
 		testObject = new RockPaperScissors(mockUsagePrinter,
-				mockDefaultGameFactory, mockPlayerFactory);
+				mockDefaultGameFactoryFactory, mockPlayerFactory);
 
-		mockGame = mock(Game.class);
+		mockGameFactory = mock(GameFactory.class);
 		mockPlayer1 = mock(Player.class);
 		mockPlayer2 = mock(Player.class);
 	}
@@ -35,8 +35,8 @@ public class RockPaperScissorsTest {
 	@Test
 	public void play_prints_usage_when_DefaultGameFactory_throws_InvalidGameArgumentsException()
 			throws Exception {
-		when(mockDefaultGameFactory.createGame(new String[0])).thenThrow(
-				new InvalidGameArgumentsException());
+		when(mockDefaultGameFactoryFactory.createGameFactory(new String[0]))
+				.thenThrow(new InvalidGameArgumentsException());
 
 		testObject.play(new String[0]);
 
@@ -45,14 +45,14 @@ public class RockPaperScissorsTest {
 
 	@Test
 	public void play_creates_Game_and_two_Players() throws Exception {
-		when(mockDefaultGameFactory.createGame(new String[0])).thenReturn(
-				mockGame);
+		when(mockDefaultGameFactoryFactory.createGameFactory(new String[0]))
+				.thenReturn(mockGameFactory);
 		when(mockPlayerFactory.createPlayer(1)).thenReturn(mockPlayer1);
 		when(mockPlayerFactory.createPlayer(2)).thenReturn(mockPlayer2);
 
 		testObject.play(new String[0]);
 
-		verify(mockDefaultGameFactory).createGame(new String[0]);
+		verify(mockDefaultGameFactoryFactory).createGameFactory(new String[0]);
 		verify(mockPlayerFactory).createPlayer(1);
 		verify(mockPlayerFactory).createPlayer(2);
 	}
