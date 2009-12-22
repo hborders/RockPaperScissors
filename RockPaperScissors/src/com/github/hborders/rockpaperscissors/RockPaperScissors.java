@@ -25,6 +25,8 @@ public class RockPaperScissors {
 	public void play(String[] args) {
 		try {
 			defaultGameFactory.createGame(args);
+			playerFactory.createPlayer(1);
+			playerFactory.createPlayer(2);
 		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {
 			usagePrinter.printUsage();
 		}
