@@ -1,11 +1,7 @@
 package com.github.hborders.rockpaperscissors;
 
-public class Attempt {
-	private final String attempt;
-
-	public Attempt(String attempt) {
-		this.attempt = attempt;
-	}
+public enum Attempt {
+	ROCK, PAPER, SCISSORS, ;
 
 	public boolean beats(Attempt otherAttempt) {
 		return false;

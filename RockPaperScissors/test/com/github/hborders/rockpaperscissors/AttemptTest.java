@@ -8,57 +8,46 @@ public class AttemptTest {
 
 	@Test
 	public void rock_does_not_beat_rock() {
-		assertFalse(new Attempt("R").beats(new Attempt("R")));
+		assertFalse(Attempt.ROCK.beats(Attempt.ROCK));
 	}
 
 	@Test
 	public void rock_does_not_beat_paper() {
-		assertFalse(new Attempt("R").beats(new Attempt("P")));
+		assertFalse(Attempt.ROCK.beats(Attempt.PAPER));
 	}
 
 	@Test
 	public void rock_beats_scissors() {
-		assertTrue(new Attempt("R").beats(new Attempt("S")));
-	}
-
-	@Test
-	public void scissors_does_not_beat_rock() {
-		assertFalse(new Attempt("S").beats(new Attempt("R")));
-	}
-
-	@Test
-	public void scissors_beats_paper() {
-		assertTrue(new Attempt("S").beats(new Attempt("P")));
-	}
-
-	@Test
-	public void scissors_does_not_beat_scissors() {
-		assertFalse(new Attempt("S").beats(new Attempt("S")));
+		assertTrue(Attempt.ROCK.beats(Attempt.SCISSORS));
 	}
 
 	@Test
 	public void paper_beats_rock() {
-		assertTrue(new Attempt("P").beats(new Attempt("R")));
+		assertTrue(Attempt.PAPER.beats(Attempt.ROCK));
 	}
 
 	@Test
 	public void paper_does_not_beat_scissors() {
-		assertTrue(new Attempt("P").beats(new Attempt("S")));
+		assertTrue(Attempt.PAPER.beats(Attempt.SCISSORS));
 	}
 
 	@Test
 	public void paper_does_not_beat_paper() {
-		assertTrue(new Attempt("P").beats(new Attempt("P")));
+		assertTrue(Attempt.PAPER.beats(Attempt.PAPER));
 	}
 
 	@Test
-	public void equality_is_case_insensitive() {
-		assertEquals(new Attempt("R"), new Attempt("r"));
-		assertEquals(new Attempt("P"), new Attempt("p"));
-		assertEquals(new Attempt("S"), new Attempt("s"));
+	public void scissors_does_not_beat_rock() {
+		assertFalse(Attempt.SCISSORS.beats(Attempt.ROCK));
+	}
 
-		assertEquals(new Attempt("R").hashCode(), new Attempt("r").hashCode());
-		assertEquals(new Attempt("P").hashCode(), new Attempt("p").hashCode());
-		assertEquals(new Attempt("S").hashCode(), new Attempt("s").hashCode());
+	@Test
+	public void scissors_beats_paper() {
+		assertTrue(Attempt.SCISSORS.beats(Attempt.PAPER));
+	}
+
+	@Test
+	public void scissors_does_not_beat_scissors() {
+		assertFalse(Attempt.SCISSORS.beats(Attempt.SCISSORS));
 	}
 }
