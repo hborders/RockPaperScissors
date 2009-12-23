@@ -11,19 +11,28 @@ import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException
 
 public class BestofGameFactoryFactoryTest extends
 		AbstractGameFactoryFactoryTest {
+	private BestofGameFactory.Provider mockBestofGameFactoryProvider;
+	private BestofGame.Provider mockBestofGameProvider;
 	private BestofGameFactoryFactory testObject;
+
+	private BestofGameFactory mockBestofGameFactory;
 
 	@Override
 	@Before
 	public void setup() {
 		super.setup();
 
-		testObject = new BestofGameFactoryFactory(mockGameFactoryProvider,
-				mockGameCountProvider);
+		mockBestofGameFactoryProvider = mock(BestofGameFactory.Provider.class);
+		mockBestofGameProvider = mock(BestofGame.Provider.class);
+
+		testObject = new BestofGameFactoryFactory(mockGameCountProvider,
+				mockBestofGameFactoryProvider, mockBestofGameProvider);
+
+		mockBestofGameFactory = mock(BestofGameFactory.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_not_2()
+	public void createGameFactory_throws_InvalidGameArgumentsException_when_args_length_is_not_2()
 			throws Exception {
 		testObject.createGameFactory(new String[3]);
 	}
@@ -37,14 +46,15 @@ public class BestofGameFactoryFactoryTest extends
 		testObject.createGameFactory(new String[] { "", "foo" });
 	}
 
-	public void createGameFactory_returns_GameFactory_from_GameFactoryProvider_when_args_length_is_2_and_GameCountProvider_returns_GameCount()
+	public void createGameFactory_returns_BestofGameFactory_from_BestofGameFactoryProvider_when_args_length_is_2_and_GameCountProvider_returns_GameCount()
 			throws Exception {
-		when(mockGameFactoryProvider.provide()).thenReturn(mockGameFactory);
+		when(mockBestofGameFactoryProvider.provide(mockBestofGameProvider))
+				.thenReturn(mockBestofGameFactory);
 		when(mockGameCountProvider.provide("foo")).thenReturn(mockGameCount);
 
-		GameFactory gameFactory = testObject.createGameFactory(new String[] {
-				"", "foo" });
+		BestofGameFactory bestofGameFactory = testObject
+				.createGameFactory(new String[] { "", "foo" });
 
-		assertEquals(mockGameFactory, gameFactory);
+		assertEquals(mockBestofGameFactory, bestofGameFactory);
 	}
 }

@@ -10,19 +10,30 @@ import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidG
 import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException;
 
 public class ToGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
+	private ToGameFactory.Provider mockToGameFactoryProvider;
+	private ToByGame.Provider mockToByGameProvider;
 	private ToByGameFactoryFactory mockToByGameFactoryFactory;
 
 	private ToGameFactoryFactory testObject;
+
+	private ToGameFactory mockToGameFactory;
+	private ToByGameFactory mockToByGameFactory;
 
 	@Override
 	@Before
 	public void setup() {
 		super.setup();
 
+		mockToGameFactoryProvider = mock(ToGameFactory.Provider.class);
+		mockToByGameProvider = mock(ToByGame.Provider.class);
 		mockToByGameFactoryFactory = mock(ToByGameFactoryFactory.class);
 
-		testObject = new ToGameFactoryFactory(mockGameFactoryProvider,
-				mockGameCountProvider, mockToByGameFactoryFactory);
+		testObject = new ToGameFactoryFactory(mockGameCountProvider,
+				mockToGameFactoryProvider, mockToByGameProvider,
+				mockToByGameFactoryFactory);
+
+		mockToGameFactory = mock(ToGameFactory.class);
+		mockToByGameFactory = mock(ToByGameFactory.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -41,26 +52,27 @@ public class ToGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 	}
 
 	@Test
-	public void createGame_returns_Game_from_GameProvider_when_GameCountProvider_returns_GameCount()
+	public void createGame_returns_ToGameFactory_from_ToGameFactoryProvider_when_GameCountProvider_returns_GameCount()
 			throws Exception {
 		when(mockGameCountProvider.provide("foo")).thenReturn(mockGameCount);
-		when(mockGameFactoryProvider.provide()).thenReturn(mockGameFactory);
+		when(mockToGameFactoryProvider.provide(mockToByGameProvider))
+				.thenReturn(mockToGameFactory);
 
-		GameFactory gameFactory = testObject.createGameFactory(new String[] {
+		IGameFactory gameFactory = testObject.createGameFactory(new String[] {
 				"", "foo" });
 
-		assertEquals(mockGameFactory, gameFactory);
+		assertEquals(mockToGameFactory, gameFactory);
 	}
 
 	@Test
-	public void createGame_delegates_to_ToByGameFactory_when_3rd_argument_is_by()
+	public void createGame_delegates_to_ToByGameFactoryFactory_when_3rd_argument_is_by()
 			throws Exception {
 		String[] args = { "", "", "-by" };
 		when(mockToByGameFactoryFactory.createGameFactory(args)).thenReturn(
-				mockGameFactory);
-		GameFactory gameFactory = testObject.createGameFactory(args);
+				mockToByGameFactory);
+		IGameFactory gameFactory = testObject.createGameFactory(args);
 
-		assertEquals(mockGameFactory, gameFactory);
+		assertEquals(mockToByGameFactory, gameFactory);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)

@@ -1,34 +1,39 @@
 package com.github.hborders.rockpaperscissors;
 
-
 public class DefaultGameFactoryFactory extends AbstractGameFactoryFactory {
 
+	private final DefaultGameFactory.Provider defaultFactoryProvider;
+	private final ToByGame.Provider toByGameProvider;
 	private final ToGameFactoryFactory toGameFactoryFactory;
 	private final BestofGameFactoryFactory bestofGameFactoryFactory;
 
 	public DefaultGameFactoryFactory() {
-		this(new GameFactory.Provider(), new GameCount.Provider(),
-				new ToGameFactoryFactory(), new BestofGameFactoryFactory());
+		this(new GameCount.Provider(), new DefaultGameFactory.Provider(),
+				new ToByGame.Provider(), new ToGameFactoryFactory(),
+				new BestofGameFactoryFactory());
 	}
 
-	DefaultGameFactoryFactory(GameFactory.Provider gameFactoryProvider,
-			GameCount.Provider gameCountProvider,
+	DefaultGameFactoryFactory(GameCount.Provider gameCountProvider,
+			DefaultGameFactory.Provider defaultFactoryProvider,
+			ToByGame.Provider toByGameProvider,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
-		super(gameFactoryProvider, gameCountProvider);
+		super(gameCountProvider);
+		this.defaultFactoryProvider = defaultFactoryProvider;
+		this.toByGameProvider = toByGameProvider;
 		this.toGameFactoryFactory = toGameFactoryFactory;
 		this.bestofGameFactoryFactory = bestofGameFactoryFactory;
 	}
 
 	@Override
-	public GameFactory createGameFactory(String[] args)
+	public IGameFactory createGameFactory(String[] args)
 			throws InvalidGameArgumentsException {
 		if (args == null) {
 			throw new InvalidGameArgumentsException();
 		}
 
 		if (args.length == 0) {
-			return gameFactoryProvider.provide();
+			return defaultFactoryProvider.provide(toByGameProvider);
 		} else if ("-to".equals(args[0])) {
 			return toGameFactoryFactory.createGameFactory(args);
 		} else if ("-bestof".equals(args[0])) {
