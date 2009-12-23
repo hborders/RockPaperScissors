@@ -1,15 +1,15 @@
 package com.github.hborders.rockpaperscissors;
 
 public class Player {
-	private final String player;
+	private final String rawPlayer;
 
-	public Player(String player) throws InvalidPlayerException {
-		if (player == null) {
+	public Player(String rawPlayer) throws InvalidPlayerException {
+		if (rawPlayer == null) {
 			throw new InvalidPlayerException();
 		}
 
-		this.player = player.trim();
-		if (this.player.length() == 0) {
+		this.rawPlayer = rawPlayer.trim();
+		if (this.rawPlayer.length() == 0) {
 			throw new InvalidPlayerException();
 		}
 	}
