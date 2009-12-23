@@ -11,7 +11,7 @@ public class AttemptFactory {
 		this.console = console;
 	}
 
-	public Attempt createAttempt(Player player) {
+	public Attempt createAttempt(Player player, int number) {
 		return null;
 	}
 

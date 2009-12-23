@@ -20,8 +20,8 @@ public class Round {
 		Attempt firstPlayerAttempt;
 		Attempt secondPlayerAttempt;
 		do {
-			firstPlayerAttempt = attemptFactory.createAttempt(firstPlayer);
-			secondPlayerAttempt = attemptFactory.createAttempt(secondPlayer);
+			firstPlayerAttempt = attemptFactory.createAttempt(firstPlayer, 1);
+			secondPlayerAttempt = attemptFactory.createAttempt(secondPlayer, 2);
 		} while (!firstPlayerAttempt.beats(secondPlayerAttempt)
 				&& !secondPlayerAttempt.beats(firstPlayerAttempt));
 
