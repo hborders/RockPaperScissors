@@ -27,8 +27,6 @@ public class RoundTest {
 
 		mockFirstPlayerAttempt = mock(Attempt.class);
 		mockSecondPlayerAttempt = mock(Attempt.class);
-
-		assertEquals(null, null);
 	}
 
 	@Test

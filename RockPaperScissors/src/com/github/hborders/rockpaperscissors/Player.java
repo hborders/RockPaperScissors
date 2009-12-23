@@ -1,5 +1,8 @@
 package com.github.hborders.rockpaperscissors;
 
+import java.io.IOException;
+import java.io.Writer;
+
 public class Player {
 	private final String rawPlayer;
 
@@ -12,6 +15,10 @@ public class Player {
 		if (this.rawPlayer.length() == 0) {
 			throw new InvalidPlayerException();
 		}
+	}
+
+	public void write(Writer writer) throws IOException {
+
 	}
 
 	static class Provider {
