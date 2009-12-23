@@ -17,7 +17,19 @@ public class Round {
 	}
 
 	public Player play() {
-		return null;
+		Attempt firstPlayerAttempt;
+		Attempt secondPlayerAttempt;
+		do {
+			firstPlayerAttempt = attemptFactory.createAttempt(firstPlayer);
+			secondPlayerAttempt = attemptFactory.createAttempt(secondPlayer);
+		} while (!firstPlayerAttempt.beats(secondPlayerAttempt)
+				&& !secondPlayerAttempt.beats(firstPlayerAttempt));
+
+		if (firstPlayerAttempt.beats(secondPlayerAttempt)) {
+			return firstPlayer;
+		} else {
+			return secondPlayer;
+		}
 	}
 
 	static class Provider {
