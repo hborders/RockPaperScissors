@@ -12,11 +12,13 @@ public class RockPaperScissors {
 	private final PlayerFactory playerFactory;
 
 	public RockPaperScissors() {
-		this(new UsagePrinter(), new DefaultGameFactoryFactory(), new PlayerFactory());
+		this(new UsagePrinter(), new DefaultGameFactoryFactory(),
+				new PlayerFactory());
 	}
 
 	public RockPaperScissors(UsagePrinter usagePrinter,
-			DefaultGameFactoryFactory defaultGameFactoryFactory, PlayerFactory playerFactory) {
+			DefaultGameFactoryFactory defaultGameFactoryFactory,
+			PlayerFactory playerFactory) {
 		this.usagePrinter = usagePrinter;
 		this.defaultGameFactoryFactory = defaultGameFactoryFactory;
 		this.playerFactory = playerFactory;
@@ -24,9 +26,12 @@ public class RockPaperScissors {
 
 	public void play(String[] args) {
 		try {
-			defaultGameFactoryFactory.createGameFactory(args);
-			playerFactory.createPlayer(1);
-			playerFactory.createPlayer(2);
+			IGameFactory gameFactory = defaultGameFactoryFactory
+					.createGameFactory(args);
+			Player firstPlayer = playerFactory.createPlayer(1);
+			Player secondPlayer = playerFactory.createPlayer(2);
+			IGame game = gameFactory.createGame(firstPlayer, secondPlayer);
+			game.play();
 		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {
 			usagePrinter.printUsage();
 		}

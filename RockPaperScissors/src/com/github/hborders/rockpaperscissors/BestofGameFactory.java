@@ -13,7 +13,7 @@ public class BestofGameFactory implements IGameFactory {
 	}
 
 	@Override
-	public AbstractGame createGame(Player firstPlayer, Player secondPlayer) {
+	public IGame createGame(Player firstPlayer, Player secondPlayer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

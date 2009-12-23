@@ -14,9 +14,10 @@ public class RockPaperScissorsTest {
 	private PlayerFactory mockPlayerFactory;
 	private RockPaperScissors testObject;
 
-	private IGameFactory mockIGameFactory;
+	private IGameFactory mockGameFactory;
 	private Player mockPlayer1;
 	private Player mockPlayer2;
+	private IGame mockGame;
 
 	@Before
 	public void setUp() {
@@ -27,9 +28,10 @@ public class RockPaperScissorsTest {
 		testObject = new RockPaperScissors(mockUsagePrinter,
 				mockDefaultGameFactoryFactory, mockPlayerFactory);
 
-		mockIGameFactory = mock(IGameFactory.class);
+		mockGameFactory = mock(IGameFactory.class);
 		mockPlayer1 = mock(Player.class);
 		mockPlayer2 = mock(Player.class);
+		mockGame = mock(IGame.class);
 	}
 
 	@Test
@@ -44,16 +46,17 @@ public class RockPaperScissorsTest {
 	}
 
 	@Test
-	public void play_creates_Game_and_two_Players() throws Exception {
+	public void play_creates_GameFactory_and_two_Players_and_Game_then_plays_Game()
+			throws Exception {
 		when(mockDefaultGameFactoryFactory.createGameFactory(new String[0]))
-				.thenReturn(mockIGameFactory);
+				.thenReturn(mockGameFactory);
 		when(mockPlayerFactory.createPlayer(1)).thenReturn(mockPlayer1);
 		when(mockPlayerFactory.createPlayer(2)).thenReturn(mockPlayer2);
+		when(mockGameFactory.createGame(mockPlayer1, mockPlayer2)).thenReturn(
+				mockGame);
 
 		testObject.play(new String[0]);
 
-		verify(mockDefaultGameFactoryFactory).createGameFactory(new String[0]);
-		verify(mockPlayerFactory).createPlayer(1);
-		verify(mockPlayerFactory).createPlayer(2);
+		verify(mockGame).play();
 	}
 }
