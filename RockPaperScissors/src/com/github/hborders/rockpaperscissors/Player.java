@@ -18,7 +18,7 @@ public class Player {
 	}
 
 	public void write(Writer writer) throws IOException {
-
+		writer.write(rawPlayer);
 	}
 
 	static class Provider {
