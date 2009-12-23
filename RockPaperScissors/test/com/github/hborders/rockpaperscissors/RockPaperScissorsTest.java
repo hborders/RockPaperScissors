@@ -14,7 +14,7 @@ public class RockPaperScissorsTest {
 	private PlayerFactory mockPlayerFactory;
 	private RockPaperScissors testObject;
 
-	private GameFactory mockGameFactory;
+	private IGameFactory mockIGameFactory;
 	private Player mockPlayer1;
 	private Player mockPlayer2;
 
@@ -27,7 +27,7 @@ public class RockPaperScissorsTest {
 		testObject = new RockPaperScissors(mockUsagePrinter,
 				mockDefaultGameFactoryFactory, mockPlayerFactory);
 
-		mockGameFactory = mock(GameFactory.class);
+		mockIGameFactory = mock(IGameFactory.class);
 		mockPlayer1 = mock(Player.class);
 		mockPlayer2 = mock(Player.class);
 	}
@@ -46,7 +46,7 @@ public class RockPaperScissorsTest {
 	@Test
 	public void play_creates_Game_and_two_Players() throws Exception {
 		when(mockDefaultGameFactoryFactory.createGameFactory(new String[0]))
-				.thenReturn(mockGameFactory);
+				.thenReturn(mockIGameFactory);
 		when(mockPlayerFactory.createPlayer(1)).thenReturn(mockPlayer1);
 		when(mockPlayerFactory.createPlayer(2)).thenReturn(mockPlayer2);
 
