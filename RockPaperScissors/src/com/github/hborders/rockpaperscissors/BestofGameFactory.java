@@ -19,7 +19,7 @@ public class BestofGameFactory implements IGameFactory {
 	}
 
 	@Override
-	public IGame createGame(Player firstPlayer, Player secondPlayer) {
+	public BestofGame createGame(Player firstPlayer, Player secondPlayer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
