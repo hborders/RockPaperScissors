@@ -26,7 +26,7 @@ public class BestofGameTest {
 		mockAttemptReader = mock(AttemptReader.class);
 
 		testObject = new BestofGame(3, mockFirstPlayer, mockSecondPlayer,
-				mockRoundProvider);
+				mockRoundProvider, mockAttemptReader);
 
 		mockFirstRound = mock(Round.class);
 		mockSecondRound = mock(Round.class);
@@ -39,24 +39,39 @@ public class BestofGameTest {
 	}
 
 	@Test
-	public void play_returns_winner_after_winning_in_minimum_games()
+	public void play_creates_and_plays_minimum_Rounds_if_winner_wins_consecutively()
 			throws Exception {
+		when(mockFirstPlayer.getWins()).thenReturn(0).thenReturn(1).thenReturn(
+				2).thenThrow(new RuntimeException());
+		when(mockSecondPlayer.getWins()).thenReturn(0).thenReturn(0)
+				.thenReturn(0).thenThrow(new RuntimeException());
+
 		Player winningPlayer = testObject.play();
 
 		assertEquals(mockFirstPlayer, winningPlayer);
 
-		verify(mockRoundProvider.provide(mockFirstPlayer, mockSecondPlayer,
-				mockAttemptReader), times(2));
+		verify(mockRoundProvider, times(2)).provide(mockFirstPlayer,
+				mockSecondPlayer, mockAttemptReader);
+		verify(mockFirstRound).play();
+		verify(mockSecondRound).play();
 	}
 
 	@Test
-	public void play_returns_winner_after_winning_in_maximum_games()
+	public void play_creates_and_plays_maximum_Rounds_if_winner_and_loser_separated_by_one_Round()
 			throws Exception {
+		when(mockFirstPlayer.getWins()).thenReturn(0).thenReturn(1).thenReturn(
+				1).thenReturn(1).thenThrow(new RuntimeException());
+		when(mockSecondPlayer.getWins()).thenReturn(0).thenReturn(0)
+				.thenReturn(1).thenReturn(2).thenThrow(new RuntimeException());
+
 		Player winningPlayer = testObject.play();
 
 		assertEquals(mockSecondPlayer, winningPlayer);
 
-		verify(mockRoundProvider.provide(mockFirstPlayer, mockSecondPlayer,
-				mockAttemptReader), times(3));
+		verify(mockRoundProvider, times(3)).provide(mockFirstPlayer,
+				mockSecondPlayer, mockAttemptReader);
+		verify(mockFirstRound).play();
+		verify(mockSecondRound).play();
+		verify(mockThirdRound).play();
 	}
 }

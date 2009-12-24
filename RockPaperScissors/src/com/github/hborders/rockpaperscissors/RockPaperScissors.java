@@ -1,5 +1,7 @@
 package com.github.hborders.rockpaperscissors;
 
+import java.io.IOException;
+
 import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
 
 public class RockPaperScissors {
@@ -34,6 +36,8 @@ public class RockPaperScissors {
 			game.play();
 		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {
 			usagePrinter.printUsage();
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
 		}
 	}
 }

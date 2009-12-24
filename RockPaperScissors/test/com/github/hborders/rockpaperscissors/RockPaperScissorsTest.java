@@ -2,6 +2,8 @@ package com.github.hborders.rockpaperscissors;
 
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +45,23 @@ public class RockPaperScissorsTest {
 		testObject.play(new String[0]);
 
 		verify(mockUsagePrinter).printUsage();
+	}
+
+	@Test
+	public void play_printsStackTrace_of_IOException_thrown_when_playing_Game()
+			throws Exception {
+		when(mockDefaultGameFactoryFactory.createGameFactory(new String[0]))
+				.thenReturn(mockGameFactory);
+		when(mockPlayerFactory.createPlayer(1)).thenReturn(mockPlayer1);
+		when(mockPlayerFactory.createPlayer(2)).thenReturn(mockPlayer2);
+		when(mockGameFactory.createGame(mockPlayer1, mockPlayer2)).thenReturn(
+				mockGame);
+		IOException mockIOException = mock(IOException.class);
+		when(mockGame.play()).thenThrow(mockIOException);
+
+		testObject.play(new String[0]);
+
+		verify(mockIOException).printStackTrace();
 	}
 
 	@Test
