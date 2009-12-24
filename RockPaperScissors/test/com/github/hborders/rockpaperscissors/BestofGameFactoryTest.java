@@ -10,25 +10,30 @@ import com.github.hborders.rockpaperscissors.BestofGameFactory.InvalidGameCountE
 
 public class BestofGameFactoryTest {
 	private BestofGame.Provider mockBestofGameProvider;
+	private Player mockFirstPlayer;
+	private Player mockSecondPlayer;
+	private Round.Provider mockRoundProvider;
+	private AttemptReader mockAttemptReader;
 
 	@Before
 	public void setup() {
 		mockBestofGameProvider = mock(BestofGame.Provider.class);
+		mockFirstPlayer = mock(Player.class);
+		mockSecondPlayer = mock(Player.class);
+		mockRoundProvider = mock(Round.Provider.class);
+		mockAttemptReader = mock(AttemptReader.class);
 	}
 
 	@Test(expected = InvalidGameCountException.class)
 	public void constructor_throws_InvalidGameCountException_when_gameCount_is_even()
 			throws Exception {
-		new BestofGameFactory(2, mockBestofGameProvider);
+		new BestofGameFactory(2, mockBestofGameProvider, mockRoundProvider,
+				mockAttemptReader);
 	}
 
 	@Test
 	public void createGame_passes_gameCount_to_BestofGame_Provider()
 			throws Exception {
-		Player mockFirstPlayer = mock(Player.class);
-		Player mockSecondPlayer = mock(Player.class);
-		Round.Provider mockRoundProvider = mock(Round.Provider.class);
-		AttemptReader mockAttemptReader = mock(AttemptReader.class);
 
 		BestofGame mockBestofGame = mock(BestofGame.class);
 
@@ -38,7 +43,7 @@ public class BestofGameFactoryTest {
 				.thenReturn(mockBestofGame);
 
 		BestofGameFactory testObject = new BestofGameFactory(3,
-				mockBestofGameProvider);
+				mockBestofGameProvider, mockRoundProvider, mockAttemptReader);
 
 		BestofGame bestofGame = testObject.createGame(mockFirstPlayer,
 				mockSecondPlayer);
