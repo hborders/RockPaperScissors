@@ -1,10 +1,10 @@
 package com.github.hborders.rockpaperscissors;
 
 public abstract class AbstractGameFactoryFactory {
-	final GameCount.Provider gameCountProvider;
+	final CountConverter gameCountCountConverter;
 
-	AbstractGameFactoryFactory(GameCount.Provider gameCountProvider) {
-		this.gameCountProvider = gameCountProvider;
+	AbstractGameFactoryFactory(CountConverter gameCountCountConverter) {
+		this.gameCountCountConverter = gameCountCountConverter;
 	}
 
 	public abstract IGameFactory createGameFactory(String[] args)

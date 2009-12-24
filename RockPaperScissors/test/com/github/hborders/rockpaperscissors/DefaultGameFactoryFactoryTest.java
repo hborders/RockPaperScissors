@@ -32,7 +32,7 @@ public class DefaultGameFactoryFactoryTest extends
 		mockToGameFactoryFactory = mock(ToGameFactoryFactory.class);
 		mockBestofGameFactoryFactory = mock(BestofGameFactoryFactory.class);
 
-		testObject = new DefaultGameFactoryFactory(mockGameCountProvider,
+		testObject = new DefaultGameFactoryFactory(mockGameCountCountConverter,
 				mockDefaultGameFactoryProvider, mockToByGameProvider,
 				mockToGameFactoryFactory, mockBestofGameFactoryFactory);
 

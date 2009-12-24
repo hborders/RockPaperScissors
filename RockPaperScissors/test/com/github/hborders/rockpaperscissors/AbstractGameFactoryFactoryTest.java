@@ -5,14 +5,10 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 
 public class AbstractGameFactoryFactoryTest {
-	GameCount.Provider mockGameCountProvider;
-
-	GameCount mockGameCount;
+	CountConverter mockGameCountCountConverter;
 
 	@Before
 	public void setup() {
-		mockGameCountProvider = mock(GameCount.Provider.class);
-
-		mockGameCount = mock(GameCount.class);
+		mockGameCountCountConverter = mock(CountConverter.class);
 	}
 }

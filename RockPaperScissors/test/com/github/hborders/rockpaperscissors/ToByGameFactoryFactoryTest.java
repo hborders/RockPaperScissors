@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
-import com.github.hborders.rockpaperscissors.GameCount.InvalidGameCountException;
 
 public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 	private ToByGameFactory.Provider mockToByGameFactoryProvider;
@@ -25,7 +24,7 @@ public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 		mockToByGameFactoryProvider = mock(ToByGameFactory.Provider.class);
 		mockToByGameProvider = mock(ToByGame.Provider.class);
 
-		testObject = new ToByGameFactoryFactory(mockGameCountProvider,
+		testObject = new ToByGameFactoryFactory(mockGameCountCountConverter,
 				mockToByGameFactoryProvider, mockToByGameProvider);
 
 		mockToByGameFactory = mock(ToByGameFactory.class);
@@ -46,8 +45,8 @@ public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_GameCountProvider_throws_InvalidGameCountException()
 			throws Exception {
-		when(mockGameCountProvider.provide("foo")).thenThrow(
-				new InvalidGameCountException());
+		when(mockGameCountCountConverter.convertCount("foo")).thenThrow(
+				new CountConverter.InvalidGameCountException());
 
 		testObject.createGameFactory(new String[] { "", "", "-by", "foo" });
 	}
@@ -57,7 +56,7 @@ public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 			throws Exception {
 		when(mockToByGameFactoryProvider.provide(mockToByGameProvider))
 				.thenReturn(mockToByGameFactory);
-		when(mockGameCountProvider.provide("foo")).thenReturn(mockGameCount);
+		when(mockGameCountCountConverter.convertCount("foo")).thenReturn(1);
 
 		ToByGameFactory toByGameFactory = testObject
 				.createGameFactory(new String[] { "", "", "-by", "foo" });
