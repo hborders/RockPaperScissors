@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.BestofGameFactory.InvalidGameCountException;
 
 public class BestofGameFactoryFactoryTest extends
 		AbstractGameFactoryFactoryTest {
@@ -37,7 +38,7 @@ public class BestofGameFactoryFactoryTest extends
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGameFactory_throws_InvalidGameArgumentsException_when_GameCountProvider_throws_InvalidGameCountException()
+	public void createGameFactory_throws_InvalidGameArgumentsException_when_CountConverter_throws_InvalidCountException()
 			throws Exception {
 		when(mockGameCountCountConverter.convertCount("foo")).thenThrow(
 				new CountConverter.InvalidCountException());
@@ -45,11 +46,21 @@ public class BestofGameFactoryFactoryTest extends
 		testObject.createGameFactory(new String[] { "", "foo" });
 	}
 
+	@Test(expected = InvalidGameArgumentsException.class)
+	public void createGameFactory_throws_InvalidGameArgumentsException_when_BestofGameFactoryProvider_throws_InvalidGameCountException()
+			throws Exception {
+		when(mockGameCountCountConverter.convertCount("foo")).thenReturn(1);
+		when(mockBestofGameFactoryProvider.provide(1, mockBestofGameProvider))
+				.thenThrow(new InvalidGameCountException());
+
+		testObject.createGameFactory(new String[] { "", "foo" });
+	}
+
 	public void createGameFactory_returns_BestofGameFactory_from_BestofGameFactoryProvider_when_args_length_is_2_and_GameCountProvider_returns_GameCount()
 			throws Exception {
-		when(mockBestofGameFactoryProvider.provide(mockBestofGameProvider))
-				.thenReturn(mockBestofGameFactory);
 		when(mockGameCountCountConverter.convertCount("foo")).thenReturn(1);
+		when(mockBestofGameFactoryProvider.provide(1, mockBestofGameProvider))
+				.thenReturn(mockBestofGameFactory);
 
 		BestofGameFactory bestofGameFactory = testObject
 				.createGameFactory(new String[] { "", "foo" });

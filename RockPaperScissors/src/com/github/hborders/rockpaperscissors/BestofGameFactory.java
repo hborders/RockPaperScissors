@@ -1,14 +1,17 @@
 package com.github.hborders.rockpaperscissors;
 
 public class BestofGameFactory implements IGameFactory {
+	private final int gameCount;
 	private final BestofGame.Provider bestofGameProvider;
 
-	public BestofGameFactory() {
-		this(new BestofGame.Provider());
+	public BestofGameFactory(int gameCount) throws InvalidGameCountException {
+		this(gameCount, new BestofGame.Provider());
 	}
 
-	BestofGameFactory(BestofGame.Provider bestofGameProvider) {
+	BestofGameFactory(int gameCount, BestofGame.Provider bestofGameProvider)
+			throws InvalidGameCountException {
 		super();
+		this.gameCount = gameCount;
 		this.bestofGameProvider = bestofGameProvider;
 	}
 
@@ -18,9 +21,15 @@ public class BestofGameFactory implements IGameFactory {
 		return null;
 	}
 
+	public static class InvalidGameCountException extends Exception {
+		private static final long serialVersionUID = 1L;
+	}
+
 	static class Provider {
-		BestofGameFactory provide(BestofGame.Provider bestofGameProvider) {
-			return new BestofGameFactory(bestofGameProvider);
+		BestofGameFactory provide(int gameCount,
+				BestofGame.Provider bestofGameProvider)
+				throws InvalidGameCountException {
+			return new BestofGameFactory(gameCount, bestofGameProvider);
 		}
 	}
 }
