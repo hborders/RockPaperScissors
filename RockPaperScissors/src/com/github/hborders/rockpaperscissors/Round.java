@@ -18,7 +18,7 @@ public class Round {
 		this.attemptReader = attemptReader;
 	}
 
-	public Player play() throws IOException {
+	public void play() throws IOException {
 		Attempt firstPlayerAttempt;
 		Attempt secondPlayerAttempt;
 		do {
@@ -28,9 +28,9 @@ public class Round {
 				&& !secondPlayerAttempt.beats(firstPlayerAttempt));
 
 		if (firstPlayerAttempt.beats(secondPlayerAttempt)) {
-			return firstPlayer;
+			firstPlayer.wonGame();
 		} else {
-			return secondPlayer;
+			secondPlayer.wonGame();
 		}
 	}
 

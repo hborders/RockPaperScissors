@@ -1,6 +1,5 @@
 package com.github.hborders.rockpaperscissors;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
@@ -30,7 +29,7 @@ public class RoundTest {
 	}
 
 	@Test
-	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_firstPlayer_when_firstPlayer_wins()
+	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_wonGames_firstPlayer_when_firstPlayer_wins()
 			throws Exception {
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
@@ -39,13 +38,13 @@ public class RoundTest {
 		when(mockFirstPlayerAttempt.beats(mockSecondPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
 
-		Player winningPlayer = testObject.play();
+		testObject.play();
 
-		assertEquals(mockFirstPlayer, winningPlayer);
+		verify(mockFirstPlayer).wonGame();
 	}
 
 	@Test
-	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_secondPlayer_when_secondPlayer_wins()
+	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_wonGames_secondPlayer_when_secondPlayer_wins()
 			throws Exception {
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
@@ -56,9 +55,9 @@ public class RoundTest {
 		when(mockSecondPlayerAttempt.beats(mockFirstPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
 
-		Player winningPlayer = testObject.play();
+		testObject.play();
 
-		assertEquals(mockSecondPlayer, winningPlayer);
+		verify(mockSecondPlayer).wonGame();
 	}
 
 	@Test
@@ -78,8 +77,9 @@ public class RoundTest {
 				Boolean.FALSE);
 		when(mockFirstPlayerSecondAttempt.beats(mockSecondPlayerSecondAttempt))
 				.thenReturn(Boolean.TRUE);
-		Player winningPlayer = testObject.play();
 
-		assertEquals(mockFirstPlayer, winningPlayer);
+		testObject.play();
+
+		verify(mockFirstPlayer).wonGame();
 	}
 }

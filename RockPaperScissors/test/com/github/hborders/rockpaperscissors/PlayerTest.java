@@ -1,5 +1,6 @@
 package com.github.hborders.rockpaperscissors;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.Writer;
@@ -30,5 +31,21 @@ public class PlayerTest {
 		testObject.write(mockWriter);
 
 		verify(mockWriter).write("foo (Player 1)");
+	}
+
+	@Test
+	public void getWins_is_initially_zero() throws Exception {
+		Player testObject = new Player("  foo  ", 1);
+
+		assertEquals(0, testObject.getWins());
+	}
+
+	@Test
+	public void wonGame_increments_wins() throws Exception {
+		Player testObject = new Player("  foo  ", 1);
+
+		testObject.wonGame();
+
+		assertEquals(1, testObject.getWins());
 	}
 }

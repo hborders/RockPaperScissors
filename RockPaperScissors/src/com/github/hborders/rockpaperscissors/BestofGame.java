@@ -20,7 +20,6 @@ public class BestofGame implements IGame {
 
 	@Override
 	public Player play() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

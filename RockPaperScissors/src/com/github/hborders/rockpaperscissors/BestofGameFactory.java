@@ -11,6 +11,9 @@ public class BestofGameFactory implements IGameFactory {
 	BestofGameFactory(int gameCount, BestofGame.Provider bestofGameProvider)
 			throws InvalidGameCountException {
 		super();
+		if ((gameCount % 2) == 0) {
+			throw new InvalidGameCountException();
+		}
 		this.gameCount = gameCount;
 		this.bestofGameProvider = bestofGameProvider;
 	}

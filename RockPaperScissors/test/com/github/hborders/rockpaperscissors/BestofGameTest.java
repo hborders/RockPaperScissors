@@ -41,9 +41,6 @@ public class BestofGameTest {
 	@Test
 	public void play_returns_winner_after_winning_in_minimum_games()
 			throws Exception {
-		when(mockFirstRound.play()).thenReturn(mockFirstPlayer);
-		when(mockSecondRound.play()).thenReturn(mockFirstPlayer);
-
 		Player winningPlayer = testObject.play();
 
 		assertEquals(mockFirstPlayer, winningPlayer);
@@ -55,10 +52,6 @@ public class BestofGameTest {
 	@Test
 	public void play_returns_winner_after_winning_in_maximum_games()
 			throws Exception {
-		when(mockFirstRound.play()).thenReturn(mockFirstPlayer);
-		when(mockSecondRound.play()).thenReturn(mockSecondPlayer);
-		when(mockThirdRound.play()).thenReturn(mockSecondPlayer);
-
 		Player winningPlayer = testObject.play();
 
 		assertEquals(mockSecondPlayer, winningPlayer);
