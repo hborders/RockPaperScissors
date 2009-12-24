@@ -33,7 +33,7 @@ public class ToGameFactoryFactory extends AbstractGameFactoryFactory {
 			} else if ((2 < args.length) && "-by".equals(args[2])) {
 				return toByGameFactoryFactory.createGameFactory(args);
 			}
-		} catch (CountConverter.InvalidGameCountException invalidGameCountException) {
+		} catch (CountConverter.InvalidCountException invalidCountException) {
 		}
 
 		throw new InvalidGameArgumentsException();

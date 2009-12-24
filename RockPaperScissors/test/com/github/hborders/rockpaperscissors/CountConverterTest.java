@@ -14,13 +14,13 @@ public class CountConverterTest {
 		testObject = new CountConverter();
 	}
 
-	@Test(expected = CountConverter.InvalidGameCountException.class)
+	@Test(expected = CountConverter.InvalidCountException.class)
 	public void convertCount_throws_InvalidGameCountException_when_count_is_not_a_number()
 			throws Exception {
 		testObject.convertCount("foo");
 	}
 
-	@Test(expected = CountConverter.InvalidGameCountException.class)
+	@Test(expected = CountConverter.InvalidCountException.class)
 	public void convertCount_throws_InvalidGameCountException_when_count_is_less_than_1()
 			throws Exception {
 		testObject.convertCount("0");

@@ -45,7 +45,7 @@ public class ToGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 	public void createGame_throws_InvalidGameArgumentsException_when_GameCountProvider_throws_InvalidGameCountException()
 			throws Exception {
 		when(mockGameCountCountConverter.convertCount("foo")).thenThrow(
-				new CountConverter.InvalidGameCountException());
+				new CountConverter.InvalidCountException());
 
 		testObject.createGameFactory(new String[] { "", "foo" });
 	}

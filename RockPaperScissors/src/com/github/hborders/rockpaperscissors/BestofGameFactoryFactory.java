@@ -28,7 +28,7 @@ public class BestofGameFactoryFactory extends AbstractGameFactoryFactory {
 				countConverter.convertCount(args[1]);
 				return bestofGameFactoryProvider.provide(bestofGameProvider);
 			}
-		} catch (CountConverter.InvalidGameCountException invalidGameCountException) {
+		} catch (CountConverter.InvalidCountException invalidCountException) {
 		}
 		throw new InvalidGameArgumentsException();
 	}

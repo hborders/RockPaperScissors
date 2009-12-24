@@ -28,7 +28,7 @@ public class ToByGameFactoryFactory extends AbstractGameFactoryFactory {
 				countConverter.convertCount(args[3]);
 				return toByGameFactoryProvider.provide(toByGameProvider);
 			}
-		} catch (CountConverter.InvalidGameCountException invalidGameCountException) {
+		} catch (CountConverter.InvalidCountException invalidCountException) {
 		}
 
 		throw new InvalidGameArgumentsException();
