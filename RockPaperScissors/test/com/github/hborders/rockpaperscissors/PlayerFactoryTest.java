@@ -30,7 +30,7 @@ public class PlayerFactoryTest {
 	public void createPlayer_prints_prompt_and_returns_Player_from_PlayerProvider()
 			throws Exception {
 		when(mockConsole.readLine("Player %d Name: ", 1)).thenReturn("foo");
-		when(mockPlayerProvider.provide("foo")).thenReturn(mockPlayer);
+		when(mockPlayerProvider.provide("foo", 1)).thenReturn(mockPlayer);
 
 		Player player = testObject.createPlayer(1);
 
@@ -42,10 +42,10 @@ public class PlayerFactoryTest {
 			throws Exception {
 		when(mockConsole.readLine("Player %d Name: ", 1)).thenReturn("foo")
 				.thenReturn("bar");
-		when(mockPlayerProvider.provide("foo")).thenThrow(
+		when(mockPlayerProvider.provide("foo", 1)).thenThrow(
 				new InvalidPlayerException());
 
-		when(mockPlayerProvider.provide("bar")).thenReturn(mockPlayer);
+		when(mockPlayerProvider.provide("bar", 1)).thenReturn(mockPlayer);
 
 		Player player = testObject.createPlayer(1);
 

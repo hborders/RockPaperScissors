@@ -15,12 +15,13 @@ public class PlayerFactory {
 		this.playerProvider = playerProvider;
 	}
 
-	public Player createPlayer(int number) {
+	public Player createPlayer(int playerNumber) {
 		Player player = null;
 		while (player == null) {
 			try {
-				String input = console.readLine("Player %d Name: ", number);
-				player = playerProvider.provide(input);
+				String input = console.readLine("Player %d Name: ",
+						playerNumber);
+				player = playerProvider.provide(input, playerNumber);
 			} catch (InvalidPlayerException invalidPlayerException) {
 			}
 		}

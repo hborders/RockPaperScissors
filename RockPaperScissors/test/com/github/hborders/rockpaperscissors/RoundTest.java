@@ -31,9 +31,9 @@ public class RoundTest {
 
 	@Test
 	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_firstPlayer_when_firstPlayer_wins() {
-		when(mockAttemptFactory.createAttempt(mockFirstPlayer, 1)).thenReturn(
+		when(mockAttemptFactory.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
-		when(mockAttemptFactory.createAttempt(mockSecondPlayer, 2)).thenReturn(
+		when(mockAttemptFactory.createAttempt(mockSecondPlayer)).thenReturn(
 				mockSecondPlayerAttempt);
 		when(mockFirstPlayerAttempt.beats(mockSecondPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
@@ -45,9 +45,9 @@ public class RoundTest {
 
 	@Test
 	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_secondPlayer_when_secondPlayer_wins() {
-		when(mockAttemptFactory.createAttempt(mockFirstPlayer, 1)).thenReturn(
+		when(mockAttemptFactory.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
-		when(mockAttemptFactory.createAttempt(mockSecondPlayer, 2)).thenReturn(
+		when(mockAttemptFactory.createAttempt(mockSecondPlayer)).thenReturn(
 				mockSecondPlayerAttempt);
 		when(mockFirstPlayerAttempt.beats(mockSecondPlayerAttempt)).thenReturn(
 				Boolean.FALSE);
@@ -62,11 +62,11 @@ public class RoundTest {
 	@Test
 	public void play_creates_new_Attempts_and_evaluates_new_Attempts_in_case_of_a_tie() {
 		Attempt mockFirstPlayerSecondAttempt = mock(Attempt.class);
-		when(mockAttemptFactory.createAttempt(mockFirstPlayer, 1)).thenReturn(
+		when(mockAttemptFactory.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt)
 				.thenReturn(mockFirstPlayerSecondAttempt);
 		Attempt mockSecondPlayerSecondAttempt = mock(Attempt.class);
-		when(mockAttemptFactory.createAttempt(mockSecondPlayer, 2)).thenReturn(
+		when(mockAttemptFactory.createAttempt(mockSecondPlayer)).thenReturn(
 				mockSecondPlayerAttempt).thenReturn(
 				mockSecondPlayerSecondAttempt);
 		when(mockFirstPlayerAttempt.beats(mockSecondPlayerAttempt)).thenReturn(
