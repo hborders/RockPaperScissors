@@ -13,8 +13,7 @@ public class BestofGameFactoryFactoryTest extends
 		AbstractGameFactoryFactoryTest {
 	private BestofGameFactory.Provider mockBestofGameFactoryProvider;
 	private BestofGame.Provider mockBestofGameProvider;
-	private Round.Provider mockRoundProvider;
-	private AttemptReader mockAttemptReader;
+	private Round mockRound;
 
 	private BestofGameFactoryFactory testObject;
 
@@ -27,12 +26,11 @@ public class BestofGameFactoryFactoryTest extends
 
 		mockBestofGameFactoryProvider = mock(BestofGameFactory.Provider.class);
 		mockBestofGameProvider = mock(BestofGame.Provider.class);
-		mockRoundProvider = mock(Round.Provider.class);
-		mockAttemptReader = mock(AttemptReader.class);
+		mockRound = mock(Round.class);
 
 		testObject = new BestofGameFactoryFactory(mockGameCountCountConverter,
 				mockBestofGameFactoryProvider, mockBestofGameProvider,
-				mockRoundProvider, mockAttemptReader);
+				mockRound);
 
 		mockBestofGameFactory = mock(BestofGameFactory.class);
 	}
@@ -58,8 +56,7 @@ public class BestofGameFactoryFactoryTest extends
 		when(mockGameCountCountConverter.convertCount("foo")).thenReturn(1);
 		when(
 				mockBestofGameFactoryProvider.provide(1,
-						mockBestofGameProvider, mockRoundProvider,
-						mockAttemptReader)).thenThrow(
+						mockBestofGameProvider, mockRound)).thenThrow(
 				new InvalidGameCountException());
 
 		testObject.createGameFactory(new String[] { "", "foo" });
@@ -70,8 +67,8 @@ public class BestofGameFactoryFactoryTest extends
 		when(mockGameCountCountConverter.convertCount("foo")).thenReturn(1);
 		when(
 				mockBestofGameFactoryProvider.provide(1,
-						mockBestofGameProvider, mockRoundProvider,
-						mockAttemptReader)).thenReturn(mockBestofGameFactory);
+						mockBestofGameProvider, mockRound)).thenReturn(
+				mockBestofGameFactory);
 
 		BestofGameFactory bestofGameFactory = testObject
 				.createGameFactory(new String[] { "", "foo" });

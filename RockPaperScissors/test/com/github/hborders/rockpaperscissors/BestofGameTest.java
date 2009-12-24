@@ -9,37 +9,22 @@ import org.junit.Test;
 public class BestofGameTest {
 	private Player mockFirstPlayer;
 	private Player mockSecondPlayer;
-	private Round.Provider mockRoundProvider;
-	private AttemptReader mockAttemptReader;
+	private Round mockRound;
 
 	private BestofGame testObject;
-
-	private Round mockFirstRound;
-	private Round mockSecondRound;
-	private Round mockThirdRound;
 
 	@Before
 	public void setup() {
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
-		mockRoundProvider = mock(Round.Provider.class);
-		mockAttemptReader = mock(AttemptReader.class);
+		mockRound = mock(Round.class);
 
 		testObject = new BestofGame(3, mockFirstPlayer, mockSecondPlayer,
-				mockRoundProvider, mockAttemptReader);
-
-		mockFirstRound = mock(Round.class);
-		mockSecondRound = mock(Round.class);
-		mockThirdRound = mock(Round.class);
-
-		when(
-				mockRoundProvider.provide(mockFirstPlayer, mockSecondPlayer,
-						mockAttemptReader)).thenReturn(mockFirstRound)
-				.thenReturn(mockSecondRound).thenReturn(mockThirdRound);
+				mockRound);
 	}
 
 	@Test
-	public void play_creates_and_plays_minimum_Rounds_if_winner_wins_consecutively()
+	public void play_plays_minimum_Rounds_if_winner_wins_consecutively()
 			throws Exception {
 		when(mockFirstPlayer.getWins()).thenReturn(0).thenReturn(1).thenReturn(
 				2).thenThrow(new RuntimeException());
@@ -50,10 +35,7 @@ public class BestofGameTest {
 
 		assertEquals(mockFirstPlayer, winningPlayer);
 
-		verify(mockRoundProvider, times(2)).provide(mockFirstPlayer,
-				mockSecondPlayer, mockAttemptReader);
-		verify(mockFirstRound).play();
-		verify(mockSecondRound).play();
+		verify(mockRound, times(2)).play(mockFirstPlayer, mockSecondPlayer);
 	}
 
 	@Test
@@ -68,10 +50,6 @@ public class BestofGameTest {
 
 		assertEquals(mockSecondPlayer, winningPlayer);
 
-		verify(mockRoundProvider, times(3)).provide(mockFirstPlayer,
-				mockSecondPlayer, mockAttemptReader);
-		verify(mockFirstRound).play();
-		verify(mockSecondRound).play();
-		verify(mockThirdRound).play();
+		verify(mockRound, times(3)).play(mockFirstPlayer, mockSecondPlayer);
 	}
 }

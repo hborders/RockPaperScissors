@@ -17,12 +17,12 @@ public class RoundTest {
 
 	@Before
 	public void setup() {
-		mockFirstPlayer = mock(Player.class);
-		mockSecondPlayer = mock(Player.class);
 		mockAttemptReader = mock(AttemptReader.class);
 
-		testObject = new Round(mockFirstPlayer, mockSecondPlayer,
-				mockAttemptReader);
+		testObject = new Round(mockAttemptReader);
+
+		mockFirstPlayer = mock(Player.class);
+		mockSecondPlayer = mock(Player.class);
 
 		mockFirstPlayerAttempt = mock(Attempt.class);
 		mockSecondPlayerAttempt = mock(Attempt.class);
@@ -38,7 +38,7 @@ public class RoundTest {
 		when(mockFirstPlayerAttempt.beats(mockSecondPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
 
-		testObject.play();
+		testObject.play(mockFirstPlayer, mockSecondPlayer);
 
 		verify(mockFirstPlayer).wonGame();
 	}
@@ -55,7 +55,7 @@ public class RoundTest {
 		when(mockSecondPlayerAttempt.beats(mockFirstPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
 
-		testObject.play();
+		testObject.play(mockFirstPlayer, mockSecondPlayer);
 
 		verify(mockSecondPlayer).wonGame();
 	}
@@ -78,7 +78,7 @@ public class RoundTest {
 		when(mockFirstPlayerSecondAttempt.beats(mockSecondPlayerSecondAttempt))
 				.thenReturn(Boolean.TRUE);
 
-		testObject.play();
+		testObject.play(mockFirstPlayer, mockSecondPlayer);
 
 		verify(mockFirstPlayer).wonGame();
 	}

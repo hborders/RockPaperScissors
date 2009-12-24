@@ -6,21 +6,18 @@ public class BestofGame implements IGame {
 	private final int gameCount;
 	private final Player firstPlayer;
 	private final Player secondPlayer;
-	private final Round.Provider roundProvider;
-	private final AttemptReader attemptReader;
+	private final Round round;
 
 	public BestofGame(int gameCount, Player firstPlayer, Player secondPlayer) {
-		this(gameCount, firstPlayer, secondPlayer, new Round.Provider(),
-				new AttemptReader());
+		this(gameCount, firstPlayer, secondPlayer, new Round());
 	}
 
 	BestofGame(int gameCount, Player firstPlayer, Player secondPlayer,
-			Round.Provider roundProvider, AttemptReader attemptReader) {
+			Round round) {
 		this.gameCount = gameCount;
 		this.firstPlayer = firstPlayer;
 		this.secondPlayer = secondPlayer;
-		this.roundProvider = roundProvider;
-		this.attemptReader = attemptReader;
+		this.round = round;
 	}
 
 	@Override
@@ -34,19 +31,15 @@ public class BestofGame implements IGame {
 			} else if (secondPlayerWins == winsNeeded) {
 				return secondPlayer;
 			} else {
-				Round round = roundProvider.provide(firstPlayer, secondPlayer,
-						attemptReader);
-				round.play();
+				round.play(firstPlayer, secondPlayer);
 			}
 		}
 	}
 
 	static class Provider {
 		public BestofGame provide(int gameCount, Player firstPlayer,
-				Player secondPlayer, Round.Provider roundProvider,
-				AttemptReader attemptReader) {
-			return new BestofGame(gameCount, firstPlayer, secondPlayer,
-					roundProvider, attemptReader);
+				Player secondPlayer, Round round) {
+			return new BestofGame(gameCount, firstPlayer, secondPlayer, round);
 		}
 	}
 }

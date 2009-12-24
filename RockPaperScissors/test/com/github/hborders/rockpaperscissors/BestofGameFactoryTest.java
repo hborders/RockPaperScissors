@@ -12,23 +12,20 @@ public class BestofGameFactoryTest {
 	private BestofGame.Provider mockBestofGameProvider;
 	private Player mockFirstPlayer;
 	private Player mockSecondPlayer;
-	private Round.Provider mockRoundProvider;
-	private AttemptReader mockAttemptReader;
+	private Round mockRound;
 
 	@Before
 	public void setup() {
 		mockBestofGameProvider = mock(BestofGame.Provider.class);
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
-		mockRoundProvider = mock(Round.Provider.class);
-		mockAttemptReader = mock(AttemptReader.class);
+		mockRound = mock(Round.class);
 	}
 
 	@Test(expected = InvalidGameCountException.class)
 	public void constructor_throws_InvalidGameCountException_when_gameCount_is_even()
 			throws Exception {
-		new BestofGameFactory(2, mockBestofGameProvider, mockRoundProvider,
-				mockAttemptReader);
+		new BestofGameFactory(2, mockBestofGameProvider, mockRound);
 	}
 
 	@Test
@@ -39,11 +36,11 @@ public class BestofGameFactoryTest {
 
 		when(
 				mockBestofGameProvider.provide(3, mockFirstPlayer,
-						mockSecondPlayer, mockRoundProvider, mockAttemptReader))
+						mockSecondPlayer, mockRound))
 				.thenReturn(mockBestofGame);
 
 		BestofGameFactory testObject = new BestofGameFactory(3,
-				mockBestofGameProvider, mockRoundProvider, mockAttemptReader);
+				mockBestofGameProvider, mockRound);
 
 		BestofGame bestofGame = testObject.createGame(mockFirstPlayer,
 				mockSecondPlayer);
