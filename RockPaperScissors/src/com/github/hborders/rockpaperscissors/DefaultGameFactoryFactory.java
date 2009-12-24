@@ -13,12 +13,12 @@ public class DefaultGameFactoryFactory extends AbstractGameFactoryFactory {
 				new BestofGameFactoryFactory());
 	}
 
-	DefaultGameFactoryFactory(CountConverter gameCountCountConverter,
+	DefaultGameFactoryFactory(CountConverter countConverter,
 			DefaultGameFactory.Provider defaultFactoryProvider,
 			ToByGame.Provider toByGameProvider,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
-		super(gameCountCountConverter);
+		super(countConverter);
 		this.defaultFactoryProvider = defaultFactoryProvider;
 		this.toByGameProvider = toByGameProvider;
 		this.toGameFactoryFactory = toGameFactoryFactory;

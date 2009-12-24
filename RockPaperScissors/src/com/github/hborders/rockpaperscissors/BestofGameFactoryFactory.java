@@ -1,6 +1,5 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.CountConverter.InvalidGameCountException;
 
 public class BestofGameFactoryFactory extends AbstractGameFactoryFactory {
 
@@ -12,10 +11,10 @@ public class BestofGameFactoryFactory extends AbstractGameFactoryFactory {
 				new BestofGame.Provider());
 	}
 
-	BestofGameFactoryFactory(CountConverter gameCountCountConverter,
+	BestofGameFactoryFactory(CountConverter countConverter,
 			BestofGameFactory.Provider bestofGameFactoryProvider,
 			BestofGame.Provider bestofGameProvider) {
-		super(gameCountCountConverter);
+		super(countConverter);
 
 		this.bestofGameFactoryProvider = bestofGameFactoryProvider;
 		this.bestofGameProvider = bestofGameProvider;
@@ -26,7 +25,7 @@ public class BestofGameFactoryFactory extends AbstractGameFactoryFactory {
 			throws InvalidGameArgumentsException {
 		try {
 			if (args.length == 2) {
-				gameCountCountConverter.convertCount(args[1]);
+				countConverter.convertCount(args[1]);
 				return bestofGameFactoryProvider.provide(bestofGameProvider);
 			}
 		} catch (CountConverter.InvalidGameCountException invalidGameCountException) {

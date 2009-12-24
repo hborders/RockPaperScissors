@@ -1,10 +1,10 @@
 package com.github.hborders.rockpaperscissors;
 
 public abstract class AbstractGameFactoryFactory {
-	final CountConverter gameCountCountConverter;
+	final CountConverter countConverter;
 
-	AbstractGameFactoryFactory(CountConverter gameCountCountConverter) {
-		this.gameCountCountConverter = gameCountCountConverter;
+	AbstractGameFactoryFactory(CountConverter countConverter) {
+		this.countConverter = countConverter;
 	}
 
 	public abstract IGameFactory createGameFactory(String[] args)
