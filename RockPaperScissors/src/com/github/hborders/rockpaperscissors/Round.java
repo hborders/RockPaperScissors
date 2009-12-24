@@ -1,5 +1,7 @@
 package com.github.hborders.rockpaperscissors;
 
+import java.io.IOException;
+
 public class Round {
 	private final Player firstPlayer;
 	private final Player secondPlayer;
@@ -16,7 +18,7 @@ public class Round {
 		this.attemptReader = attemptReader;
 	}
 
-	public Player play() {
+	public Player play() throws IOException {
 		Attempt firstPlayerAttempt;
 		Attempt secondPlayerAttempt;
 		do {

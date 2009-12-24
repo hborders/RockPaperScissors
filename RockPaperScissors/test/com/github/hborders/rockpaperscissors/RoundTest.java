@@ -30,7 +30,8 @@ public class RoundTest {
 	}
 
 	@Test
-	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_firstPlayer_when_firstPlayer_wins() {
+	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_firstPlayer_when_firstPlayer_wins()
+			throws Exception {
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
 		when(mockAttemptReader.createAttempt(mockSecondPlayer)).thenReturn(
@@ -44,7 +45,8 @@ public class RoundTest {
 	}
 
 	@Test
-	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_secondPlayer_when_secondPlayer_wins() {
+	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_returns_secondPlayer_when_secondPlayer_wins()
+			throws Exception {
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
 		when(mockAttemptReader.createAttempt(mockSecondPlayer)).thenReturn(
@@ -60,7 +62,8 @@ public class RoundTest {
 	}
 
 	@Test
-	public void play_creates_new_Attempts_and_evaluates_new_Attempts_in_case_of_a_tie() {
+	public void play_creates_new_Attempts_and_evaluates_new_Attempts_in_case_of_a_tie()
+			throws Exception {
 		Attempt mockFirstPlayerSecondAttempt = mock(Attempt.class);
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt)
