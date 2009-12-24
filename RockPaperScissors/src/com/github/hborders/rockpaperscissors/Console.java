@@ -10,4 +10,8 @@ public class Console {
 	public Writer writer() {
 		return System.console().writer();
 	}
+
+	public String readLine() {
+		return System.console().readLine();
+	}
 }

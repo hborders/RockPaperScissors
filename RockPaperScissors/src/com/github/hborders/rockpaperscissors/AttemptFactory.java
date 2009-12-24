@@ -1,13 +1,21 @@
 package com.github.hborders.rockpaperscissors;
 
+import java.io.Writer;
+
 public class AttemptFactory {
+	private final Writer writer;
 	private final Console console;
 
 	public AttemptFactory() {
 		this(new Console());
 	}
 
-	AttemptFactory(Console console) {
+	private AttemptFactory(Console console) {
+		this(console.writer(), console);
+	}
+
+	AttemptFactory(Writer writer, Console console) {
+		this.writer = writer;
 		this.console = console;
 	}
 
@@ -16,8 +24,8 @@ public class AttemptFactory {
 	}
 
 	static class Provider {
-		public AttemptFactory provide(Console console) {
-			return new AttemptFactory(console);
+		public AttemptFactory provide(Writer writer, Console console) {
+			return new AttemptFactory(writer, console);
 		}
 	}
 }
