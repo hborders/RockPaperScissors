@@ -6,40 +6,33 @@ import java.io.Writer;
 public class Player {
 	private final String rawPlayer;
 	private final int playerNumber;
-	private int wins;
+	private final WonRoundCount wonRoundCount;
 
-	public Player(String rawPlayer, int playerNumber)
-			throws InvalidPlayerException {
-		if (rawPlayer == null) {
-			throw new InvalidPlayerException();
-		}
+	public Player(String rawPlayer, int playerNumber) {
+		this(rawPlayer, playerNumber, new WonRoundCount());
+	}
 
-		this.rawPlayer = rawPlayer.trim();
-		if (this.rawPlayer.length() == 0) {
-			throw new InvalidPlayerException();
-		}
+	Player(String rawPlayer, int playerNumber, WonRoundCount wonRoundCount) {
+		this.rawPlayer = rawPlayer;
 		this.playerNumber = playerNumber;
+		this.wonRoundCount = wonRoundCount;
 	}
 
 	public void write(Writer writer) throws IOException {
 		writer.write(rawPlayer + " (Player " + playerNumber + ")");
 	}
 
-	public int getWins() {
-		return wins;
+	public WonRoundCount getWonRoundCount() {
+		return wonRoundCount;
 	}
 
 	public void wonGame() {
-		wins++;
-	}
-
-	public static class InvalidPlayerException extends Exception {
-		private static final long serialVersionUID = 1L;
+		wonRoundCount.increment();
 	}
 
 	static class Provider {
-		public Player provide(String player, Integer playerNumber)
-				throws InvalidPlayerException {
+		public Player provide(String player, int playerNumber,
+				WonRoundCount wonRoundCount) {
 			return new Player(player, playerNumber);
 		}
 	}

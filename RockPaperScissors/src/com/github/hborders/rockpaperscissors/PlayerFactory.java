@@ -1,28 +1,34 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.Player.InvalidPlayerException;
-
 public class PlayerFactory {
 	private final Console console;
+	private final WonRoundCount.Provider wonRoundCountProvider;
 	private final Player.Provider playerProvider;
 
 	public PlayerFactory() {
-		this(new Console(), new Player.Provider());
+		this(new Console(), new WonRoundCount.Provider(), new Player.Provider());
 	}
 
-	PlayerFactory(Console console, Player.Provider playerProvider) {
+	PlayerFactory(Console console,
+			WonRoundCount.Provider wonRoundCountProvider,
+			Player.Provider playerProvider) {
 		this.console = console;
+		this.wonRoundCountProvider = wonRoundCountProvider;
 		this.playerProvider = playerProvider;
 	}
 
 	public Player createPlayer(int playerNumber) {
 		Player player = null;
 		while (player == null) {
-			try {
-				String input = console.readLine("Player %d Name: ",
-						playerNumber);
-				player = playerProvider.provide(input, playerNumber);
-			} catch (InvalidPlayerException invalidPlayerException) {
+			String input = console.readLine("Player %d Name: ", playerNumber);
+			if (input != null) {
+				String rawPlayerName = input.trim();
+				if (rawPlayerName.length() > 0) {
+					WonRoundCount wonRoundCount = wonRoundCountProvider
+							.provide(0);
+					player = playerProvider.provide(rawPlayerName,
+							playerNumber, wonRoundCount);
+				}
 			}
 		}
 

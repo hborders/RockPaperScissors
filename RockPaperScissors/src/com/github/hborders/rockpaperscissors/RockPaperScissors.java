@@ -2,7 +2,6 @@ package com.github.hborders.rockpaperscissors;
 
 import java.io.IOException;
 
-import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
 
 public class RockPaperScissors {
 	public static void main(String[] args) {

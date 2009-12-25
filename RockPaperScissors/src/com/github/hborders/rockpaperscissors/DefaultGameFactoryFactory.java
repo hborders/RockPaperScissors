@@ -1,6 +1,6 @@
 package com.github.hborders.rockpaperscissors;
 
-public class DefaultGameFactoryFactory extends AbstractGameFactoryFactory {
+public class DefaultGameFactoryFactory {
 
 	private final DefaultGameFactory.Provider defaultFactoryProvider;
 	private final ToByGame.Provider toByGameProvider;
@@ -8,24 +8,21 @@ public class DefaultGameFactoryFactory extends AbstractGameFactoryFactory {
 	private final BestofGameFactoryFactory bestofGameFactoryFactory;
 
 	public DefaultGameFactoryFactory() {
-		this(new CountConverter(), new DefaultGameFactory.Provider(),
-				new ToByGame.Provider(), new ToGameFactoryFactory(),
-				new BestofGameFactoryFactory());
+		this(new DefaultGameFactory.Provider(), new ToByGame.Provider(),
+				new ToGameFactoryFactory(), new BestofGameFactoryFactory());
 	}
 
-	DefaultGameFactoryFactory(CountConverter countConverter,
+	DefaultGameFactoryFactory(
 			DefaultGameFactory.Provider defaultFactoryProvider,
 			ToByGame.Provider toByGameProvider,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
-		super(countConverter);
 		this.defaultFactoryProvider = defaultFactoryProvider;
 		this.toByGameProvider = toByGameProvider;
 		this.toGameFactoryFactory = toGameFactoryFactory;
 		this.bestofGameFactoryFactory = bestofGameFactoryFactory;
 	}
 
-	@Override
 	public IGameFactory createGameFactory(String[] args)
 			throws InvalidGameArgumentsException {
 		if (args == null) {

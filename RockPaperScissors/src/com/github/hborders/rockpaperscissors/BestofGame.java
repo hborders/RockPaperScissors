@@ -3,18 +3,19 @@ package com.github.hborders.rockpaperscissors;
 import java.io.IOException;
 
 public class BestofGame implements IGame {
-	private final int gameCount;
+	private final WonRoundCount winningWonRoundCount;
 	private final Player firstPlayer;
 	private final Player secondPlayer;
 	private final Round round;
 
-	public BestofGame(int gameCount, Player firstPlayer, Player secondPlayer) {
-		this(gameCount, firstPlayer, secondPlayer, new Round());
+	public BestofGame(WonRoundCount winningWonRoundCount, Player firstPlayer,
+			Player secondPlayer) {
+		this(winningWonRoundCount, firstPlayer, secondPlayer, new Round());
 	}
 
-	BestofGame(int gameCount, Player firstPlayer, Player secondPlayer,
-			Round round) {
-		this.gameCount = gameCount;
+	BestofGame(WonRoundCount winningWonRoundCount, Player firstPlayer,
+			Player secondPlayer, Round round) {
+		this.winningWonRoundCount = winningWonRoundCount;
 		this.firstPlayer = firstPlayer;
 		this.secondPlayer = secondPlayer;
 		this.round = round;
@@ -22,13 +23,11 @@ public class BestofGame implements IGame {
 
 	@Override
 	public Player play() throws IOException {
-		int winsNeeded = (gameCount / 2) + 1;
 		while (true) {
-			int firstPlayerWins = firstPlayer.getWins();
-			int secondPlayerWins = secondPlayer.getWins();
-			if (firstPlayerWins == winsNeeded) {
+			if (winningWonRoundCount.matches(firstPlayer.getWonRoundCount())) {
 				return firstPlayer;
-			} else if (secondPlayerWins == winsNeeded) {
+			} else if (winningWonRoundCount.matches(secondPlayer
+					.getWonRoundCount())) {
 				return secondPlayer;
 			} else {
 				round.play(firstPlayer, secondPlayer);
@@ -37,9 +36,10 @@ public class BestofGame implements IGame {
 	}
 
 	static class Provider {
-		public BestofGame provide(int gameCount, Player firstPlayer,
-				Player secondPlayer, Round round) {
-			return new BestofGame(gameCount, firstPlayer, secondPlayer, round);
+		public BestofGame provide(WonRoundCount winningWonRoundCount,
+				Player firstPlayer, Player secondPlayer, Round round) {
+			return new BestofGame(winningWonRoundCount, firstPlayer,
+					secondPlayer, round);
 		}
 	}
 }

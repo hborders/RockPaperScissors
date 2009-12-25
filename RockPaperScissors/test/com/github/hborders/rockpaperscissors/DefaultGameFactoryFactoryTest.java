@@ -6,10 +6,7 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
-
-public class DefaultGameFactoryFactoryTest extends
-		AbstractGameFactoryFactoryTest {
+public class DefaultGameFactoryFactoryTest {
 	private DefaultGameFactory.Provider mockDefaultGameFactoryProvider;
 	private ToByGame.Provider mockToByGameProvider;
 	private ToGameFactoryFactory mockToGameFactoryFactory;
@@ -21,18 +18,15 @@ public class DefaultGameFactoryFactoryTest extends
 	private ToByGameFactory mockToByGameFactory;
 	private BestofGameFactory mockBestofGameFactory;
 
-	@Override
 	@Before
 	public void setup() {
-		super.setup();
-
 		mockDefaultGameFactoryProvider = mock(DefaultGameFactory.Provider.class);
 		mockToByGameProvider = mock(ToByGame.Provider.class);
 
 		mockToGameFactoryFactory = mock(ToGameFactoryFactory.class);
 		mockBestofGameFactoryFactory = mock(BestofGameFactoryFactory.class);
 
-		testObject = new DefaultGameFactoryFactory(mockGameCountCountConverter,
+		testObject = new DefaultGameFactoryFactory(
 				mockDefaultGameFactoryProvider, mockToByGameProvider,
 				mockToGameFactoryFactory, mockBestofGameFactoryFactory);
 

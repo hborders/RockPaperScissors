@@ -6,27 +6,28 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.hborders.rockpaperscissors.AbstractGameFactoryFactory.InvalidGameArgumentsException;
+import com.github.hborders.rockpaperscissors.GameCountFactory.InvalidGameCountException;
 
-public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
+public class ToByGameFactoryFactoryTest {
+	private GameCountFactory mockGameCountFactory;
 	private ToByGameFactory.Provider mockToByGameFactoryProvider;
 	private ToByGame.Provider mockToByGameProvider;
 
 	private ToByGameFactoryFactory testObject;
 
+	private GameCount mockGameCount;
 	private ToByGameFactory mockToByGameFactory;
 
-	@Override
 	@Before
 	public void setup() {
-		super.setup();
-
+		mockGameCountFactory = mock(GameCountFactory.class);
 		mockToByGameFactoryProvider = mock(ToByGameFactory.Provider.class);
 		mockToByGameProvider = mock(ToByGame.Provider.class);
 
-		testObject = new ToByGameFactoryFactory(mockGameCountCountConverter,
+		testObject = new ToByGameFactoryFactory(mockGameCountFactory,
 				mockToByGameFactoryProvider, mockToByGameProvider);
 
+		mockGameCount = mock(GameCount.class);
 		mockToByGameFactory = mock(ToByGameFactory.class);
 	}
 
@@ -43,10 +44,10 @@ public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_GameCountProvider_throws_InvalidGameCountException()
+	public void createGame_throws_InvalidGameArgumentsException_when_GameCountFactory_throws_InvalidGameCountException()
 			throws Exception {
-		when(mockGameCountCountConverter.convertCount("foo")).thenThrow(
-				new CountConverter.InvalidCountException());
+		when(mockGameCountFactory.createGameCount("foo")).thenThrow(
+				new InvalidGameCountException());
 
 		testObject.createGameFactory(new String[] { "", "", "-by", "foo" });
 	}
@@ -54,9 +55,10 @@ public class ToByGameFactoryFactoryTest extends AbstractGameFactoryFactoryTest {
 	@Test
 	public void createGame_returns_ToByGameFactory_from_ToByGameFactoryProvider_when_GameCountProvider_returns_GameCount()
 			throws Exception {
+		when(mockGameCountFactory.createGameCount("foo")).thenReturn(
+				mockGameCount);
 		when(mockToByGameFactoryProvider.provide(mockToByGameProvider))
 				.thenReturn(mockToByGameFactory);
-		when(mockGameCountCountConverter.convertCount("foo")).thenReturn(1);
 
 		ToByGameFactory toByGameFactory = testObject
 				.createGameFactory(new String[] { "", "", "-by", "foo" });

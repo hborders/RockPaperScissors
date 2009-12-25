@@ -1,40 +1,32 @@
 package com.github.hborders.rockpaperscissors;
 
 public class BestofGameFactory implements IGameFactory {
-	private final int gameCount;
 	private final BestofGame.Provider bestofGameProvider;
+	private final WonRoundCount winningWonRoundCount;
 	private final Round round;
 
-	public BestofGameFactory(int gameCount) throws InvalidGameCountException {
-		this(gameCount, new BestofGame.Provider(), new Round());
+	public BestofGameFactory(WonRoundCount winningWonRoundCount) {
+		this(new BestofGame.Provider(), winningWonRoundCount, new Round());
 	}
 
-	BestofGameFactory(int gameCount, BestofGame.Provider bestofGameProvider,
-			Round round) throws InvalidGameCountException {
-		super();
-		if ((gameCount % 2) == 0) {
-			throw new InvalidGameCountException();
-		}
-		this.gameCount = gameCount;
+	BestofGameFactory(BestofGame.Provider bestofGameProvider,
+			WonRoundCount winningWonRoundCount, Round round) {
 		this.bestofGameProvider = bestofGameProvider;
+		this.winningWonRoundCount = winningWonRoundCount;
 		this.round = round;
 	}
 
 	@Override
 	public BestofGame createGame(Player firstPlayer, Player secondPlayer) {
-		return bestofGameProvider.provide(gameCount, firstPlayer, secondPlayer,
-				round);
-	}
-
-	public static class InvalidGameCountException extends Exception {
-		private static final long serialVersionUID = 1L;
+		return bestofGameProvider.provide(winningWonRoundCount, firstPlayer,
+				secondPlayer, round);
 	}
 
 	static class Provider {
-		BestofGameFactory provide(int gameCount,
-				BestofGame.Provider bestofGameProvider, Round round)
-				throws InvalidGameCountException {
-			return new BestofGameFactory(gameCount, bestofGameProvider, round);
+		BestofGameFactory provide(BestofGame.Provider bestofGameProvider,
+				WonRoundCount winningWonRoundCount, Round round) {
+			return new BestofGameFactory(bestofGameProvider,
+					winningWonRoundCount, round);
 		}
 	}
 }

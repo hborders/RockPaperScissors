@@ -1,40 +1,40 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.BestofGameFactory.InvalidGameCountException;
-import com.github.hborders.rockpaperscissors.CountConverter.InvalidCountException;
+import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidWonRoundCountException;
 
-public class BestofGameFactoryFactory extends AbstractGameFactoryFactory {
+public class BestofGameFactoryFactory {
 
+	private final BestofWonRoundCountFactory bestofWonRoundCountFactory;
 	private final BestofGameFactory.Provider bestofGameFactoryProvider;
 	private final BestofGame.Provider bestofGameProvider;
 	private final Round round;
 
 	public BestofGameFactoryFactory() {
-		this(new CountConverter(), new BestofGameFactory.Provider(),
-				new BestofGame.Provider(), new Round());
+		this(new BestofWonRoundCountFactory(),
+				new BestofGameFactory.Provider(), new BestofGame.Provider(),
+				new Round());
 	}
 
-	BestofGameFactoryFactory(CountConverter countConverter,
+	BestofGameFactoryFactory(
+			BestofWonRoundCountFactory bestofWonRoundCountFactory,
 			BestofGameFactory.Provider bestofGameFactoryProvider,
 			BestofGame.Provider bestofGameProvider, Round round) {
-		super(countConverter);
-
+		this.bestofWonRoundCountFactory = bestofWonRoundCountFactory;
 		this.bestofGameFactoryProvider = bestofGameFactoryProvider;
 		this.bestofGameProvider = bestofGameProvider;
 		this.round = round;
 	}
 
-	@Override
 	public BestofGameFactory createGameFactory(String[] args)
 			throws InvalidGameArgumentsException {
 		try {
 			if (args.length == 2) {
-				int gameCount = countConverter.convertCount(args[1]);
-				return bestofGameFactoryProvider.provide(gameCount,
-						bestofGameProvider, round);
+				WonRoundCount wonRoundCount = bestofWonRoundCountFactory
+						.createWonRoundCount(args[1]);
+				return bestofGameFactoryProvider.provide(bestofGameProvider,
+						wonRoundCount, round);
 			}
-		} catch (InvalidCountException invalidCountException) {
-		} catch (InvalidGameCountException invalidGameCountException) {
+		} catch (InvalidWonRoundCountException invalidWonRoundCountException) {
 		}
 		throw new InvalidGameArgumentsException();
 	}
