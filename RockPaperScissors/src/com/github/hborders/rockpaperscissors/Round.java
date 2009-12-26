@@ -7,11 +7,7 @@ public class Round {
 	private final IAfterPlayHook afterPlayHook;
 
 	public Round() {
-		this(new AttemptReader(), new IAfterPlayHook() {
-			@Override
-			public void afterPlay(Player winningPlayer) {
-			}
-		});
+		this(new AttemptReader(), new NoOpAfterPlayHook());
 	}
 
 	public Round(AttemptReader attemptReader, IAfterPlayHook afterPlayHook) {
@@ -47,5 +43,12 @@ public class Round {
 
 	public interface IAfterPlayHook {
 		void afterPlay(Player winningPlayer);
+	}
+
+	static class Provider {
+		public Round provide(AttemptReader attemptReader,
+				IAfterPlayHook afterPlayHook) {
+			return new Round(attemptReader, afterPlayHook);
+		}
 	}
 }

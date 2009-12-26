@@ -26,7 +26,7 @@ public class RockPaperScissors {
 
 	public void play(String[] args) {
 		try {
-			IGameFactory gameFactory = defaultGameFactoryFactory
+			GameFactory gameFactory = defaultGameFactoryFactory
 					.createGameFactory(args);
 			Player firstPlayer = playerFactory.createPlayer(1);
 			Player secondPlayer = playerFactory.createPlayer(2);

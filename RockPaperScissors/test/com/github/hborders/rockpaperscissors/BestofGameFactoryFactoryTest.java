@@ -10,28 +10,28 @@ import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidW
 
 public class BestofGameFactoryFactoryTest {
 	private BestofWonRoundCountFactory mockBestofWonRoundCountFactory;
-	private BestofGameFactory.Provider mockBestofGameFactoryProvider;
+	private GameFactory.Provider mockGameFactoryProvider;
 	private Game.Provider mockGameProvider;
 	private Round mockRound;
 
 	private BestofGameFactoryFactory testObject;
 
 	private WonRoundCount mockBestofWonRoundCount;
-	private BestofGameFactory mockBestofGameFactory;
+	private GameFactory mockGameFactory;
 
 	@Before
 	public void setup() {
 		mockBestofWonRoundCountFactory = mock(BestofWonRoundCountFactory.class);
-		mockBestofGameFactoryProvider = mock(BestofGameFactory.Provider.class);
+		mockGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockGameProvider = mock(Game.Provider.class);
 		mockRound = mock(Round.class);
 
 		testObject = new BestofGameFactoryFactory(
-				mockBestofWonRoundCountFactory, mockBestofGameFactoryProvider,
+				mockBestofWonRoundCountFactory, mockGameFactoryProvider,
 				mockGameProvider, mockRound);
 
 		mockBestofWonRoundCount = mock(WonRoundCount.class);
-		mockBestofGameFactory = mock(BestofGameFactory.class);
+		mockGameFactory = mock(GameFactory.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -50,18 +50,18 @@ public class BestofGameFactoryFactoryTest {
 	}
 
 	@Test
-	public void createGameFactory_returns_BestofGameFactory_from_BestofGameFactoryProvider_when_args_length_is_2_and_BestofWonRoundCountFactory_returns_bestof_WonRoundCount()
+	public void createGameFactory_returns_GameFactory_from_GameFactory_Provider_when_args_length_is_2_and_BestofWonRoundCountFactory_returns_bestof_WonRoundCount()
 			throws Exception {
 		when(mockBestofWonRoundCountFactory.createWonRoundCount("foo"))
 				.thenReturn(mockBestofWonRoundCount);
 		when(
-				mockBestofGameFactoryProvider.provide(mockGameProvider,
-						mockBestofWonRoundCount, mockRound)).thenReturn(
-				mockBestofGameFactory);
+				mockGameFactoryProvider.provide(mockBestofWonRoundCount,
+						mockRound, mockGameProvider)).thenReturn(
+				mockGameFactory);
 
-		BestofGameFactory bestofGameFactory = testObject
-				.createGameFactory(new String[] { "", "foo" });
+		GameFactory gameFactory = testObject.createGameFactory(new String[] {
+				"", "foo" });
 
-		assertEquals(mockBestofGameFactory, bestofGameFactory);
+		assertEquals(mockGameFactory, gameFactory);
 	}
 }

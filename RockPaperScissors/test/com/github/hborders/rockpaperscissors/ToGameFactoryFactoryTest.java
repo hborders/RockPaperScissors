@@ -10,30 +10,34 @@ import com.github.hborders.rockpaperscissors.GameCountFactory.InvalidGameCountEx
 
 public class ToGameFactoryFactoryTest {
 	private GameCountFactory mockGameCountFactory;
-	private ToGameFactory.Provider mockToGameFactoryProvider;
-	private Game.Provider mockGameProvider;
+	private ToWonRoundCountFactory mockToWonRoundCountFactory;
 	private ToByGameFactoryFactory mockToByGameFactoryFactory;
+	private Game.Provider mockGameProvider;
+	private Round mockRound;
+	private GameFactory.Provider mockToGameFactoryProvider;
 
 	private ToGameFactoryFactory testObject;
 
-	private GameCount mockGameCount;
-	private ToGameFactory mockToGameFactory;
-	private ToByGameFactory mockToByGameFactory;
+	private GameCount mockToGameCount;
+	private WonRoundCount mockWonRoundCount;
+	private GameFactory mockGameFactory;
 
 	@Before
 	public void setup() {
 		mockGameCountFactory = mock(GameCountFactory.class);
-		mockToGameFactoryProvider = mock(ToGameFactory.Provider.class);
-		mockGameProvider = mock(Game.Provider.class);
+		mockToWonRoundCountFactory = mock(ToWonRoundCountFactory.class);
 		mockToByGameFactoryFactory = mock(ToByGameFactoryFactory.class);
+		mockGameProvider = mock(Game.Provider.class);
+		mockRound = mock(Round.class);
+		mockToGameFactoryProvider = mock(GameFactory.Provider.class);
 
 		testObject = new ToGameFactoryFactory(mockGameCountFactory,
-				mockToGameFactoryProvider, mockGameProvider,
-				mockToByGameFactoryFactory);
+				mockToWonRoundCountFactory, mockToByGameFactoryFactory,
+				mockGameProvider, mockRound, mockToGameFactoryProvider);
 
-		mockGameCount = mock(GameCount.class);
-		mockToGameFactory = mock(ToGameFactory.class);
-		mockToByGameFactory = mock(ToByGameFactory.class);
+		mockToGameCount = mock(GameCount.class);
+		mockWonRoundCount = mock(WonRoundCount.class);
+		mockGameFactory = mock(GameFactory.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -52,33 +56,33 @@ public class ToGameFactoryFactoryTest {
 	}
 
 	@Test
-	public void createGame_returns_ToGameFactory_from_ToGameFactoryProvider_when_GameCountFactory_returns_GameCount()
+	public void createGame_returns_GameFactory_from_GameFactory_Provider_with_winning_WonRoundCount_from_GameCount()
 			throws Exception {
 		when(mockGameCountFactory.createGameCount("foo")).thenReturn(
-				mockGameCount);
-		when(mockToGameFactoryProvider.provide(mockGameProvider)).thenReturn(
-				mockToGameFactory);
+				mockToGameCount);
+		when(mockToWonRoundCountFactory.createWonRoundCount(mockToGameCount))
+				.thenReturn(mockWonRoundCount);
+		when(
+				mockToGameFactoryProvider.provide(mockWonRoundCount, mockRound,
+						mockGameProvider)).thenReturn(mockGameFactory);
 
-		IGameFactory gameFactory = testObject.createGameFactory(new String[] {
+		GameFactory gameFactory = testObject.createGameFactory(new String[] {
 				"", "foo" });
 
-		assertEquals(mockToGameFactory, gameFactory);
+		assertEquals(mockGameFactory, gameFactory);
 	}
 
 	@Test
 	public void createGame_delegates_to_ToByGameFactoryFactory_when_3rd_argument_is_by()
 			throws Exception {
-		String[] args = { "", "", "-by" };
-		when(mockToByGameFactoryFactory.createGameFactory(args)).thenReturn(
-				mockToByGameFactory);
-		IGameFactory gameFactory = testObject.createGameFactory(args);
+		String[] args = { "", "foo", "-by" };
+		when(mockGameCountFactory.createGameCount("foo")).thenReturn(
+				mockToGameCount);
+		when(
+				mockToByGameFactoryFactory.createGameFactory(mockToGameCount,
+						args)).thenReturn(mockGameFactory);
+		GameFactory gameFactory = testObject.createGameFactory(args);
 
-		assertEquals(mockToByGameFactory, gameFactory);
-	}
-
-	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_3rd_argument_is_not_by()
-			throws Exception {
-		testObject.createGameFactory(new String[] { "", "foo", "bar" });
+		assertEquals(mockGameFactory, gameFactory);
 	}
 }

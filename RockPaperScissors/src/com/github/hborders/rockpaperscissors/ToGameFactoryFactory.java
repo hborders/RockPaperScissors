@@ -5,35 +5,49 @@ import com.github.hborders.rockpaperscissors.GameCountFactory.InvalidGameCountEx
 public class ToGameFactoryFactory {
 
 	private final GameCountFactory gameCountFactory;
-	private final ToGameFactory.Provider toGameFactoryProvider;
-	private final Game.Provider gameProvider;
+	private final ToWonRoundCountFactory toWonRoundCountFactory;
 	private final ToByGameFactoryFactory toByGameFactoryFactory;
+	private final Game.Provider gameProvider;
+	private final Round round;
+	private final GameFactory.Provider gameFactoryProvider;
 
 	public ToGameFactoryFactory() {
-		this(new GameCountFactory(), new ToGameFactory.Provider(),
-				new Game.Provider(), new ToByGameFactoryFactory());
+		this(new GameCountFactory(), new ToWonRoundCountFactory(),
+				new ToByGameFactoryFactory(), new Game.Provider(), new Round(),
+				new GameFactory.Provider());
 	}
 
-	ToGameFactoryFactory(GameCountFactory gameCountFactory,
-			ToGameFactory.Provider toGameFactoryProvider,
-			Game.Provider gameProvider,
-			ToByGameFactoryFactory toByGameFactoryFactory) {
+	public ToGameFactoryFactory(GameCountFactory gameCountFactory,
+			ToWonRoundCountFactory toWonRoundCountFactory,
+			ToByGameFactoryFactory toByGameFactoryFactory,
+			Game.Provider gameProvider, Round round,
+			GameFactory.Provider gameFactoryProvider) {
 		this.gameCountFactory = gameCountFactory;
-		this.toGameFactoryProvider = toGameFactoryProvider;
-		this.gameProvider = gameProvider;
+		this.toWonRoundCountFactory = toWonRoundCountFactory;
 		this.toByGameFactoryFactory = toByGameFactoryFactory;
+		this.gameProvider = gameProvider;
+		this.round = round;
+		this.gameFactoryProvider = gameFactoryProvider;
 	}
 
-	public IGameFactory createGameFactory(String[] args)
+	public GameFactory createGameFactory(String[] args)
 			throws InvalidGameArgumentsException {
-		if (args.length == 2) {
+		if (2 <= args.length) {
 			try {
-				gameCountFactory.createGameCount(args[1]);
-				return toGameFactoryProvider.provide(gameProvider);
+				GameCount toGameCount = gameCountFactory
+						.createGameCount(args[1]);
+				if (2 < args.length) {
+					return toByGameFactoryFactory.createGameFactory(
+							toGameCount, args);
+				}
+
+				WonRoundCount winningWonRoundCount = toWonRoundCountFactory
+						.createWonRoundCount(toGameCount);
+
+				return gameFactoryProvider.provide(winningWonRoundCount, round,
+						gameProvider);
 			} catch (InvalidGameCountException invalidGameCountException) {
 			}
-		} else if ((2 < args.length) && "-by".equals(args[2])) {
-			return toByGameFactoryFactory.createGameFactory(args);
 		}
 
 		throw new InvalidGameArgumentsException();

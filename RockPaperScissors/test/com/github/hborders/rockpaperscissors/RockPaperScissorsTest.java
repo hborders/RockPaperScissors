@@ -14,7 +14,7 @@ public class RockPaperScissorsTest {
 	private PlayerFactory mockPlayerFactory;
 	private RockPaperScissors testObject;
 
-	private IGameFactory mockGameFactory;
+	private GameFactory mockGameFactory;
 	private Player mockPlayer1;
 	private Player mockPlayer2;
 	private Game mockGame;
@@ -28,7 +28,7 @@ public class RockPaperScissorsTest {
 		testObject = new RockPaperScissors(mockUsagePrinter,
 				mockDefaultGameFactoryFactory, mockPlayerFactory);
 
-		mockGameFactory = mock(IGameFactory.class);
+		mockGameFactory = mock(GameFactory.class);
 		mockPlayer1 = mock(Player.class);
 		mockPlayer2 = mock(Player.class);
 		mockGame = mock(Game.class);

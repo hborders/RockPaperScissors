@@ -5,34 +5,33 @@ import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidW
 public class BestofGameFactoryFactory {
 
 	private final BestofWonRoundCountFactory bestofWonRoundCountFactory;
-	private final BestofGameFactory.Provider bestofGameFactoryProvider;
+	private final GameFactory.Provider gameFactoryProvider;
 	private final Game.Provider gameProvider;
 	private final Round round;
 
 	public BestofGameFactoryFactory() {
-		this(new BestofWonRoundCountFactory(),
-				new BestofGameFactory.Provider(), new Game.Provider(),
-				new Round());
+		this(new BestofWonRoundCountFactory(), new GameFactory.Provider(),
+				new Game.Provider(), new Round());
 	}
 
 	BestofGameFactoryFactory(
 			BestofWonRoundCountFactory bestofWonRoundCountFactory,
-			BestofGameFactory.Provider bestofGameFactoryProvider,
+			GameFactory.Provider gameFactoryProvider,
 			Game.Provider gameProvider, Round round) {
 		this.bestofWonRoundCountFactory = bestofWonRoundCountFactory;
-		this.bestofGameFactoryProvider = bestofGameFactoryProvider;
+		this.gameFactoryProvider = gameFactoryProvider;
 		this.gameProvider = gameProvider;
 		this.round = round;
 	}
 
-	public BestofGameFactory createGameFactory(String[] args)
+	public GameFactory createGameFactory(String[] args)
 			throws InvalidGameArgumentsException {
 		try {
 			if (args.length == 2) {
 				WonRoundCount wonRoundCount = bestofWonRoundCountFactory
 						.createWonRoundCount(args[1]);
-				return bestofGameFactoryProvider.provide(gameProvider,
-						wonRoundCount, round);
+				return gameFactoryProvider.provide(wonRoundCount, round,
+						gameProvider);
 			}
 		} catch (InvalidWonRoundCountException invalidWonRoundCountException) {
 		}

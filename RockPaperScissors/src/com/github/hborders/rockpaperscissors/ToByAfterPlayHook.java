@@ -23,4 +23,9 @@ public class ToByAfterPlayHook implements IAfterPlayHook {
 		}
 	}
 
+	static class Provider {
+		public ToByAfterPlayHook provide(WonRoundCount winningWonRoundCount) {
+			return new ToByAfterPlayHook(winningWonRoundCount);
+		}
+	}
 }
