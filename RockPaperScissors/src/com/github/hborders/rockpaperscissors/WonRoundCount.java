@@ -1,18 +1,23 @@
 package com.github.hborders.rockpaperscissors;
 
 public class WonRoundCount {
-	private int innerWonRoundCount;
+	private int rawWonRoundCount;
 
 	WonRoundCount(int innerWonRoundCount) {
-		this.innerWonRoundCount = innerWonRoundCount;
+		this.rawWonRoundCount = innerWonRoundCount;
 	}
 
 	public void increment() {
-		innerWonRoundCount++;
+		rawWonRoundCount++;
 	}
 
 	public boolean matches(WonRoundCount wonRoundCount) {
-		return innerWonRoundCount == wonRoundCount.innerWonRoundCount;
+		return rawWonRoundCount == wonRoundCount.rawWonRoundCount;
+	}
+
+	@Override
+	public String toString() {
+		return "WonRoundCount[" + rawWonRoundCount + "]";
 	}
 
 	static class Provider {

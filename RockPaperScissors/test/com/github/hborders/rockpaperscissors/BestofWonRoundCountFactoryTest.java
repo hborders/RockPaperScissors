@@ -3,6 +3,8 @@ package com.github.hborders.rockpaperscissors;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,19 +26,34 @@ public class BestofWonRoundCountFactoryTest {
 	@Test(expected = InvalidWonRoundCountException.class)
 	public void createWonRoundCount_throws_InvalidWonRoundCountException_when_RoundCount_is_even()
 			throws Exception {
-		when(mockRoundCount.getRoundCount()).thenReturn(2);
+		when(mockRoundCount.getRawRoundCount()).thenReturn(2);
 
 		testObject.createWonRoundCount(mockRoundCount);
 	}
 
 	@Test
-	public void createWonRoundCount_returns_WonRoundCount_when_RoundCount_is_odd_number()
+	public void createWonRoundCount_returns_WonRoundCount_divided_by_2_plus_1_when_RoundCount_is_odd_number()
 			throws Exception {
-		when(mockRoundCount.getRoundCount()).thenReturn(1);
+		when(mockRoundCount.getRawRoundCount()).thenReturn(5);
 
 		WonRoundCount wonRoundCount = testObject
 				.createWonRoundCount(mockRoundCount);
 
-		assertTrue(wonRoundCount.matches(new WonRoundCount(1)));
+		assertThat(wonRoundCount, new BaseMatcher<WonRoundCount>() {
+			private final WonRoundCount expectedWonRoundCount = new WonRoundCount(
+					3);
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("Expected to match: "
+						+ expectedWonRoundCount);
+			}
+
+			@Override
+			public boolean matches(Object item) {
+				return ((WonRoundCount) item).matches(expectedWonRoundCount);
+			}
+		});
+		;
 	}
 }

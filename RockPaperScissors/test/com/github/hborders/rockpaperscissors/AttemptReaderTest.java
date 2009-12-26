@@ -54,6 +54,7 @@ public class AttemptReaderTest {
 
 		inOrder.verify(mockPlayer).write(mockWriter);
 		inOrder.verify(mockWriter).write(" [R]ock, [P]aper, or [S]cissors? ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 	}
 
@@ -71,9 +72,11 @@ public class AttemptReaderTest {
 
 		inOrder.verify(mockPlayer).write(mockWriter);
 		inOrder.verify(mockWriter).write(" [R]ock, [P]aper, or [S]cissors? ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 		inOrder.verify(mockPlayer).write(mockWriter);
 		inOrder.verify(mockWriter).write(" [R]ock, [P]aper, or [S]cissors? ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 	}
 }

@@ -22,8 +22,8 @@ public class ToByWonRoundCountFactoryTest {
 
 	@Test
 	public void createWonRoundCount_adds_to_and_by_RoundCounts_and_subtracts_1() {
-		when(mockToRoundCount.getRoundCount()).thenReturn(4);
-		when(mockByRoundCount.getRoundCount()).thenReturn(2);
+		when(mockToRoundCount.getRawRoundCount()).thenReturn(4);
+		when(mockByRoundCount.getRawRoundCount()).thenReturn(2);
 
 		WonRoundCount wonRoundCount = testObject.createWonRoundCount(
 				mockToRoundCount, mockByRoundCount);

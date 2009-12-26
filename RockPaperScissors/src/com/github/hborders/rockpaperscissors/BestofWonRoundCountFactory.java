@@ -4,9 +4,9 @@ public class BestofWonRoundCountFactory {
 
 	public WonRoundCount createWonRoundCount(RoundCount roundCount)
 			throws InvalidWonRoundCountException {
-		int wonRoundCount = roundCount.getRoundCount();
-		if ((wonRoundCount % 2) == 1) {
-			return new WonRoundCount(wonRoundCount);
+		int rawRoundCount = roundCount.getRawRoundCount();
+		if ((rawRoundCount % 2) == 1) {
+			return new WonRoundCount((rawRoundCount / 2) + 1);
 		}
 
 		throw new InvalidWonRoundCountException();

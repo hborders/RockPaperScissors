@@ -20,7 +20,7 @@ public class ToWonRoundCountFactoryTest {
 
 	@Test
 	public void createWonRoundCount_returns_WonRoundCount_with_round_count() {
-		when(mockToRoundCount.getRoundCount()).thenReturn(4);
+		when(mockToRoundCount.getRawRoundCount()).thenReturn(4);
 
 		WonRoundCount wonRoundCount = testObject
 				.createWonRoundCount(mockToRoundCount);

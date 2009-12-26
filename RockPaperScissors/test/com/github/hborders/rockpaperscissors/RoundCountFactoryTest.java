@@ -33,6 +33,6 @@ public class RoundCountFactoryTest {
 			throws Exception {
 		RoundCount roundCount = testObject.createRoundCount("1");
 
-		assertEquals(1, roundCount.getRoundCount());
+		assertEquals(1, roundCount.getRawRoundCount());
 	}
 }

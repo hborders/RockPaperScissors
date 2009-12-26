@@ -23,6 +23,7 @@ public class PlayerFactory {
 		Player player = null;
 		while (player == null) {
 			writer.write("Player " + playerNumber + " Name: ");
+			writer.flush();
 			String input = bufferedReader.readLine();
 			if (input != null) {
 				String rawPlayerName = input.trim();

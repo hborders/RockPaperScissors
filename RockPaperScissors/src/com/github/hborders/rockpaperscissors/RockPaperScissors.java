@@ -17,36 +17,40 @@ public class RockPaperScissors {
 	private final UsagePrinter usagePrinter;
 	private final DefaultGameFactoryFactory defaultGameFactoryFactory;
 	private final PlayerFactory playerFactory;
+	private final PrintWriter printWriter;
 
 	public RockPaperScissors(InputStream inputStream, OutputStream outputStream) {
-		this(createDefaultGameFactoryFactoryAndPlayerFactory(inputStream,
-				outputStream));
+		this(createDefaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter(
+				inputStream, outputStream));
 	}
 
-	private RockPaperScissors(Object[] defaultGameFactoryFactoryAndPlayerFactory) {
+	private RockPaperScissors(
+			Object[] defaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter) {
 		this(
 				new UsagePrinter(),
-				(DefaultGameFactoryFactory) defaultGameFactoryFactoryAndPlayerFactory[0],
-				(PlayerFactory) defaultGameFactoryFactoryAndPlayerFactory[1]);
+				(DefaultGameFactoryFactory) defaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter[0],
+				(PlayerFactory) defaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter[1],
+				(PrintWriter) defaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter[2]);
 	}
 
 	RockPaperScissors(UsagePrinter usagePrinter,
 			DefaultGameFactoryFactory defaultGameFactoryFactory,
-			PlayerFactory playerFactory) {
+			PlayerFactory playerFactory, PrintWriter printWriter) {
 		this.usagePrinter = usagePrinter;
 		this.defaultGameFactoryFactory = defaultGameFactoryFactory;
 		this.playerFactory = playerFactory;
+		this.printWriter = printWriter;
 	}
 
-	private static Object[] createDefaultGameFactoryFactoryAndPlayerFactory(
+	private static Object[] createDefaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter(
 			InputStream inputStream, OutputStream outputStream) {
 		GameFactory.Provider gameFactoryProvider = new GameFactory.Provider();
-		BufferedReader systemInBufferedReader = new BufferedReader(
-				new InputStreamReader(System.in));
-		PrintWriter systemOutPrintWriter = new PrintWriter(System.out);
+		BufferedReader bufferedReader = new BufferedReader(
+				new InputStreamReader(inputStream));
+		PrintWriter printWriter = new PrintWriter(outputStream);
 		AttemptFactory attemptFactory = new AttemptFactory();
-		AttemptReader attemptReader = new AttemptReader(systemInBufferedReader,
-				systemOutPrintWriter, attemptFactory);
+		AttemptReader attemptReader = new AttemptReader(bufferedReader,
+				printWriter, attemptFactory);
 		Round defaultRound = new Round(attemptReader, new NoOpAfterPlayHook());
 		Game.Provider gameProvider = new Game.Provider();
 
@@ -77,10 +81,11 @@ public class RockPaperScissors {
 
 		WonRoundCount.Provider wonRoundCountProvider = new WonRoundCount.Provider();
 		Player.Provider playerProvider = new Player.Provider();
-		PlayerFactory playerFactory = new PlayerFactory(systemInBufferedReader,
-				systemOutPrintWriter, wonRoundCountProvider, playerProvider);
+		PlayerFactory playerFactory = new PlayerFactory(bufferedReader,
+				printWriter, wonRoundCountProvider, playerProvider);
 
-		return new Object[] { defaultGameFactoryFactory, playerFactory };
+		return new Object[] { defaultGameFactoryFactory, playerFactory,
+				printWriter };
 	}
 
 	public void play(String[] args) {
@@ -90,7 +95,10 @@ public class RockPaperScissors {
 			Player firstPlayer = playerFactory.createPlayer(1);
 			Player secondPlayer = playerFactory.createPlayer(2);
 			Game game = gameFactory.createGame(firstPlayer, secondPlayer);
-			game.play();
+			Player winningPlayer = game.play();
+			winningPlayer.write(printWriter);
+			printWriter.println(" Wins!");
+			printWriter.flush();
 		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {
 			usagePrinter.printUsage();
 		} catch (IOException ioException) {

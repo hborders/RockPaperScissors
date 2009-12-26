@@ -56,6 +56,7 @@ public class PlayerFactoryTest {
 		assertEquals(mockPlayer, player);
 
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 	}
 
@@ -73,8 +74,10 @@ public class PlayerFactoryTest {
 		assertEquals(mockPlayer, player);
 
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 	}
 
@@ -93,8 +96,10 @@ public class PlayerFactoryTest {
 		assertEquals(mockPlayer, player);
 
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
+		inOrder.verify(mockWriter).flush();
 		inOrder.verify(mockBufferedReader).readLine();
 	}
 }

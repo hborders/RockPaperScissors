@@ -1,13 +1,18 @@
 package com.github.hborders.rockpaperscissors;
 
 public class RoundCount {
-	private final int roundCount;
+	private final int rawRoundCount;
 
 	public RoundCount(int roundCount) {
-		this.roundCount = roundCount;
+		this.rawRoundCount = roundCount;
 	}
 
-	public int getRoundCount() {
-		return roundCount;
+	public int getRawRoundCount() {
+		return rawRoundCount;
+	}
+
+	@Override
+	public String toString() {
+		return "RoundCount[" + rawRoundCount + "]";
 	}
 }

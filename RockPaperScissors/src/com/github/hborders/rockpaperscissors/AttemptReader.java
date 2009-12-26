@@ -23,6 +23,7 @@ public class AttemptReader {
 		do {
 			player.write(writer);
 			writer.write(" [R]ock, [P]aper, or [S]cissors? ");
+			writer.flush();
 			String input = bufferedReader.readLine();
 			try {
 				attempt = attemptFactory.createAttempt(input);

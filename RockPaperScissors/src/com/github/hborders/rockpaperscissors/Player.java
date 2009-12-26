@@ -26,6 +26,11 @@ public class Player {
 		wonRoundCount.increment();
 	}
 
+	@Override
+	public String toString() {
+		return "Player[" + rawPlayer + " (Player " + playerNumber + ")]";
+	}
+
 	public static class Provider {
 		public Player provide(String player, int playerNumber,
 				WonRoundCount wonRoundCount) {
