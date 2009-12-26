@@ -1,10 +1,10 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.GameCountFactory.InvalidGameCountException;
+import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
 
 public class ToGameFactoryFactory {
 
-	private final GameCountFactory gameCountFactory;
+	private final RoundCountFactory roundCountFactory;
 	private final ToWonRoundCountFactory toWonRoundCountFactory;
 	private final ToByGameFactoryFactory toByGameFactoryFactory;
 	private final Game.Provider gameProvider;
@@ -12,17 +12,17 @@ public class ToGameFactoryFactory {
 	private final GameFactory.Provider gameFactoryProvider;
 
 	public ToGameFactoryFactory() {
-		this(new GameCountFactory(), new ToWonRoundCountFactory(),
+		this(new RoundCountFactory(), new ToWonRoundCountFactory(),
 				new ToByGameFactoryFactory(), new Game.Provider(), new Round(),
 				new GameFactory.Provider());
 	}
 
-	public ToGameFactoryFactory(GameCountFactory gameCountFactory,
+	public ToGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToWonRoundCountFactory toWonRoundCountFactory,
 			ToByGameFactoryFactory toByGameFactoryFactory,
 			Game.Provider gameProvider, Round round,
 			GameFactory.Provider gameFactoryProvider) {
-		this.gameCountFactory = gameCountFactory;
+		this.roundCountFactory = roundCountFactory;
 		this.toWonRoundCountFactory = toWonRoundCountFactory;
 		this.toByGameFactoryFactory = toByGameFactoryFactory;
 		this.gameProvider = gameProvider;
@@ -34,19 +34,19 @@ public class ToGameFactoryFactory {
 			throws InvalidGameArgumentsException {
 		if (2 <= args.length) {
 			try {
-				GameCount toGameCount = gameCountFactory
-						.createGameCount(args[1]);
+				RoundCount toRoundCount = roundCountFactory
+						.createRoundCount(args[1]);
 				if (2 < args.length) {
 					return toByGameFactoryFactory.createGameFactory(
-							toGameCount, args);
+							toRoundCount, args);
 				}
 
 				WonRoundCount winningWonRoundCount = toWonRoundCountFactory
-						.createWonRoundCount(toGameCount);
+						.createWonRoundCount(toRoundCount);
 
 				return gameFactoryProvider.provide(winningWonRoundCount, round,
 						gameProvider);
-			} catch (InvalidGameCountException invalidGameCountException) {
+			} catch (InvalidRoundCountException invalidRoundCountException) {
 			}
 		}
 

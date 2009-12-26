@@ -6,10 +6,10 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.hborders.rockpaperscissors.GameCountFactory.InvalidGameCountException;
+import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
 
 public class ToByGameFactoryFactoryTest {
-	private GameCountFactory mockGameCountFactory;
+	private RoundCountFactory mockRoundCountFactory;
 	private ToByWonRoundCountFactory mockToByWonRoundCountFactory;
 	private Round.Provider mockRoundProvider;
 	private AttemptReader mockAttemptReader;
@@ -19,18 +19,18 @@ public class ToByGameFactoryFactoryTest {
 
 	private ToByGameFactoryFactory testObject;
 
-	private GameCount mockByGameCount;
+	private RoundCount mockByRoundCount;
 	private WonRoundCount mockWonRoundCount;
 	private ToByAfterPlayHook mockToByAfterPlayHook;
 	private Round mockRound;
 
-	private GameCount mockToGameCount;
+	private RoundCount mockToRoundCount;
 
 	private GameFactory mockToByGameFactory;
 
 	@Before
 	public void setup() {
-		mockGameCountFactory = mock(GameCountFactory.class);
+		mockRoundCountFactory = mock(RoundCountFactory.class);
 		mockToByWonRoundCountFactory = mock(ToByWonRoundCountFactory.class);
 		mockRoundProvider = mock(Round.Provider.class);
 		mockAttemptReader = mock(AttemptReader.class);
@@ -38,17 +38,17 @@ public class ToByGameFactoryFactoryTest {
 		mockGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockGameProvider = mock(Game.Provider.class);
 
-		testObject = new ToByGameFactoryFactory(mockGameCountFactory,
+		testObject = new ToByGameFactoryFactory(mockRoundCountFactory,
 				mockToByWonRoundCountFactory, mockRoundProvider,
 				mockAttemptReader, mockToByAfterPlayHookProvider,
 				mockGameFactoryProvider, mockGameProvider);
 
-		mockByGameCount = mock(GameCount.class);
+		mockByRoundCount = mock(RoundCount.class);
 		mockWonRoundCount = mock(WonRoundCount.class);
 		mockToByAfterPlayHook = mock(ToByAfterPlayHook.class);
 		mockRound = mock(Round.class);
 
-		mockToGameCount = mock(GameCount.class);
+		mockToRoundCount = mock(RoundCount.class);
 
 		mockToByGameFactory = mock(GameFactory.class);
 	}
@@ -56,33 +56,33 @@ public class ToByGameFactoryFactoryTest {
 	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_3()
 			throws Exception {
-		testObject.createGameFactory(mockToGameCount, new String[3]);
+		testObject.createGameFactory(mockToRoundCount, new String[3]);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
 	public void createGame_throws_InvalidGameArgumentsException_when_args_length_is_greater_than_4()
 			throws Exception {
-		testObject.createGameFactory(mockToGameCount, new String[5]);
+		testObject.createGameFactory(mockToRoundCount, new String[5]);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
-	public void createGame_throws_InvalidGameArgumentsException_when_GameCountFactory_throws_InvalidGameCountException()
+	public void createGame_throws_InvalidGameArgumentsException_when_RoundCountFactory_throws_InvalidRoundCountException()
 			throws Exception {
-		when(mockGameCountFactory.createGameCount("foo")).thenThrow(
-				new InvalidGameCountException());
+		when(mockRoundCountFactory.createRoundCount("foo")).thenThrow(
+				new InvalidRoundCountException());
 
-		testObject.createGameFactory(mockToGameCount, new String[] { "", "",
+		testObject.createGameFactory(mockToRoundCount, new String[] { "", "",
 				"-by", "foo" });
 	}
 
 	@Test
-	public void createGame_returns_GameFactory_from_GameFactory_Provider_when_GameCountProvider_returns_GameCount()
+	public void createGame_returns_GameFactory_from_GameFactory_Provider_when_RoundCount_Provider_returns_RoundCount()
 			throws Exception {
-		when(mockGameCountFactory.createGameCount("foo")).thenReturn(
-				mockByGameCount);
+		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
+				mockByRoundCount);
 		when(
 				mockToByWonRoundCountFactory.createWonRoundCount(
-						mockToGameCount, mockByGameCount)).thenReturn(
+						mockToRoundCount, mockByRoundCount)).thenReturn(
 				mockWonRoundCount);
 		when(mockToByAfterPlayHookProvider.provide(mockWonRoundCount))
 				.thenReturn(mockToByAfterPlayHook);
@@ -94,7 +94,7 @@ public class ToByGameFactoryFactoryTest {
 						mockGameProvider)).thenReturn(mockToByGameFactory);
 
 		GameFactory toByGameFactory = testObject.createGameFactory(
-				mockToGameCount, new String[] { "", "", "-by", "foo" });
+				mockToRoundCount, new String[] { "", "", "-by", "foo" });
 
 		assertEquals(mockToByGameFactory, toByGameFactory);
 	}

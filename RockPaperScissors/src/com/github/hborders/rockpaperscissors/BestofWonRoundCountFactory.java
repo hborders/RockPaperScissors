@@ -2,14 +2,11 @@ package com.github.hborders.rockpaperscissors;
 
 public class BestofWonRoundCountFactory {
 
-	public WonRoundCount createWonRoundCount(String input)
+	public WonRoundCount createWonRoundCount(RoundCount roundCount)
 			throws InvalidWonRoundCountException {
-		try {
-			int wonRoundCount = new Integer(input);
-			if ((0 < wonRoundCount) && ((wonRoundCount % 2) == 1)) {
-				return new WonRoundCount(0);
-			}
-		} catch (NumberFormatException numberFormatException) {
+		int wonRoundCount = roundCount.getRoundCount();
+		if ((wonRoundCount % 2) == 1) {
+			return new WonRoundCount(wonRoundCount);
 		}
 
 		throw new InvalidWonRoundCountException();

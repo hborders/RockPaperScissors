@@ -9,7 +9,7 @@ import org.junit.Test;
 public class DefaultGameFactoryFactoryTest {
 	private GameFactory.Provider mockDefaultGameFactoryProvider;
 	private Round mockRound;
-	private WonRoundCount mockWinningWonRoundCount;
+	private WonRoundCount mockDefaultWinningWonRoundCount;
 	private Game.Provider mockGameProvider;
 	private ToGameFactoryFactory mockToGameFactoryFactory;
 	private BestofGameFactoryFactory mockBestofGameFactoryFactory;
@@ -22,7 +22,7 @@ public class DefaultGameFactoryFactoryTest {
 	public void setup() {
 		mockDefaultGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockRound = mock(Round.class);
-		mockWinningWonRoundCount = mock(WonRoundCount.class);
+		mockDefaultWinningWonRoundCount = mock(WonRoundCount.class);
 		mockGameProvider = mock(Game.Provider.class);
 
 		mockToGameFactoryFactory = mock(ToGameFactoryFactory.class);
@@ -30,7 +30,7 @@ public class DefaultGameFactoryFactoryTest {
 
 		testObject = new DefaultGameFactoryFactory(
 				mockDefaultGameFactoryProvider, mockRound,
-				mockWinningWonRoundCount, mockGameProvider,
+				mockDefaultWinningWonRoundCount, mockGameProvider,
 				mockToGameFactoryFactory, mockBestofGameFactoryFactory);
 
 		mockGameFactory = mock(GameFactory.class);
@@ -41,7 +41,7 @@ public class DefaultGameFactoryFactoryTest {
 			throws Exception {
 		when(
 				mockDefaultGameFactoryProvider.provide(
-						mockWinningWonRoundCount, mockRound, mockGameProvider))
+						mockDefaultWinningWonRoundCount, mockRound, mockGameProvider))
 				.thenReturn(mockGameFactory);
 
 		GameFactory gameFactory = testObject.createGameFactory(new String[0]);
