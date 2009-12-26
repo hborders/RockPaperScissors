@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class RockPaperScissorsTest {
 
 	private UsagePrinter mockUsagePrinter;
@@ -18,7 +17,7 @@ public class RockPaperScissorsTest {
 	private IGameFactory mockGameFactory;
 	private Player mockPlayer1;
 	private Player mockPlayer2;
-	private IGame mockGame;
+	private Game mockGame;
 
 	@Before
 	public void setUp() {
@@ -32,7 +31,7 @@ public class RockPaperScissorsTest {
 		mockGameFactory = mock(IGameFactory.class);
 		mockPlayer1 = mock(Player.class);
 		mockPlayer2 = mock(Player.class);
-		mockGame = mock(IGame.class);
+		mockGame = mock(Game.class);
 	}
 
 	@Test

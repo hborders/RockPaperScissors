@@ -2,7 +2,6 @@ package com.github.hborders.rockpaperscissors;
 
 import java.io.IOException;
 
-
 public class RockPaperScissors {
 	public static void main(String[] args) {
 		new RockPaperScissors().play(args);
@@ -31,7 +30,7 @@ public class RockPaperScissors {
 					.createGameFactory(args);
 			Player firstPlayer = playerFactory.createPlayer(1);
 			Player secondPlayer = playerFactory.createPlayer(2);
-			IGame game = gameFactory.createGame(firstPlayer, secondPlayer);
+			Game game = gameFactory.createGame(firstPlayer, secondPlayer);
 			game.play();
 		} catch (InvalidGameArgumentsException invalidGameArgumentsException) {
 			usagePrinter.printUsage();

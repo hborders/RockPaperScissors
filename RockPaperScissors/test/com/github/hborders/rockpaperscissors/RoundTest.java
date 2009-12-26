@@ -1,35 +1,45 @@
 package com.github.hborders.rockpaperscissors;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
+
+import com.github.hborders.rockpaperscissors.Round.IAfterPlayHook;
 
 public class RoundTest {
-	private Player mockFirstPlayer;
-	private Player mockSecondPlayer;
 	private AttemptReader mockAttemptReader;
+	private IAfterPlayHook mockAfterPlayHook;
 
 	private Round testObject;
+
+	private Player mockFirstPlayer;
+	private Player mockSecondPlayer;
 
 	private Attempt mockFirstPlayerAttempt;
 	private Attempt mockSecondPlayerAttempt;
 
+	private InOrder inOrder;
+
 	@Before
 	public void setup() {
-		mockAttemptReader = mock(AttemptReader.class);
-
-		testObject = new Round(mockAttemptReader);
-
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
+		mockAttemptReader = mock(AttemptReader.class);
+		mockAfterPlayHook = mock(IAfterPlayHook.class);
+
+		testObject = new Round(mockAttemptReader, mockAfterPlayHook);
 
 		mockFirstPlayerAttempt = mock(Attempt.class);
 		mockSecondPlayerAttempt = mock(Attempt.class);
+
+		inOrder = inOrder(mockFirstPlayer, mockSecondPlayer, mockAfterPlayHook);
 	}
 
 	@Test
-	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_wonGames_firstPlayer_when_firstPlayer_wins()
+	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_wonRounds_first_Player_and_postRoundHooks_with_first_Player_when_first_Player_wins()
 			throws Exception {
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
@@ -38,13 +48,17 @@ public class RoundTest {
 		when(mockFirstPlayerAttempt.beats(mockSecondPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
 
-		testObject.play(mockFirstPlayer, mockSecondPlayer);
+		Player winningPlayer = testObject.play(mockFirstPlayer,
+				mockSecondPlayer);
 
-		verify(mockFirstPlayer).wonGame();
+		inOrder.verify(mockFirstPlayer).wonRound();
+		inOrder.verify(mockAfterPlayHook).afterPlay(mockFirstPlayer);
+
+		assertEquals(mockFirstPlayer, winningPlayer);
 	}
 
 	@Test
-	public void play_creates_Attemptfor_firstPlayer_then_secondPlayer_and_wonGames_secondPlayer_when_secondPlayer_wins()
+	public void play_creates_Attempt_for_firstPlayer_then_secondPlayer_and_wonRounds_and_postRoundHooks_with_second_Player_when_second_Player_wins()
 			throws Exception {
 		when(mockAttemptReader.createAttempt(mockFirstPlayer)).thenReturn(
 				mockFirstPlayerAttempt);
@@ -55,9 +69,13 @@ public class RoundTest {
 		when(mockSecondPlayerAttempt.beats(mockFirstPlayerAttempt)).thenReturn(
 				Boolean.TRUE);
 
-		testObject.play(mockFirstPlayer, mockSecondPlayer);
+		Player winningPlayer = testObject.play(mockFirstPlayer,
+				mockSecondPlayer);
 
-		verify(mockSecondPlayer).wonGame();
+		inOrder.verify(mockSecondPlayer).wonRound();
+		inOrder.verify(mockAfterPlayHook).afterPlay(mockSecondPlayer);
+
+		assertEquals(mockSecondPlayer, winningPlayer);
 	}
 
 	@Test
@@ -78,8 +96,12 @@ public class RoundTest {
 		when(mockFirstPlayerSecondAttempt.beats(mockSecondPlayerSecondAttempt))
 				.thenReturn(Boolean.TRUE);
 
-		testObject.play(mockFirstPlayer, mockSecondPlayer);
+		Player winningPlayer = testObject.play(mockFirstPlayer,
+				mockSecondPlayer);
 
-		verify(mockFirstPlayer).wonGame();
+		inOrder.verify(mockFirstPlayer).wonRound();
+		inOrder.verify(mockAfterPlayHook).afterPlay(mockFirstPlayer);
+
+		assertEquals(mockFirstPlayer, winningPlayer);
 	}
 }

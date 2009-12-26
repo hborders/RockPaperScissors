@@ -36,8 +36,8 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void wonGame_increments_WonRoundCount() throws Exception {
-		testObject.wonGame();
+	public void wonRound_increments_WonRoundCount() throws Exception {
+		testObject.wonRound();
 
 		verify(mockWonRoundCount).increment();
 	}

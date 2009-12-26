@@ -1,31 +1,31 @@
 package com.github.hborders.rockpaperscissors;
 
 public class BestofGameFactory implements IGameFactory {
-	private final BestofGame.Provider bestofGameProvider;
+	private final Game.Provider gameProvider;
 	private final WonRoundCount winningWonRoundCount;
 	private final Round round;
 
 	public BestofGameFactory(WonRoundCount winningWonRoundCount) {
-		this(new BestofGame.Provider(), winningWonRoundCount, new Round());
+		this(new Game.Provider(), winningWonRoundCount, new Round());
 	}
 
-	BestofGameFactory(BestofGame.Provider bestofGameProvider,
+	BestofGameFactory(Game.Provider gameProvider,
 			WonRoundCount winningWonRoundCount, Round round) {
-		this.bestofGameProvider = bestofGameProvider;
+		this.gameProvider = gameProvider;
 		this.winningWonRoundCount = winningWonRoundCount;
 		this.round = round;
 	}
 
 	@Override
-	public BestofGame createGame(Player firstPlayer, Player secondPlayer) {
-		return bestofGameProvider.provide(winningWonRoundCount, firstPlayer,
+	public Game createGame(Player firstPlayer, Player secondPlayer) {
+		return gameProvider.provide(winningWonRoundCount, firstPlayer,
 				secondPlayer, round);
 	}
 
 	static class Provider {
-		BestofGameFactory provide(BestofGame.Provider bestofGameProvider,
+		BestofGameFactory provide(Game.Provider gameProvider,
 				WonRoundCount winningWonRoundCount, Round round) {
-			return new BestofGameFactory(bestofGameProvider,
+			return new BestofGameFactory(gameProvider,
 					winningWonRoundCount, round);
 		}
 	}

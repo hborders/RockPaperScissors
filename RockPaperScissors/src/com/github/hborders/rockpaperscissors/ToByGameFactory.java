@@ -1,25 +1,25 @@
 package com.github.hborders.rockpaperscissors;
 
 public class ToByGameFactory implements IGameFactory {
-	private final ToByGame.Provider toByGameProvider;
+	private final Game.Provider gameProvider;
 
 	public ToByGameFactory() {
-		this(new ToByGame.Provider());
+		this(new Game.Provider());
 	}
 
-	ToByGameFactory(ToByGame.Provider toByGameProvider) {
-		this.toByGameProvider = toByGameProvider;
+	ToByGameFactory(Game.Provider gameProvider) {
+		this.gameProvider = gameProvider;
 	}
 
 	@Override
-	public IGame createGame(Player firstPlayer, Player secondPlayer) {
+	public Game createGame(Player firstPlayer, Player secondPlayer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	static class Provider {
-		public ToByGameFactory provide(ToByGame.Provider toByGameProvider) {
-			return new ToByGameFactory(toByGameProvider);
+		public ToByGameFactory provide(Game.Provider gameProvider) {
+			return new ToByGameFactory(gameProvider);
 		}
 	}
 }

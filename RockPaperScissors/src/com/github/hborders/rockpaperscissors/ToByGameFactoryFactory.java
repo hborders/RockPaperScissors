@@ -6,19 +6,19 @@ public class ToByGameFactoryFactory {
 
 	private final GameCountFactory gameCountFactory;
 	private final ToByGameFactory.Provider toByGameFactoryProvider;
-	private final ToByGame.Provider toByGameProvider;
+	private final Game.Provider gameProvider;
 
 	public ToByGameFactoryFactory() {
 		this(new GameCountFactory(), new ToByGameFactory.Provider(),
-				new ToByGame.Provider());
+				new Game.Provider());
 	}
 
 	ToByGameFactoryFactory(GameCountFactory gameCountFactory,
 			ToByGameFactory.Provider toByGameFactoryProvider,
-			ToByGame.Provider toByGameProvider) {
+			Game.Provider gameProvider) {
 		this.gameCountFactory = gameCountFactory;
 		this.toByGameFactoryProvider = toByGameFactoryProvider;
-		this.toByGameProvider = toByGameProvider;
+		this.gameProvider = gameProvider;
 	}
 
 	public ToByGameFactory createGameFactory(String[] args)
@@ -26,7 +26,7 @@ public class ToByGameFactoryFactory {
 		if (args.length == 4) {
 			try {
 				gameCountFactory.createGameCount(args[3]);
-				return toByGameFactoryProvider.provide(toByGameProvider);
+				return toByGameFactoryProvider.provide(gameProvider);
 			} catch (InvalidGameCountException invalidGameCountException) {
 			}
 		}

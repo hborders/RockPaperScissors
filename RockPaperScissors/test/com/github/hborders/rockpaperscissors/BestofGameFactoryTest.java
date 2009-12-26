@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BestofGameFactoryTest {
-	private BestofGame.Provider mockBestofGameProvider;
+	private Game.Provider mockGameProvider;
 	private WonRoundCount mockWinningWonRoundCount;
 	private Player mockFirstPlayer;
 	private Player mockSecondPlayer;
@@ -15,7 +15,7 @@ public class BestofGameFactoryTest {
 
 	@Before
 	public void setup() {
-		mockBestofGameProvider = mock(BestofGame.Provider.class);
+		mockGameProvider = mock(Game.Provider.class);
 		mockWinningWonRoundCount = mock(WonRoundCount.class);
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
@@ -23,21 +23,20 @@ public class BestofGameFactoryTest {
 	}
 
 	@Test
-	public void createGame_passes_winning_WonRoundCount_to_BestofGame_Provider()
+	public void createGame_passes_winning_WonRoundCount_to_Game_Provider()
 			throws Exception {
 
-		BestofGame mockBestofGame = mock(BestofGame.class);
+		Game mockGame = mock(Game.class);
 		when(
-				mockBestofGameProvider.provide(mockWinningWonRoundCount,
+				mockGameProvider.provide(mockWinningWonRoundCount,
 						mockFirstPlayer, mockSecondPlayer, mockRound))
-				.thenReturn(mockBestofGame);
+				.thenReturn(mockGame);
 
-		BestofGameFactory testObject = new BestofGameFactory(
-				mockBestofGameProvider, mockWinningWonRoundCount, mockRound);
+		BestofGameFactory testObject = new BestofGameFactory(mockGameProvider,
+				mockWinningWonRoundCount, mockRound);
 
-		BestofGame bestofGame = testObject.createGame(mockFirstPlayer,
-				mockSecondPlayer);
+		Game game = testObject.createGame(mockFirstPlayer, mockSecondPlayer);
 
-		assertEquals(mockBestofGame, bestofGame);
+		assertEquals(mockGame, game);
 	}
 }

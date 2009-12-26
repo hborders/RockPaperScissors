@@ -3,22 +3,22 @@ package com.github.hborders.rockpaperscissors;
 public class DefaultGameFactoryFactory {
 
 	private final DefaultGameFactory.Provider defaultFactoryProvider;
-	private final ToByGame.Provider toByGameProvider;
+	private final Game.Provider gameProvider;
 	private final ToGameFactoryFactory toGameFactoryFactory;
 	private final BestofGameFactoryFactory bestofGameFactoryFactory;
 
 	public DefaultGameFactoryFactory() {
-		this(new DefaultGameFactory.Provider(), new ToByGame.Provider(),
+		this(new DefaultGameFactory.Provider(), new Game.Provider(),
 				new ToGameFactoryFactory(), new BestofGameFactoryFactory());
 	}
 
 	DefaultGameFactoryFactory(
 			DefaultGameFactory.Provider defaultFactoryProvider,
-			ToByGame.Provider toByGameProvider,
+			Game.Provider gameProvider,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
 		this.defaultFactoryProvider = defaultFactoryProvider;
-		this.toByGameProvider = toByGameProvider;
+		this.gameProvider = gameProvider;
 		this.toGameFactoryFactory = toGameFactoryFactory;
 		this.bestofGameFactoryFactory = bestofGameFactoryFactory;
 	}
@@ -30,7 +30,7 @@ public class DefaultGameFactoryFactory {
 		}
 
 		if (args.length == 0) {
-			return defaultFactoryProvider.provide(toByGameProvider);
+			return defaultFactoryProvider.provide(gameProvider);
 		} else if ("-to".equals(args[0])) {
 			return toGameFactoryFactory.createGameFactory(args);
 		} else if ("-bestof".equals(args[0])) {

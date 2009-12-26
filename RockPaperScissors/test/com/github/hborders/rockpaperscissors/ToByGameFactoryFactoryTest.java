@@ -11,7 +11,7 @@ import com.github.hborders.rockpaperscissors.GameCountFactory.InvalidGameCountEx
 public class ToByGameFactoryFactoryTest {
 	private GameCountFactory mockGameCountFactory;
 	private ToByGameFactory.Provider mockToByGameFactoryProvider;
-	private ToByGame.Provider mockToByGameProvider;
+	private Game.Provider mockGameProvider;
 
 	private ToByGameFactoryFactory testObject;
 
@@ -22,10 +22,10 @@ public class ToByGameFactoryFactoryTest {
 	public void setup() {
 		mockGameCountFactory = mock(GameCountFactory.class);
 		mockToByGameFactoryProvider = mock(ToByGameFactory.Provider.class);
-		mockToByGameProvider = mock(ToByGame.Provider.class);
+		mockGameProvider = mock(Game.Provider.class);
 
 		testObject = new ToByGameFactoryFactory(mockGameCountFactory,
-				mockToByGameFactoryProvider, mockToByGameProvider);
+				mockToByGameFactoryProvider, mockGameProvider);
 
 		mockGameCount = mock(GameCount.class);
 		mockToByGameFactory = mock(ToByGameFactory.class);
@@ -57,8 +57,8 @@ public class ToByGameFactoryFactoryTest {
 			throws Exception {
 		when(mockGameCountFactory.createGameCount("foo")).thenReturn(
 				mockGameCount);
-		when(mockToByGameFactoryProvider.provide(mockToByGameProvider))
-				.thenReturn(mockToByGameFactory);
+		when(mockToByGameFactoryProvider.provide(mockGameProvider)).thenReturn(
+				mockToByGameFactory);
 
 		ToByGameFactory toByGameFactory = testObject
 				.createGameFactory(new String[] { "", "", "-by", "foo" });

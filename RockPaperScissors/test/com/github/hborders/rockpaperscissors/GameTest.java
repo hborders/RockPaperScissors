@@ -6,13 +6,13 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BestofGameTest {
+public class GameTest {
 	private WonRoundCount mockWinningWonRoundCount;
 	private Player mockFirstPlayer;
 	private Player mockSecondPlayer;
 	private Round mockRound;
 
-	private BestofGame testObject;
+	private Game testObject;
 
 	private WonRoundCount mockFirstPlayerWonRoundCount;
 	private WonRoundCount mockSecondPlayerWonRoundCount;
@@ -24,7 +24,7 @@ public class BestofGameTest {
 		mockSecondPlayer = mock(Player.class);
 		mockRound = mock(Round.class);
 
-		testObject = new BestofGame(mockWinningWonRoundCount, mockFirstPlayer,
+		testObject = new Game(mockWinningWonRoundCount, mockFirstPlayer,
 				mockSecondPlayer, mockRound);
 
 		mockFirstPlayerWonRoundCount = mock(WonRoundCount.class);

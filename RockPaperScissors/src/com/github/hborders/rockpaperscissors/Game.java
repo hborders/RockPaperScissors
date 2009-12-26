@@ -2,18 +2,18 @@ package com.github.hborders.rockpaperscissors;
 
 import java.io.IOException;
 
-public class BestofGame implements IGame {
+public class Game {
 	private final WonRoundCount winningWonRoundCount;
 	private final Player firstPlayer;
 	private final Player secondPlayer;
 	private final Round round;
 
-	public BestofGame(WonRoundCount winningWonRoundCount, Player firstPlayer,
+	public Game(WonRoundCount winningWonRoundCount, Player firstPlayer,
 			Player secondPlayer) {
 		this(winningWonRoundCount, firstPlayer, secondPlayer, new Round());
 	}
 
-	BestofGame(WonRoundCount winningWonRoundCount, Player firstPlayer,
+	Game(WonRoundCount winningWonRoundCount, Player firstPlayer,
 			Player secondPlayer, Round round) {
 		this.winningWonRoundCount = winningWonRoundCount;
 		this.firstPlayer = firstPlayer;
@@ -21,7 +21,6 @@ public class BestofGame implements IGame {
 		this.round = round;
 	}
 
-	@Override
 	public Player play() throws IOException {
 		while (true) {
 			if (winningWonRoundCount.matches(firstPlayer.getWonRoundCount())) {
@@ -36,10 +35,10 @@ public class BestofGame implements IGame {
 	}
 
 	static class Provider {
-		public BestofGame provide(WonRoundCount winningWonRoundCount,
+		public Game provide(WonRoundCount winningWonRoundCount,
 				Player firstPlayer, Player secondPlayer, Round round) {
-			return new BestofGame(winningWonRoundCount, firstPlayer,
-					secondPlayer, round);
+			return new Game(winningWonRoundCount, firstPlayer, secondPlayer,
+					round);
 		}
 	}
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class DefaultGameFactoryFactoryTest {
 	private DefaultGameFactory.Provider mockDefaultGameFactoryProvider;
-	private ToByGame.Provider mockToByGameProvider;
+	private Game.Provider mockGameProvider;
 	private ToGameFactoryFactory mockToGameFactoryFactory;
 	private BestofGameFactoryFactory mockBestofGameFactoryFactory;
 
@@ -21,13 +21,13 @@ public class DefaultGameFactoryFactoryTest {
 	@Before
 	public void setup() {
 		mockDefaultGameFactoryProvider = mock(DefaultGameFactory.Provider.class);
-		mockToByGameProvider = mock(ToByGame.Provider.class);
+		mockGameProvider = mock(Game.Provider.class);
 
 		mockToGameFactoryFactory = mock(ToGameFactoryFactory.class);
 		mockBestofGameFactoryFactory = mock(BestofGameFactoryFactory.class);
 
 		testObject = new DefaultGameFactoryFactory(
-				mockDefaultGameFactoryProvider, mockToByGameProvider,
+				mockDefaultGameFactoryProvider, mockGameProvider,
 				mockToGameFactoryFactory, mockBestofGameFactoryFactory);
 
 		mockDefaultGameFactory = mock(DefaultGameFactory.class);
@@ -38,7 +38,7 @@ public class DefaultGameFactoryFactoryTest {
 	@Test
 	public void createGameFactory_returns_DefaultGameFactory_from_DefaultGameFactoryProvider_when_args_is_empty()
 			throws Exception {
-		when(mockDefaultGameFactoryProvider.provide(mockToByGameProvider))
+		when(mockDefaultGameFactoryProvider.provide(mockGameProvider))
 				.thenReturn(mockDefaultGameFactory);
 
 		IGameFactory gameFactory = testObject.createGameFactory(new String[0]);

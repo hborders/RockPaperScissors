@@ -6,22 +6,22 @@ public class BestofGameFactoryFactory {
 
 	private final BestofWonRoundCountFactory bestofWonRoundCountFactory;
 	private final BestofGameFactory.Provider bestofGameFactoryProvider;
-	private final BestofGame.Provider bestofGameProvider;
+	private final Game.Provider gameProvider;
 	private final Round round;
 
 	public BestofGameFactoryFactory() {
 		this(new BestofWonRoundCountFactory(),
-				new BestofGameFactory.Provider(), new BestofGame.Provider(),
+				new BestofGameFactory.Provider(), new Game.Provider(),
 				new Round());
 	}
 
 	BestofGameFactoryFactory(
 			BestofWonRoundCountFactory bestofWonRoundCountFactory,
 			BestofGameFactory.Provider bestofGameFactoryProvider,
-			BestofGame.Provider bestofGameProvider, Round round) {
+			Game.Provider gameProvider, Round round) {
 		this.bestofWonRoundCountFactory = bestofWonRoundCountFactory;
 		this.bestofGameFactoryProvider = bestofGameFactoryProvider;
-		this.bestofGameProvider = bestofGameProvider;
+		this.gameProvider = gameProvider;
 		this.round = round;
 	}
 
@@ -31,7 +31,7 @@ public class BestofGameFactoryFactory {
 			if (args.length == 2) {
 				WonRoundCount wonRoundCount = bestofWonRoundCountFactory
 						.createWonRoundCount(args[1]);
-				return bestofGameFactoryProvider.provide(bestofGameProvider,
+				return bestofGameFactoryProvider.provide(gameProvider,
 						wonRoundCount, round);
 			}
 		} catch (InvalidWonRoundCountException invalidWonRoundCountException) {

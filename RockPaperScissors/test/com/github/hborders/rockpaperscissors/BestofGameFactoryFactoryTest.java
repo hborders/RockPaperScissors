@@ -11,7 +11,7 @@ import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidW
 public class BestofGameFactoryFactoryTest {
 	private BestofWonRoundCountFactory mockBestofWonRoundCountFactory;
 	private BestofGameFactory.Provider mockBestofGameFactoryProvider;
-	private BestofGame.Provider mockBestofGameProvider;
+	private Game.Provider mockGameProvider;
 	private Round mockRound;
 
 	private BestofGameFactoryFactory testObject;
@@ -23,12 +23,12 @@ public class BestofGameFactoryFactoryTest {
 	public void setup() {
 		mockBestofWonRoundCountFactory = mock(BestofWonRoundCountFactory.class);
 		mockBestofGameFactoryProvider = mock(BestofGameFactory.Provider.class);
-		mockBestofGameProvider = mock(BestofGame.Provider.class);
+		mockGameProvider = mock(Game.Provider.class);
 		mockRound = mock(Round.class);
 
 		testObject = new BestofGameFactoryFactory(
 				mockBestofWonRoundCountFactory, mockBestofGameFactoryProvider,
-				mockBestofGameProvider, mockRound);
+				mockGameProvider, mockRound);
 
 		mockBestofWonRoundCount = mock(WonRoundCount.class);
 		mockBestofGameFactory = mock(BestofGameFactory.class);
@@ -55,7 +55,7 @@ public class BestofGameFactoryFactoryTest {
 		when(mockBestofWonRoundCountFactory.createWonRoundCount("foo"))
 				.thenReturn(mockBestofWonRoundCount);
 		when(
-				mockBestofGameFactoryProvider.provide(mockBestofGameProvider,
+				mockBestofGameFactoryProvider.provide(mockGameProvider,
 						mockBestofWonRoundCount, mockRound)).thenReturn(
 				mockBestofGameFactory);
 

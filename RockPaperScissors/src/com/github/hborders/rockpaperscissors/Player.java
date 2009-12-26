@@ -26,7 +26,7 @@ public class Player {
 		return wonRoundCount;
 	}
 
-	public void wonGame() {
+	public void wonRound() {
 		wonRoundCount.increment();
 	}
 
