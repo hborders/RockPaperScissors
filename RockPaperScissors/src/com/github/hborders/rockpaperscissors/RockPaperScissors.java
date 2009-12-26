@@ -2,14 +2,17 @@ package com.github.hborders.rockpaperscissors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 
 public class RockPaperScissors {
 	public static void main(String[] args) {
-		RockPaperScissors rockPaperScissors = new RockPaperScissors(System
-				.console().reader(), System.console().writer());
+		RockPaperScissors rockPaperScissors = new RockPaperScissors(
+				new InputStreamReader(System.in), new OutputStreamWriter(
+						System.out));
 		rockPaperScissors.play(args);
 	}
 
