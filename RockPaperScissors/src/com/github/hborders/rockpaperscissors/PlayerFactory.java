@@ -1,26 +1,29 @@
 package com.github.hborders.rockpaperscissors;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Writer;
+
 public class PlayerFactory {
-	private final Console console;
+	private final BufferedReader bufferedReader;
+	private final Writer writer;
 	private final WonRoundCount.Provider wonRoundCountProvider;
 	private final Player.Provider playerProvider;
 
-	public PlayerFactory() {
-		this(new Console(), new WonRoundCount.Provider(), new Player.Provider());
-	}
-
-	PlayerFactory(Console console,
+	PlayerFactory(BufferedReader bufferedReader, Writer writer,
 			WonRoundCount.Provider wonRoundCountProvider,
 			Player.Provider playerProvider) {
-		this.console = console;
+		this.bufferedReader = bufferedReader;
+		this.writer = writer;
 		this.wonRoundCountProvider = wonRoundCountProvider;
 		this.playerProvider = playerProvider;
 	}
 
-	public Player createPlayer(int playerNumber) {
+	public Player createPlayer(int playerNumber) throws IOException {
 		Player player = null;
 		while (player == null) {
-			String input = console.readLine("Player %d Name: ", playerNumber);
+			writer.write("Player " + playerNumber + " Name: ");
+			String input = bufferedReader.readLine();
 			if (input != null) {
 				String rawPlayerName = input.trim();
 				if (rawPlayerName.length() > 0) {

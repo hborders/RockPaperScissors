@@ -8,11 +8,6 @@ public class Game {
 	private final Player secondPlayer;
 	private final Round round;
 
-	public Game(WonRoundCount winningWonRoundCount, Player firstPlayer,
-			Player secondPlayer) {
-		this(winningWonRoundCount, firstPlayer, secondPlayer, new Round());
-	}
-
 	Game(WonRoundCount winningWonRoundCount, Player firstPlayer,
 			Player secondPlayer, Round round) {
 		this.winningWonRoundCount = winningWonRoundCount;
@@ -34,7 +29,7 @@ public class Game {
 		}
 	}
 
-	static class Provider {
+	public static class Provider {
 		public Game provide(WonRoundCount winningWonRoundCount,
 				Player firstPlayer, Player secondPlayer, Round round) {
 			return new Game(winningWonRoundCount, firstPlayer, secondPlayer,

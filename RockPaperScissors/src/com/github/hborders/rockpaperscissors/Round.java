@@ -6,11 +6,7 @@ public class Round {
 	private final AttemptReader attemptReader;
 	private final IAfterPlayHook afterPlayHook;
 
-	public Round() {
-		this(new AttemptReader(), new NoOpAfterPlayHook());
-	}
-
-	public Round(AttemptReader attemptReader, IAfterPlayHook afterPlayHook) {
+	Round(AttemptReader attemptReader, IAfterPlayHook afterPlayHook) {
 		this.attemptReader = attemptReader;
 		this.afterPlayHook = afterPlayHook;
 	}
@@ -45,7 +41,7 @@ public class Round {
 		void afterPlay(Player winningPlayer);
 	}
 
-	static class Provider {
+	public static class Provider {
 		public Round provide(AttemptReader attemptReader,
 				IAfterPlayHook afterPlayHook) {
 			return new Round(attemptReader, afterPlayHook);

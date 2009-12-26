@@ -12,19 +12,11 @@ public class ToByGameFactoryFactory {
 	private final GameFactory.Provider gameFactoryProvider;
 	private final Game.Provider gameProvider;
 
-	public ToByGameFactoryFactory() {
-		this(new RoundCountFactory(), new ToByWonRoundCountFactory(),
-				new Round.Provider(), new AttemptReader(),
-				new ToByAfterPlayHook.Provider(), new GameFactory.Provider(),
-				new Game.Provider());
-	}
-
 	ToByGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToByWonRoundCountFactory toByWonRoundCountFactory,
 			Round.Provider roundProvider, AttemptReader attemptReader,
 			ToByAfterPlayHook.Provider toByAfterPlayHookProvider,
-			GameFactory.Provider gameFactoryProvider,
-			Game.Provider gameProvider) {
+			GameFactory.Provider gameFactoryProvider, Game.Provider gameProvider) {
 		this.roundCountFactory = roundCountFactory;
 		this.toByWonRoundCountFactory = toByWonRoundCountFactory;
 		this.roundProvider = roundProvider;

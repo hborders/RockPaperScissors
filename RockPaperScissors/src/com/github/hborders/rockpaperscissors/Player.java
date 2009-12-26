@@ -8,10 +8,6 @@ public class Player {
 	private final int playerNumber;
 	private final WonRoundCount wonRoundCount;
 
-	public Player(String rawPlayer, int playerNumber) {
-		this(rawPlayer, playerNumber, new WonRoundCount());
-	}
-
 	Player(String rawPlayer, int playerNumber, WonRoundCount wonRoundCount) {
 		this.rawPlayer = rawPlayer;
 		this.playerNumber = playerNumber;
@@ -30,10 +26,10 @@ public class Player {
 		wonRoundCount.increment();
 	}
 
-	static class Provider {
+	public static class Provider {
 		public Player provide(String player, int playerNumber,
 				WonRoundCount wonRoundCount) {
-			return new Player(player, playerNumber);
+			return new Player(player, playerNumber, wonRoundCount);
 		}
 	}
 }

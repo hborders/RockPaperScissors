@@ -5,10 +5,6 @@ public class GameFactory {
 	protected final Round round;
 	protected final Game.Provider gameProvider;
 
-	public GameFactory(WonRoundCount winningWonRoundCount, Round round) {
-		this(winningWonRoundCount, round, new Game.Provider());
-	}
-
 	GameFactory(WonRoundCount winningWonRoundCount, Round round,
 			Game.Provider gameProvider) {
 		this.winningWonRoundCount = winningWonRoundCount;
@@ -21,7 +17,7 @@ public class GameFactory {
 				secondPlayer, round);
 	}
 
-	static class Provider {
+	public static class Provider {
 		public GameFactory provide(WonRoundCount winningWonRoundCount,
 				Round round, Game.Provider gameProvider) {
 			return new GameFactory(winningWonRoundCount, round, gameProvider);

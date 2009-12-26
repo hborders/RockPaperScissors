@@ -3,10 +3,6 @@ package com.github.hborders.rockpaperscissors;
 public class WonRoundCount {
 	private int innerWonRoundCount;
 
-	public WonRoundCount() {
-		this(0);
-	}
-
 	WonRoundCount(int innerWonRoundCount) {
 		this.innerWonRoundCount = innerWonRoundCount;
 	}

@@ -8,25 +8,19 @@ public class ToGameFactoryFactory {
 	private final ToWonRoundCountFactory toWonRoundCountFactory;
 	private final ToByGameFactoryFactory toByGameFactoryFactory;
 	private final Game.Provider gameProvider;
-	private final Round round;
+	private final Round toRound;
 	private final GameFactory.Provider gameFactoryProvider;
 
-	public ToGameFactoryFactory() {
-		this(new RoundCountFactory(), new ToWonRoundCountFactory(),
-				new ToByGameFactoryFactory(), new Game.Provider(), new Round(),
-				new GameFactory.Provider());
-	}
-
-	public ToGameFactoryFactory(RoundCountFactory roundCountFactory,
+	ToGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToWonRoundCountFactory toWonRoundCountFactory,
 			ToByGameFactoryFactory toByGameFactoryFactory,
-			Game.Provider gameProvider, Round round,
+			Game.Provider gameProvider, Round toRound,
 			GameFactory.Provider gameFactoryProvider) {
 		this.roundCountFactory = roundCountFactory;
 		this.toWonRoundCountFactory = toWonRoundCountFactory;
 		this.toByGameFactoryFactory = toByGameFactoryFactory;
 		this.gameProvider = gameProvider;
-		this.round = round;
+		this.toRound = toRound;
 		this.gameFactoryProvider = gameFactoryProvider;
 	}
 
@@ -44,8 +38,8 @@ public class ToGameFactoryFactory {
 				WonRoundCount winningWonRoundCount = toWonRoundCountFactory
 						.createWonRoundCount(toRoundCount);
 
-				return gameFactoryProvider.provide(winningWonRoundCount, round,
-						gameProvider);
+				return gameFactoryProvider.provide(winningWonRoundCount,
+						toRound, gameProvider);
 			} catch (InvalidRoundCountException invalidRoundCountException) {
 			}
 		}

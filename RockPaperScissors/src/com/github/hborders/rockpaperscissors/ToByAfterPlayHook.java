@@ -7,7 +7,7 @@ public class ToByAfterPlayHook implements IAfterPlayHook {
 	private final WonRoundCount winningWonRoundCount;
 	private Player lastPlayWinningPlayer;
 
-	public ToByAfterPlayHook(WonRoundCount winningWonRoundCount) {
+	ToByAfterPlayHook(WonRoundCount winningWonRoundCount) {
 		this.winningWonRoundCount = winningWonRoundCount;
 	}
 
@@ -23,7 +23,7 @@ public class ToByAfterPlayHook implements IAfterPlayHook {
 		}
 	}
 
-	static class Provider {
+	public static class Provider {
 		public ToByAfterPlayHook provide(WonRoundCount winningWonRoundCount) {
 			return new ToByAfterPlayHook(winningWonRoundCount);
 		}

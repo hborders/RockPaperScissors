@@ -11,11 +11,6 @@ public class BestofGameFactoryFactory {
 	private final Game.Provider gameProvider;
 	private final Round round;
 
-	public BestofGameFactoryFactory() {
-		this(new RoundCountFactory(), new BestofWonRoundCountFactory(),
-				new GameFactory.Provider(), new Game.Provider(), new Round());
-	}
-
 	BestofGameFactoryFactory(RoundCountFactory roundCountFactory,
 			BestofWonRoundCountFactory bestofWonRoundCountFactory,
 			GameFactory.Provider gameFactoryProvider,
@@ -31,7 +26,8 @@ public class BestofGameFactoryFactory {
 			throws InvalidGameArgumentsException {
 		try {
 			if (args.length == 2) {
-				RoundCount roundCount = roundCountFactory.createRoundCount(args[1]);
+				RoundCount roundCount = roundCountFactory
+						.createRoundCount(args[1]);
 				WonRoundCount wonRoundCount = bestofWonRoundCountFactory
 						.createWonRoundCount(roundCount);
 				return gameFactoryProvider.provide(wonRoundCount, round,
@@ -42,5 +38,4 @@ public class BestofGameFactoryFactory {
 		}
 		throw new InvalidGameArgumentsException();
 	}
-
 }

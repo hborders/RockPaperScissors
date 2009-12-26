@@ -1,26 +1,20 @@
 package com.github.hborders.rockpaperscissors;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 
 import com.github.hborders.rockpaperscissors.AttemptFactory.InvalidRawAttemptException;
 
 public class AttemptReader {
+	private final BufferedReader bufferedReader;
 	private final Writer writer;
-	private final Console console;
 	private final AttemptFactory attemptFactory;
 
-	public AttemptReader() {
-		this(new Console(), new AttemptFactory());
-	}
-
-	private AttemptReader(Console console, AttemptFactory attemptFactory) {
-		this(console.writer(), console, attemptFactory);
-	}
-
-	AttemptReader(Writer writer, Console console, AttemptFactory attemptFactory) {
+	AttemptReader(BufferedReader bufferedReader, Writer writer,
+			AttemptFactory attemptFactory) {
+		this.bufferedReader = bufferedReader;
 		this.writer = writer;
-		this.console = console;
 		this.attemptFactory = attemptFactory;
 	}
 
@@ -29,7 +23,7 @@ public class AttemptReader {
 		do {
 			player.write(writer);
 			writer.write(" [R]ock, [P]aper, or [S]cissors? ");
-			String input = console.readLine();
+			String input = bufferedReader.readLine();
 			try {
 				attempt = attemptFactory.createAttempt(input);
 			} catch (InvalidRawAttemptException invalidRawAttemptException) {
@@ -39,10 +33,10 @@ public class AttemptReader {
 		return attempt;
 	}
 
-	static class Provider {
-		public AttemptReader provide(Writer writer, Console console,
-				AttemptFactory attemptFactory) {
-			return new AttemptReader(writer, console, attemptFactory);
+	public static class Provider {
+		public AttemptReader provide(BufferedReader bufferedReader,
+				Writer writer, AttemptFactory attemptFactory) {
+			return new AttemptReader(bufferedReader, writer, attemptFactory);
 		}
 	}
 }
