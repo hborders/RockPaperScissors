@@ -2,15 +2,14 @@ package com.github.hborders.rockpaperscissors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 
 public class RockPaperScissors {
 	public static void main(String[] args) {
-		RockPaperScissors rockPaperScissors = new RockPaperScissors(System.in,
-				System.out);
+		RockPaperScissors rockPaperScissors = new RockPaperScissors(System
+				.console().reader(), System.console().writer());
 		rockPaperScissors.play(args);
 	}
 
@@ -19,9 +18,9 @@ public class RockPaperScissors {
 	private final PlayerFactory playerFactory;
 	private final PrintWriter printWriter;
 
-	public RockPaperScissors(InputStream inputStream, OutputStream outputStream) {
+	public RockPaperScissors(Reader reader, Writer writer) {
 		this(createDefaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter(
-				inputStream, outputStream));
+				reader, writer));
 	}
 
 	private RockPaperScissors(
@@ -43,11 +42,10 @@ public class RockPaperScissors {
 	}
 
 	private static Object[] createDefaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter(
-			InputStream inputStream, OutputStream outputStream) {
+			Reader reader, Writer writer) {
 		GameFactory.Provider gameFactoryProvider = new GameFactory.Provider();
-		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(inputStream));
-		PrintWriter printWriter = new PrintWriter(outputStream);
+		BufferedReader bufferedReader = new BufferedReader(reader);
+		PrintWriter printWriter = new PrintWriter(writer);
 		AttemptFactory attemptFactory = new AttemptFactory();
 		AttemptReader attemptReader = new AttemptReader(bufferedReader,
 				printWriter, attemptFactory);

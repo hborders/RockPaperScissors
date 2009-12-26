@@ -2,8 +2,9 @@ package com.github.hborders.rockpaperscissors;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -15,39 +16,41 @@ public class RockPaperScissorsIntegrationTest {
 			throws Exception {
 		InputStream defaultGameInputTxtInputStream = getClass()
 				.getResourceAsStream("default-game-input.txt");
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		StringWriter stringWriter = new StringWriter();
 
 		RockPaperScissors rockPaperScissors = new RockPaperScissors(
-				defaultGameInputTxtInputStream, byteArrayOutputStream);
+				new InputStreamReader(defaultGameInputTxtInputStream),
+				stringWriter);
 
 		rockPaperScissors.play(new String[0]);
 
 		assertEquals(-1, defaultGameInputTxtInputStream.read());
 
-		assertThat(byteArrayOutputStream, new WinningPlayerOutputMatcher(
+		assertThat(stringWriter, new WinningPlayerOutputMatcher(
 				"Winner (Player 1)"));
 	}
 
 	@Test
 	public void winner_wins_bestof_3_with_rock_paper_scissors_against_paper_rock_paper()
 			throws Exception {
-		InputStream defaultGameInputTxtInputStream = getClass()
+		InputStream bestof3GameInputTxtInputStream = getClass()
 				.getResourceAsStream("bestof-3-game-input.txt");
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		StringWriter stringWriter = new StringWriter();
 
 		RockPaperScissors rockPaperScissors = new RockPaperScissors(
-				defaultGameInputTxtInputStream, byteArrayOutputStream);
+				new InputStreamReader(bestof3GameInputTxtInputStream),
+				stringWriter);
 
 		rockPaperScissors.play(new String[] { "-bestof", "3" });
 
-		assertEquals(-1, defaultGameInputTxtInputStream.read());
+		assertEquals(-1, bestof3GameInputTxtInputStream.read());
 
-		assertThat(byteArrayOutputStream, new WinningPlayerOutputMatcher(
+		assertThat(stringWriter, new WinningPlayerOutputMatcher(
 				"Winner (Player 1)"));
 	}
 
 	private static class WinningPlayerOutputMatcher extends
-			BaseMatcher<ByteArrayOutputStream> {
+			BaseMatcher<StringWriter> {
 		private final String expectedEnding;
 
 		public WinningPlayerOutputMatcher(String expectedPlayerNameAndNumber) {
@@ -62,8 +65,7 @@ public class RockPaperScissorsIntegrationTest {
 
 		@Override
 		public boolean matches(Object item) {
-			String trimmedOutput = new String(((ByteArrayOutputStream) item)
-					.toByteArray()).trim();
+			String trimmedOutput = ((StringWriter) item).toString().trim();
 
 			return trimmedOutput.endsWith(expectedEnding);
 		}
