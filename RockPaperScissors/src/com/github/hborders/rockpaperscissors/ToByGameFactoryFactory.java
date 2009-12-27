@@ -6,22 +6,25 @@ public class ToByGameFactoryFactory {
 
 	private final RoundCountFactory roundCountFactory;
 	private final ToByWonRoundCountFactory toByWonRoundCountFactory;
+	private final ToByAfterPlayHookFactory.Provider toByAfterPlayHookFactoryProvider;
+	private final ToByAfterPlayHook.Provider toByAfterPlayHookProvider;
 	private final Round.Provider roundProvider;
 	private final AttemptReader attemptReader;
-	private final ToByAfterPlayHook.Provider toByAfterPlayHookProvider;
 	private final GameFactory.Provider gameFactoryProvider;
 	private final Game.Provider gameProvider;
 
 	ToByGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToByWonRoundCountFactory toByWonRoundCountFactory,
-			Round.Provider roundProvider, AttemptReader attemptReader,
+			ToByAfterPlayHookFactory.Provider toByAfterPlayHookFactoryProvider,
 			ToByAfterPlayHook.Provider toByAfterPlayHookProvider,
+			Round.Provider roundProvider, AttemptReader attemptReader,
 			GameFactory.Provider gameFactoryProvider, Game.Provider gameProvider) {
 		this.roundCountFactory = roundCountFactory;
 		this.toByWonRoundCountFactory = toByWonRoundCountFactory;
+		this.toByAfterPlayHookFactoryProvider = toByAfterPlayHookFactoryProvider;
+		this.toByAfterPlayHookProvider = toByAfterPlayHookProvider;
 		this.roundProvider = roundProvider;
 		this.attemptReader = attemptReader;
-		this.toByAfterPlayHookProvider = toByAfterPlayHookProvider;
 		this.gameFactoryProvider = gameFactoryProvider;
 		this.gameProvider = gameProvider;
 	}
@@ -34,11 +37,11 @@ public class ToByGameFactoryFactory {
 						.createRoundCount(args[3]);
 				WonRoundCount winningWonRoundCount = toByWonRoundCountFactory
 						.createWonRoundCount(toRoundCount, byRoundCount);
-				ToByAfterPlayHook toByAfterPlayHook = toByAfterPlayHookProvider
-						.provide(winningWonRoundCount);
-				Round round = roundProvider.provide(attemptReader,
-						toByAfterPlayHook);
-				return gameFactoryProvider.provide(winningWonRoundCount, round,
+				ToByAfterPlayHookFactory toByAfterPlayHookFactory = toByAfterPlayHookFactoryProvider
+						.provide(toByAfterPlayHookProvider,
+								winningWonRoundCount);
+				return gameFactoryProvider.provide(winningWonRoundCount,
+						toByAfterPlayHookFactory, attemptReader, roundProvider,
 						gameProvider);
 			} catch (InvalidRoundCountException invalidRoundCountException) {
 			}

@@ -1,22 +1,32 @@
 package com.github.hborders.rockpaperscissors;
 
+import com.github.hborders.rockpaperscissors.GameFactory.Provider;
+import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
+
 public class DefaultGameFactoryFactory {
 
 	private final GameFactory.Provider gameFactoryProvider;
-	private final Round defaultRound;
 	private final WonRoundCount defaultWinningWonRoundCount;
+	private final NoOpAfterPlayHookFactory noOpAfterPlayHookFactory;
+	private final AttemptReader attemptReader;
+	private final Round.Provider roundProvider;
 	private final Game.Provider gameProvider;
 	private final ToGameFactoryFactory toGameFactoryFactory;
 	private final BestofGameFactoryFactory bestofGameFactoryFactory;
 
-	DefaultGameFactoryFactory(GameFactory.Provider gameFactoryProvider,
-			Round defaultRound, WonRoundCount defaultWinningWonRoundCount,
-			Game.Provider gameProvider,
+	DefaultGameFactoryFactory(Provider gameFactoryProvider,
+			WonRoundCount defaultWinningWonRoundCount,
+			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,
+			AttemptReader attemptReader,
+			com.github.hborders.rockpaperscissors.Round.Provider roundProvider,
+			com.github.hborders.rockpaperscissors.Game.Provider gameProvider,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
 		this.gameFactoryProvider = gameFactoryProvider;
-		this.defaultRound = defaultRound;
 		this.defaultWinningWonRoundCount = defaultWinningWonRoundCount;
+		this.noOpAfterPlayHookFactory = noOpAfterPlayHookFactory;
+		this.attemptReader = attemptReader;
+		this.roundProvider = roundProvider;
 		this.gameProvider = gameProvider;
 		this.toGameFactoryFactory = toGameFactoryFactory;
 		this.bestofGameFactoryFactory = bestofGameFactoryFactory;
@@ -30,7 +40,8 @@ public class DefaultGameFactoryFactory {
 
 		if (args.length == 0) {
 			return gameFactoryProvider.provide(defaultWinningWonRoundCount,
-					defaultRound, gameProvider);
+					noOpAfterPlayHookFactory, attemptReader, roundProvider,
+					gameProvider);
 		} else if ("-to".equals(args[0])) {
 			return toGameFactoryFactory.createGameFactory(args);
 		} else if ("-bestof".equals(args[0])) {

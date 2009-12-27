@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 
+import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
+
 public class RockPaperScissors {
 	public static void main(String[] args) {
 		RockPaperScissors rockPaperScissors = new RockPaperScissors(
@@ -52,35 +54,40 @@ public class RockPaperScissors {
 		AttemptFactory attemptFactory = new AttemptFactory();
 		AttemptReader attemptReader = new AttemptReader(bufferedReader,
 				printWriter, attemptFactory);
-		Round defaultRound = new Round(attemptReader, new NoOpAfterPlayHook());
 		Game.Provider gameProvider = new Game.Provider();
 
 		RoundCountFactory roundCountFactory = new RoundCountFactory();
-		ToByWonRoundCountFactory toByWonRoundCountFactory = new ToByWonRoundCountFactory();
-		Round.Provider roundProvider = new Round.Provider();
+		WonRoundCount.Provider wonRoundCountProvider = new WonRoundCount.Provider();
+		ToByWonRoundCountFactory toByWonRoundCountFactory = new ToByWonRoundCountFactory(
+				wonRoundCountProvider);
+		ToByAfterPlayHookFactory.Provider toByAfterPlayHookFactoryProvider = new ToByAfterPlayHookFactory.Provider();
 		ToByAfterPlayHook.Provider toByAfterPlayHookProvider = new ToByAfterPlayHook.Provider();
+		Round.Provider roundProvider = new Round.Provider();
 		ToByGameFactoryFactory toByGameFactoryFactory = new ToByGameFactoryFactory(
-				roundCountFactory, toByWonRoundCountFactory, roundProvider,
-				attemptReader, toByAfterPlayHookProvider, gameFactoryProvider,
-				gameProvider);
+				roundCountFactory, toByWonRoundCountFactory,
+				toByAfterPlayHookFactoryProvider, toByAfterPlayHookProvider,
+				roundProvider, attemptReader, gameFactoryProvider, gameProvider);
 
 		ToWonRoundCountFactory toWonRoundCountFactory = new ToWonRoundCountFactory();
+		NoOpAfterPlayHookFactory noOpAfterPlayHookFactory = new NoOpAfterPlayHookFactory();
 		ToGameFactoryFactory toGameFactoryFactory = new ToGameFactoryFactory(
-				roundCountFactory, toWonRoundCountFactory,
-				toByGameFactoryFactory, gameProvider, defaultRound,
-				gameFactoryProvider);
+				roundCountFactory, toByGameFactoryFactory,
+				toWonRoundCountFactory, gameFactoryProvider,
+				noOpAfterPlayHookFactory, attemptReader, roundProvider,
+				gameProvider);
 
 		BestofWonRoundCountFactory bestofWonRoundCountFactory = new BestofWonRoundCountFactory();
 		BestofGameFactoryFactory bestofGameFactoryFactory = new BestofGameFactoryFactory(
 				roundCountFactory, bestofWonRoundCountFactory,
-				gameFactoryProvider, gameProvider, defaultRound);
+				gameFactoryProvider, noOpAfterPlayHookFactory, attemptReader,
+				roundProvider, gameProvider);
 
 		WonRoundCount defaultWinningWonRoundCount = new WonRoundCount(1);
 		DefaultGameFactoryFactory defaultGameFactoryFactory = new DefaultGameFactoryFactory(
-				gameFactoryProvider, defaultRound, defaultWinningWonRoundCount,
+				gameFactoryProvider, defaultWinningWonRoundCount,
+				noOpAfterPlayHookFactory, attemptReader, roundProvider,
 				gameProvider, toGameFactoryFactory, bestofGameFactoryFactory);
 
-		WonRoundCount.Provider wonRoundCountProvider = new WonRoundCount.Provider();
 		Player.Provider playerProvider = new Player.Provider();
 		PlayerFactory playerFactory = new PlayerFactory(bufferedReader,
 				printWriter, wonRoundCountProvider, playerProvider);

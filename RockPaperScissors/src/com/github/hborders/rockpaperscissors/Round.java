@@ -41,6 +41,11 @@ public class Round {
 		void afterPlay(Player winningPlayer);
 	}
 
+	public interface IAfterPlayHookFactory {
+		IAfterPlayHook createAfterPlayHook(Player firstPlayer,
+				Player secondPlayer);
+	}
+
 	public static class Provider {
 		public Round provide(AttemptReader attemptReader,
 				IAfterPlayHook afterPlayHook) {

@@ -7,28 +7,102 @@ import org.junit.Test;
 
 public class ToByAfterPlayHookTest {
 	private WonRoundCount mockWinningWonRoundCount;
+	private Player mockFirstPlayer;
+	private Player mockSecondPlayer;
 
 	private ToByAfterPlayHook testObject;
 
-	private Player mockFirstPlayWinningPlayer;
-	private Player mockSecondPlayWinningPlayer;
+	private WonRoundCount mockFirstPlayerWonRoundCount;
+	private WonRoundCount mockSecondPlayerWonRoundCount;
 
 	@Before
 	public void setup() {
 		mockWinningWonRoundCount = mock(WonRoundCount.class);
+		mockFirstPlayer = mock(Player.class);
+		mockSecondPlayer = mock(Player.class);
 
-		testObject = new ToByAfterPlayHook(mockWinningWonRoundCount);
+		testObject = new ToByAfterPlayHook(mockWinningWonRoundCount,
+				mockFirstPlayer, mockSecondPlayer);
 
-		mockFirstPlayWinningPlayer = mock(Player.class);
-		mockSecondPlayWinningPlayer = mock(Player.class);
+		mockFirstPlayerWonRoundCount = mock(WonRoundCount.class);
+		mockSecondPlayerWonRoundCount = mock(WonRoundCount.class);
+
+		when(mockFirstPlayer.getWonRoundCount()).thenReturn(
+				mockFirstPlayerWonRoundCount);
+		when(mockSecondPlayer.getWonRoundCount()).thenReturn(
+				mockSecondPlayerWonRoundCount);
 	}
 
 	@Test
-	public void postRoundHook_increments_winningRoundCount_when_winning_Player_is_different_for_first_and_second_plays()
+	public void postRoundHook_increments_winning_WonRoundCount_when_leading_Player_loses()
 			throws Exception {
-		testObject.afterPlay(mockFirstPlayWinningPlayer);
-		testObject.afterPlay(mockSecondPlayWinningPlayer);
+		when(
+				mockFirstPlayerWonRoundCount
+						.compareTo(mockSecondPlayerWonRoundCount))
+				.thenReturn(1).thenReturn(0);
+		when(
+				mockSecondPlayerWonRoundCount
+						.compareTo(mockFirstPlayerWonRoundCount))
+				.thenReturn(-1).thenReturn(0);
+
+		testObject.afterPlay(mockFirstPlayer);
+		testObject.afterPlay(mockSecondPlayer);
 
 		verify(mockWinningWonRoundCount).increment();
+	}
+
+	@Test
+	public void postRoundHook_increments_winning_WonRoundCount_when_leading_Player_loses_twice()
+			throws Exception {
+		when(
+				mockFirstPlayerWonRoundCount
+						.compareTo(mockSecondPlayerWonRoundCount))
+				.thenReturn(1).thenReturn(1).thenReturn(0);
+		when(
+				mockSecondPlayerWonRoundCount
+						.compareTo(mockFirstPlayerWonRoundCount))
+				.thenReturn(-1).thenReturn(-1).thenReturn(0);
+
+		testObject.afterPlay(mockFirstPlayer);
+		testObject.afterPlay(mockFirstPlayer);
+		testObject.afterPlay(mockSecondPlayer);
+		testObject.afterPlay(mockSecondPlayer);
+
+		verify(mockWinningWonRoundCount, times(2)).increment();
+	}
+
+	@Test
+	public void postRoundHook_does_not_increment_winning_WonRoundCount_when_there_is_no_leading_Player()
+			throws Exception {
+		when(
+				mockFirstPlayerWonRoundCount
+						.compareTo(mockSecondPlayerWonRoundCount))
+				.thenReturn(1);
+		when(
+				mockSecondPlayerWonRoundCount
+						.compareTo(mockFirstPlayerWonRoundCount))
+				.thenReturn(-1);
+
+		testObject.afterPlay(mockFirstPlayer);
+
+		verify(mockWinningWonRoundCount, times(0)).increment();
+	}
+
+	@Test
+	public void postRoundHook_does_not_increment_winning_WonRoundCount_when_leading_Player_wins()
+			throws Exception {
+		when(
+				mockFirstPlayerWonRoundCount
+						.compareTo(mockSecondPlayerWonRoundCount))
+				.thenReturn(1).thenReturn(1);
+		when(
+				mockSecondPlayerWonRoundCount
+						.compareTo(mockFirstPlayerWonRoundCount))
+				.thenReturn(-1).thenReturn(-1);
+
+		testObject.afterPlay(mockFirstPlayer);
+		testObject.afterPlay(mockFirstPlayer);
+
+		verify(mockWinningWonRoundCount, times(0)).increment();
 	}
 }

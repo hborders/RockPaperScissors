@@ -6,10 +6,14 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
+
 public class DefaultGameFactoryFactoryTest {
-	private GameFactory.Provider mockDefaultGameFactoryProvider;
-	private Round mockDefaultRound;
+	private GameFactory.Provider mockGameFactoryProvider;
 	private WonRoundCount mockDefaultWinningWonRoundCount;
+	private NoOpAfterPlayHookFactory mockNoOpAfterPlayHookFactory;
+	private AttemptReader mockAttemptReader;
+	private Round.Provider mockRoundProvider;
 	private Game.Provider mockGameProvider;
 	private ToGameFactoryFactory mockToGameFactoryFactory;
 	private BestofGameFactoryFactory mockBestofGameFactoryFactory;
@@ -20,17 +24,19 @@ public class DefaultGameFactoryFactoryTest {
 
 	@Before
 	public void setup() {
-		mockDefaultGameFactoryProvider = mock(GameFactory.Provider.class);
-		mockDefaultRound = mock(Round.class);
+		mockGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockDefaultWinningWonRoundCount = mock(WonRoundCount.class);
+		mockNoOpAfterPlayHookFactory = mock(NoOpAfterPlayHookFactory.class);
+		mockAttemptReader = mock(AttemptReader.class);
+		mockRoundProvider = mock(Round.Provider.class);
 		mockGameProvider = mock(Game.Provider.class);
 
 		mockToGameFactoryFactory = mock(ToGameFactoryFactory.class);
 		mockBestofGameFactoryFactory = mock(BestofGameFactoryFactory.class);
 
-		testObject = new DefaultGameFactoryFactory(
-				mockDefaultGameFactoryProvider, mockDefaultRound,
-				mockDefaultWinningWonRoundCount, mockGameProvider,
+		testObject = new DefaultGameFactoryFactory(mockGameFactoryProvider,
+				mockDefaultWinningWonRoundCount, mockNoOpAfterPlayHookFactory,
+				mockAttemptReader, mockRoundProvider, mockGameProvider,
 				mockToGameFactoryFactory, mockBestofGameFactoryFactory);
 
 		mockGameFactory = mock(GameFactory.class);
@@ -40,9 +46,11 @@ public class DefaultGameFactoryFactoryTest {
 	public void createGameFactory_returns_GameFactory_from_GameFactory_Provider_when_args_is_empty()
 			throws Exception {
 		when(
-				mockDefaultGameFactoryProvider.provide(
-						mockDefaultWinningWonRoundCount, mockDefaultRound, mockGameProvider))
-				.thenReturn(mockGameFactory);
+				mockGameFactoryProvider.provide(
+						mockDefaultWinningWonRoundCount,
+						mockNoOpAfterPlayHookFactory, mockAttemptReader,
+						mockRoundProvider, mockGameProvider)).thenReturn(
+				mockGameFactory);
 
 		GameFactory gameFactory = testObject.createGameFactory(new String[0]);
 

@@ -1,27 +1,36 @@
 package com.github.hborders.rockpaperscissors;
 
+import com.github.hborders.rockpaperscissors.GameFactory.Provider;
+import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
 import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
 
 public class ToGameFactoryFactory {
 
 	private final RoundCountFactory roundCountFactory;
-	private final ToWonRoundCountFactory toWonRoundCountFactory;
 	private final ToByGameFactoryFactory toByGameFactoryFactory;
-	private final Game.Provider gameProvider;
-	private final Round toRound;
+	private final ToWonRoundCountFactory toWonRoundCountFactory;
 	private final GameFactory.Provider gameFactoryProvider;
+	private final NoOpAfterPlayHookFactory noOpAfterPlayHookFactory;
+	private final AttemptReader attemptReader;
+	private final Round.Provider roundProvider;
+	private final Game.Provider gameProvider;
 
 	ToGameFactoryFactory(RoundCountFactory roundCountFactory,
-			ToWonRoundCountFactory toWonRoundCountFactory,
 			ToByGameFactoryFactory toByGameFactoryFactory,
-			Game.Provider gameProvider, Round toRound,
-			GameFactory.Provider gameFactoryProvider) {
+			ToWonRoundCountFactory toWonRoundCountFactory,
+			Provider gameFactoryProvider,
+			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,
+			AttemptReader attemptReader,
+			com.github.hborders.rockpaperscissors.Round.Provider roundProvider,
+			com.github.hborders.rockpaperscissors.Game.Provider gameProvider) {
 		this.roundCountFactory = roundCountFactory;
-		this.toWonRoundCountFactory = toWonRoundCountFactory;
 		this.toByGameFactoryFactory = toByGameFactoryFactory;
-		this.gameProvider = gameProvider;
-		this.toRound = toRound;
+		this.toWonRoundCountFactory = toWonRoundCountFactory;
 		this.gameFactoryProvider = gameFactoryProvider;
+		this.noOpAfterPlayHookFactory = noOpAfterPlayHookFactory;
+		this.attemptReader = attemptReader;
+		this.roundProvider = roundProvider;
+		this.gameProvider = gameProvider;
 	}
 
 	public GameFactory createGameFactory(String[] args)
@@ -39,7 +48,8 @@ public class ToGameFactoryFactory {
 						.createWonRoundCount(toRoundCount);
 
 				return gameFactoryProvider.provide(winningWonRoundCount,
-						toRound, gameProvider);
+						noOpAfterPlayHookFactory, attemptReader, roundProvider,
+						gameProvider);
 			} catch (InvalidRoundCountException invalidRoundCountException) {
 			}
 		}

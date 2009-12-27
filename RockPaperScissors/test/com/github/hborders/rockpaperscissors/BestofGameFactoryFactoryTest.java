@@ -7,13 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidWonRoundCountException;
+import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
 
 public class BestofGameFactoryFactoryTest {
 	private RoundCountFactory mockRoundCountFactory;
 	private BestofWonRoundCountFactory mockBestofWonRoundCountFactory;
 	private GameFactory.Provider mockGameFactoryProvider;
+	private NoOpAfterPlayHookFactory mockNoOpAfterPlayHookFactory;
+	private AttemptReader mockAttemptReader;
+	private Round.Provider mockRoundProvider;
 	private Game.Provider mockGameProvider;
-	private Round mockRound;
 
 	private BestofGameFactoryFactory testObject;
 
@@ -26,12 +29,15 @@ public class BestofGameFactoryFactoryTest {
 		mockRoundCountFactory = mock(RoundCountFactory.class);
 		mockBestofWonRoundCountFactory = mock(BestofWonRoundCountFactory.class);
 		mockGameFactoryProvider = mock(GameFactory.Provider.class);
+		mockNoOpAfterPlayHookFactory = mock(NoOpAfterPlayHookFactory.class);
+		mockAttemptReader = mock(AttemptReader.class);
+		mockRoundProvider = mock(Round.Provider.class);
 		mockGameProvider = mock(Game.Provider.class);
-		mockRound = mock(Round.class);
 
 		testObject = new BestofGameFactoryFactory(mockRoundCountFactory,
 				mockBestofWonRoundCountFactory, mockGameFactoryProvider,
-				mockGameProvider, mockRound);
+				mockNoOpAfterPlayHookFactory, mockAttemptReader,
+				mockRoundProvider, mockGameProvider);
 
 		mockRoundCount = mock(RoundCount.class);
 		mockBestofWonRoundCount = mock(WonRoundCount.class);
@@ -64,7 +70,8 @@ public class BestofGameFactoryFactoryTest {
 				.thenReturn(mockBestofWonRoundCount);
 		when(
 				mockGameFactoryProvider.provide(mockBestofWonRoundCount,
-						mockRound, mockGameProvider)).thenReturn(
+						mockNoOpAfterPlayHookFactory, mockAttemptReader,
+						mockRoundProvider, mockGameProvider)).thenReturn(
 				mockGameFactory);
 
 		GameFactory gameFactory = testObject.createGameFactory(new String[] {
