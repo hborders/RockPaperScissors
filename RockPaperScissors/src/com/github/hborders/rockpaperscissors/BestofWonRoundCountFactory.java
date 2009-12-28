@@ -2,7 +2,7 @@ package com.github.hborders.rockpaperscissors;
 
 public class BestofWonRoundCountFactory {
 
-	public WonRoundCount createWonRoundCount(RoundCount roundCount)
+	public WonRoundCount createWinningWonRoundCount(RoundCount roundCount)
 			throws InvalidWonRoundCountException {
 		int rawRoundCount = roundCount.getRawRoundCount();
 		if ((rawRoundCount % 2) == 1) {

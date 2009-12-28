@@ -55,7 +55,7 @@ public class BestofGameFactoryFactoryTest {
 			throws Exception {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockRoundCount);
-		when(mockBestofWonRoundCountFactory.createWonRoundCount(mockRoundCount))
+		when(mockBestofWonRoundCountFactory.createWinningWonRoundCount(mockRoundCount))
 				.thenThrow(new InvalidWonRoundCountException());
 
 		testObject.createGameFactory(new String[] { "", "foo" });
@@ -66,7 +66,7 @@ public class BestofGameFactoryFactoryTest {
 			throws Exception {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockRoundCount);
-		when(mockBestofWonRoundCountFactory.createWonRoundCount(mockRoundCount))
+		when(mockBestofWonRoundCountFactory.createWinningWonRoundCount(mockRoundCount))
 				.thenReturn(mockBestofWonRoundCount);
 		when(
 				mockGameFactoryProvider.provide(mockBestofWonRoundCount,

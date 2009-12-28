@@ -36,10 +36,13 @@ public class ToByGameFactoryFactory {
 				RoundCount byRoundCount = roundCountFactory
 						.createRoundCount(args[3]);
 				WonRoundCount winningWonRoundCount = toByWonRoundCountFactory
-						.createWonRoundCount(toRoundCount, byRoundCount);
+						.createWinningWonRoundCount(toRoundCount, byRoundCount);
+				WonRoundCount extendingWonRoundCount = toByWonRoundCountFactory
+						.createExtendingWonRoundCount(toRoundCount,
+								byRoundCount);
 				ToByAfterPlayHookFactory toByAfterPlayHookFactory = toByAfterPlayHookFactoryProvider
 						.provide(toByAfterPlayHookProvider,
-								winningWonRoundCount);
+								extendingWonRoundCount, winningWonRoundCount);
 				return gameFactoryProvider.provide(winningWonRoundCount,
 						toByAfterPlayHookFactory, attemptReader, roundProvider,
 						gameProvider);

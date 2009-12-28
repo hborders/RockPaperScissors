@@ -66,7 +66,7 @@ public class ToGameFactoryFactoryTest {
 			throws Exception {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockToRoundCount);
-		when(mockToWonRoundCountFactory.createWonRoundCount(mockToRoundCount))
+		when(mockToWonRoundCountFactory.createWinningWonRoundCount(mockToRoundCount))
 				.thenReturn(mockWonRoundCount);
 		when(
 				mockGameFactoryProvider.provide(mockWonRoundCount,

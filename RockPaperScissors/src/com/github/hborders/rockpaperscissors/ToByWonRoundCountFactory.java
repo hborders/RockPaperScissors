@@ -9,7 +9,7 @@ public class ToByWonRoundCountFactory {
 		this.wonRoundCountProvider = wonRoundCountProvider;
 	}
 
-	public WonRoundCount createWonRoundCount(RoundCount toRoundCount,
+	public WonRoundCount createWinningWonRoundCount(RoundCount toRoundCount,
 			RoundCount byRoundCount) {
 		if (toRoundCount.getRawRoundCount() < byRoundCount.getRawRoundCount()) {
 			return wonRoundCountProvider.provide(byRoundCount
@@ -17,6 +17,17 @@ public class ToByWonRoundCountFactory {
 		} else {
 			return wonRoundCountProvider.provide(toRoundCount
 					.getRawRoundCount());
+		}
+	}
+
+	public WonRoundCount createExtendingWonRoundCount(RoundCount toRoundCount,
+			RoundCount byRoundCount) {
+		if (toRoundCount.getRawRoundCount() < byRoundCount.getRawRoundCount()) {
+			return wonRoundCountProvider.provide(0);
+		} else {
+			return wonRoundCountProvider.provide(toRoundCount
+					.getRawRoundCount()
+					- byRoundCount.getRawRoundCount());
 		}
 	}
 }

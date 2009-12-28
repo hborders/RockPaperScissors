@@ -71,21 +71,28 @@ public class ToByGameFactoryFactoryTest {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockByRoundCount);
 
-		WonRoundCount mockWonRoundCount = mock(WonRoundCount.class);
+		WonRoundCount mockWinningWonRoundCount = mock(WonRoundCount.class);
 		when(
-				mockToByWonRoundCountFactory.createWonRoundCount(
+				mockToByWonRoundCountFactory.createWinningWonRoundCount(
 						mockToRoundCount, mockByRoundCount)).thenReturn(
-				mockWonRoundCount);
+				mockWinningWonRoundCount);
+
+		WonRoundCount mockExtendingWonRoundCount = mock(WonRoundCount.class);
+		when(
+				mockToByWonRoundCountFactory.createExtendingWonRoundCount(
+						mockToRoundCount, mockByRoundCount)).thenReturn(
+				mockExtendingWonRoundCount);
 
 		ToByAfterPlayHookFactory mockToByAfterPlayHookFactory = mock(ToByAfterPlayHookFactory.class);
 		when(
 				mockToByAfterPlayHookFactoryProvider.provide(
-						mockToByAfterPlayHookProvider, mockWonRoundCount))
+						mockToByAfterPlayHookProvider,
+						mockExtendingWonRoundCount, mockWinningWonRoundCount))
 				.thenReturn(mockToByAfterPlayHookFactory);
 
 		GameFactory mockGameFactory = mock(GameFactory.class);
 		when(
-				mockGameFactoryProvider.provide(mockWonRoundCount,
+				mockGameFactoryProvider.provide(mockWinningWonRoundCount,
 						mockToByAfterPlayHookFactory, mockAttemptReader,
 						mockRoundProvider, mockGameProvider)).thenReturn(
 				mockGameFactory);

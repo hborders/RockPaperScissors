@@ -19,11 +19,11 @@ public class ToWonRoundCountFactoryTest {
 	}
 
 	@Test
-	public void createWonRoundCount_returns_WonRoundCount_with_round_count() {
+	public void createWinningWonRoundCount_returns_WonRoundCount_with_round_count() {
 		when(mockToRoundCount.getRawRoundCount()).thenReturn(4);
 
 		WonRoundCount wonRoundCount = testObject
-				.createWonRoundCount(mockToRoundCount);
+				.createWinningWonRoundCount(mockToRoundCount);
 
 		assertTrue(wonRoundCount.matches(new WonRoundCount(4)));
 	}

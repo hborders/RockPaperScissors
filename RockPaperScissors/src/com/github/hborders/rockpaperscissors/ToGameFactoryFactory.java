@@ -45,7 +45,7 @@ public class ToGameFactoryFactory {
 				}
 
 				WonRoundCount winningWonRoundCount = toWonRoundCountFactory
-						.createWonRoundCount(toRoundCount);
+						.createWinningWonRoundCount(toRoundCount);
 
 				return gameFactoryProvider.provide(winningWonRoundCount,
 						noOpAfterPlayHookFactory, attemptReader, roundProvider,

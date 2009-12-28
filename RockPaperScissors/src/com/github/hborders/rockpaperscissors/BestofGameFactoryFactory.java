@@ -38,7 +38,7 @@ public class BestofGameFactoryFactory {
 				RoundCount roundCount = roundCountFactory
 						.createRoundCount(args[1]);
 				WonRoundCount wonRoundCount = bestofWonRoundCountFactory
-						.createWonRoundCount(roundCount);
+						.createWinningWonRoundCount(roundCount);
 				return gameFactoryProvider.provide(wonRoundCount,
 						noOpAfterPlayHookFactory, attemptReader, roundProvider,
 						gameProvider);

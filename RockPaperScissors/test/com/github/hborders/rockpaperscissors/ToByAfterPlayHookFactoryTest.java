@@ -8,6 +8,7 @@ import org.junit.Test;
 
 public class ToByAfterPlayHookFactoryTest {
 	private ToByAfterPlayHook.Provider mockToByAfterPlayHookProvider;
+	private WonRoundCount mockExtendingWonRoundCount;
 	private WonRoundCount mockWinningWonRoundCount;
 
 	private ToByAfterPlayHookFactory testObject;
@@ -20,10 +21,12 @@ public class ToByAfterPlayHookFactoryTest {
 	@Before
 	public void setup() {
 		mockToByAfterPlayHookProvider = mock(ToByAfterPlayHook.Provider.class);
+		mockExtendingWonRoundCount = mock(WonRoundCount.class);
 		mockWinningWonRoundCount = mock(WonRoundCount.class);
 
 		testObject = new ToByAfterPlayHookFactory(
-				mockToByAfterPlayHookProvider, mockWinningWonRoundCount);
+				mockToByAfterPlayHookProvider, mockExtendingWonRoundCount,
+				mockWinningWonRoundCount);
 
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
@@ -34,7 +37,8 @@ public class ToByAfterPlayHookFactoryTest {
 	@Test
 	public void createAfterPlayHook_returns_ToByAfterPlayHook() {
 		when(
-				mockToByAfterPlayHookProvider.provide(mockWinningWonRoundCount,
+				mockToByAfterPlayHookProvider.provide(
+						mockExtendingWonRoundCount, mockWinningWonRoundCount,
 						mockFirstPlayer, mockSecondPlayer)).thenReturn(
 				mockToByAfterPlayHook);
 

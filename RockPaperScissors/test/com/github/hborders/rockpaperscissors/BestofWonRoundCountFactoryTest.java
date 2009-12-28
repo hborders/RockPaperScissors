@@ -24,20 +24,20 @@ public class BestofWonRoundCountFactoryTest {
 	}
 
 	@Test(expected = InvalidWonRoundCountException.class)
-	public void createWonRoundCount_throws_InvalidWonRoundCountException_when_RoundCount_is_even()
+	public void createWinningWonRoundCount_throws_InvalidWonRoundCountException_when_RoundCount_is_even()
 			throws Exception {
 		when(mockRoundCount.getRawRoundCount()).thenReturn(2);
 
-		testObject.createWonRoundCount(mockRoundCount);
+		testObject.createWinningWonRoundCount(mockRoundCount);
 	}
 
 	@Test
-	public void createWonRoundCount_returns_WonRoundCount_divided_by_2_plus_1_when_RoundCount_is_odd_number()
+	public void createWinningWonRoundCount_returns_WonRoundCount_divided_by_2_plus_1_when_RoundCount_is_odd_number()
 			throws Exception {
 		when(mockRoundCount.getRawRoundCount()).thenReturn(5);
 
 		WonRoundCount wonRoundCount = testObject
-				.createWonRoundCount(mockRoundCount);
+				.createWinningWonRoundCount(mockRoundCount);
 
 		assertThat(wonRoundCount, new BaseMatcher<WonRoundCount>() {
 			private final WonRoundCount expectedWonRoundCount = new WonRoundCount(
