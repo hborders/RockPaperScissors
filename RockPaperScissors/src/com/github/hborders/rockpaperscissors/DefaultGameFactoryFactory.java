@@ -17,9 +17,8 @@ public class DefaultGameFactoryFactory {
 	DefaultGameFactoryFactory(Provider gameFactoryProvider,
 			WonRoundCount defaultWinningWonRoundCount,
 			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,
-			AttemptReader attemptReader,
-			com.github.hborders.rockpaperscissors.Round.Provider roundProvider,
-			com.github.hborders.rockpaperscissors.Game.Provider gameProvider,
+			AttemptReader attemptReader, Round.Provider roundProvider,
+			Game.Provider gameProvider,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
 		this.gameFactoryProvider = gameFactoryProvider;
