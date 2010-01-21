@@ -12,36 +12,27 @@ import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHook
 public class BestofGameFactoryFactoryTest {
 	private RoundCountFactory mockRoundCountFactory;
 	private BestofWonRoundCountFactory mockBestofWonRoundCountFactory;
-	private GameFactory.Provider mockGameFactoryProvider;
 	private NoOpAfterPlayHookFactory mockNoOpAfterPlayHookFactory;
 	private AttemptReader mockAttemptReader;
-	private Round.Provider mockRoundProvider;
-	private Game.Provider mockGameProvider;
 
 	private BestofGameFactoryFactory testObject;
 
 	private RoundCount mockRoundCount;
 	private WonRoundCount mockBestofWonRoundCount;
-	private GameFactory mockGameFactory;
 
 	@Before
 	public void setup() {
 		mockRoundCountFactory = mock(RoundCountFactory.class);
 		mockBestofWonRoundCountFactory = mock(BestofWonRoundCountFactory.class);
-		mockGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockNoOpAfterPlayHookFactory = mock(NoOpAfterPlayHookFactory.class);
 		mockAttemptReader = mock(AttemptReader.class);
-		mockRoundProvider = mock(Round.Provider.class);
-		mockGameProvider = mock(Game.Provider.class);
 
 		testObject = new BestofGameFactoryFactory(mockRoundCountFactory,
-				mockBestofWonRoundCountFactory, mockGameFactoryProvider,
-				mockNoOpAfterPlayHookFactory, mockAttemptReader,
-				mockRoundProvider, mockGameProvider);
+				mockBestofWonRoundCountFactory, mockNoOpAfterPlayHookFactory,
+				mockAttemptReader);
 
 		mockRoundCount = mock(RoundCount.class);
 		mockBestofWonRoundCount = mock(WonRoundCount.class);
-		mockGameFactory = mock(GameFactory.class);
 	}
 
 	@Test(expected = InvalidGameArgumentsException.class)
@@ -55,8 +46,10 @@ public class BestofGameFactoryFactoryTest {
 			throws Exception {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockRoundCount);
-		when(mockBestofWonRoundCountFactory.createWinningWonRoundCount(mockRoundCount))
-				.thenThrow(new InvalidWonRoundCountException());
+		when(
+				mockBestofWonRoundCountFactory
+						.createWinningWonRoundCount(mockRoundCount)).thenThrow(
+				new InvalidWonRoundCountException());
 
 		testObject.createGameFactory(new String[] { "", "foo" });
 	}
@@ -66,17 +59,15 @@ public class BestofGameFactoryFactoryTest {
 			throws Exception {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockRoundCount);
-		when(mockBestofWonRoundCountFactory.createWinningWonRoundCount(mockRoundCount))
-				.thenReturn(mockBestofWonRoundCount);
 		when(
-				mockGameFactoryProvider.provide(mockBestofWonRoundCount,
-						mockNoOpAfterPlayHookFactory, mockAttemptReader,
-						mockRoundProvider, mockGameProvider)).thenReturn(
-				mockGameFactory);
+				mockBestofWonRoundCountFactory
+						.createWinningWonRoundCount(mockRoundCount))
+				.thenReturn(mockBestofWonRoundCount);
 
 		GameFactory gameFactory = testObject.createGameFactory(new String[] {
 				"", "foo" });
 
-		assertEquals(mockGameFactory, gameFactory);
+		assertEquals(new GameFactory(mockBestofWonRoundCount,
+				mockNoOpAfterPlayHookFactory, mockAttemptReader), gameFactory);
 	}
 }

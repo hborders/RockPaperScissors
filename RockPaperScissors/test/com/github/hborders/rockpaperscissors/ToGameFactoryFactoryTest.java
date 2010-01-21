@@ -13,11 +13,8 @@ public class ToGameFactoryFactoryTest {
 	private RoundCountFactory mockRoundCountFactory;
 	private ToByGameFactoryFactory mockToByGameFactoryFactory;
 	private ToWonRoundCountFactory mockToWonRoundCountFactory;
-	private GameFactory.Provider mockGameFactoryProvider;
 	private NoOpAfterPlayHookFactory mockNoOpAfterPlayHookFactory;
 	private AttemptReader mockAttemptReader;
-	private Round.Provider mockRoundProvider;
-	private Game.Provider mockGameProvider;
 
 	private ToGameFactoryFactory testObject;
 
@@ -30,16 +27,12 @@ public class ToGameFactoryFactoryTest {
 		mockRoundCountFactory = mock(RoundCountFactory.class);
 		mockToByGameFactoryFactory = mock(ToByGameFactoryFactory.class);
 		mockToWonRoundCountFactory = mock(ToWonRoundCountFactory.class);
-		mockGameFactoryProvider = mock(GameFactory.Provider.class);
 		mockNoOpAfterPlayHookFactory = mock(NoOpAfterPlayHookFactory.class);
 		mockAttemptReader = mock(AttemptReader.class);
-		mockRoundProvider = mock(Round.Provider.class);
-		mockGameProvider = mock(Game.Provider.class);
 
 		testObject = new ToGameFactoryFactory(mockRoundCountFactory,
 				mockToByGameFactoryFactory, mockToWonRoundCountFactory,
-				mockGameFactoryProvider, mockNoOpAfterPlayHookFactory,
-				mockAttemptReader, mockRoundProvider, mockGameProvider);
+				mockNoOpAfterPlayHookFactory, mockAttemptReader);
 
 		mockToRoundCount = mock(RoundCount.class);
 		mockWonRoundCount = mock(WonRoundCount.class);
@@ -66,18 +59,16 @@ public class ToGameFactoryFactoryTest {
 			throws Exception {
 		when(mockRoundCountFactory.createRoundCount("foo")).thenReturn(
 				mockToRoundCount);
-		when(mockToWonRoundCountFactory.createWinningWonRoundCount(mockToRoundCount))
-				.thenReturn(mockWonRoundCount);
 		when(
-				mockGameFactoryProvider.provide(mockWonRoundCount,
-						mockNoOpAfterPlayHookFactory, mockAttemptReader,
-						mockRoundProvider, mockGameProvider)).thenReturn(
-				mockGameFactory);
+				mockToWonRoundCountFactory
+						.createWinningWonRoundCount(mockToRoundCount))
+				.thenReturn(mockWonRoundCount);
 
 		GameFactory gameFactory = testObject.createGameFactory(new String[] {
 				"", "foo" });
 
-		assertEquals(mockGameFactory, gameFactory);
+		assertEquals(new GameFactory(mockWonRoundCount,
+				mockNoOpAfterPlayHookFactory, mockAttemptReader), gameFactory);
 	}
 
 	@Test

@@ -6,7 +6,7 @@ public class Round {
 	private final AttemptReader attemptReader;
 	private final IAfterPlayHook afterPlayHook;
 
-	Round(AttemptReader attemptReader, IAfterPlayHook afterPlayHook) {
+	public Round(AttemptReader attemptReader, IAfterPlayHook afterPlayHook) {
 		this.attemptReader = attemptReader;
 		this.afterPlayHook = afterPlayHook;
 	}
@@ -33,8 +33,37 @@ public class Round {
 		return winningPlayer;
 	}
 
-	protected void postRoundHook(Player winningPlayer) {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((afterPlayHook == null) ? 0 : afterPlayHook.hashCode());
+		result = prime * result
+				+ ((attemptReader == null) ? 0 : attemptReader.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Round other = (Round) obj;
+		if (afterPlayHook == null) {
+			if (other.afterPlayHook != null)
+				return false;
+		} else if (!afterPlayHook.equals(other.afterPlayHook))
+			return false;
+		if (attemptReader == null) {
+			if (other.attemptReader != null)
+				return false;
+		} else if (!attemptReader.equals(other.attemptReader))
+			return false;
+		return true;
 	}
 
 	public interface IAfterPlayHook {
@@ -44,12 +73,5 @@ public class Round {
 	public interface IAfterPlayHookFactory {
 		IAfterPlayHook createAfterPlayHook(Player firstPlayer,
 				Player secondPlayer);
-	}
-
-	public static class Provider {
-		public Round provide(AttemptReader attemptReader,
-				IAfterPlayHook afterPlayHook) {
-			return new Round(attemptReader, afterPlayHook);
-		}
 	}
 }

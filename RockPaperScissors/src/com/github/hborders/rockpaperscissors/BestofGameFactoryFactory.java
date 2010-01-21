@@ -1,7 +1,6 @@
 package com.github.hborders.rockpaperscissors;
 
 import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidWonRoundCountException;
-import com.github.hborders.rockpaperscissors.GameFactory.Provider;
 import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
 import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
 
@@ -9,26 +8,17 @@ public class BestofGameFactoryFactory {
 
 	private final RoundCountFactory roundCountFactory;
 	private final BestofWonRoundCountFactory bestofWonRoundCountFactory;
-	private final GameFactory.Provider gameFactoryProvider;
 	private final NoOpAfterPlayHookFactory noOpAfterPlayHookFactory;
 	private final AttemptReader attemptReader;
-	private final Round.Provider roundProvider;
-	private final Game.Provider gameProvider;
 
-	BestofGameFactoryFactory(RoundCountFactory roundCountFactory,
+	public BestofGameFactoryFactory(RoundCountFactory roundCountFactory,
 			BestofWonRoundCountFactory bestofWonRoundCountFactory,
-			Provider gameFactoryProvider,
 			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,
-			AttemptReader attemptReader,
-			com.github.hborders.rockpaperscissors.Round.Provider roundProvider,
-			com.github.hborders.rockpaperscissors.Game.Provider gameProvider) {
+			AttemptReader attemptReader) {
 		this.roundCountFactory = roundCountFactory;
 		this.bestofWonRoundCountFactory = bestofWonRoundCountFactory;
-		this.gameFactoryProvider = gameFactoryProvider;
 		this.noOpAfterPlayHookFactory = noOpAfterPlayHookFactory;
 		this.attemptReader = attemptReader;
-		this.roundProvider = roundProvider;
-		this.gameProvider = gameProvider;
 	}
 
 	public GameFactory createGameFactory(String[] args)
@@ -39,9 +29,8 @@ public class BestofGameFactoryFactory {
 						.createRoundCount(args[1]);
 				WonRoundCount wonRoundCount = bestofWonRoundCountFactory
 						.createWinningWonRoundCount(roundCount);
-				return gameFactoryProvider.provide(wonRoundCount,
-						noOpAfterPlayHookFactory, attemptReader, roundProvider,
-						gameProvider);
+				return new GameFactory(wonRoundCount, noOpAfterPlayHookFactory,
+						attemptReader);
 			}
 		} catch (InvalidWonRoundCountException invalidWonRoundCountException) {
 		} catch (InvalidRoundCountException e) {

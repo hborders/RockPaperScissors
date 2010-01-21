@@ -1,32 +1,23 @@
 package com.github.hborders.rockpaperscissors;
 
-import com.github.hborders.rockpaperscissors.GameFactory.Provider;
 import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
 
 public class DefaultGameFactoryFactory {
 
-	private final GameFactory.Provider gameFactoryProvider;
 	private final WonRoundCount defaultWinningWonRoundCount;
 	private final NoOpAfterPlayHookFactory noOpAfterPlayHookFactory;
 	private final AttemptReader attemptReader;
-	private final Round.Provider roundProvider;
-	private final Game.Provider gameProvider;
 	private final ToGameFactoryFactory toGameFactoryFactory;
 	private final BestofGameFactoryFactory bestofGameFactoryFactory;
 
-	DefaultGameFactoryFactory(Provider gameFactoryProvider,
-			WonRoundCount defaultWinningWonRoundCount,
+	public DefaultGameFactoryFactory(WonRoundCount defaultWinningWonRoundCount,
 			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,
-			AttemptReader attemptReader, Round.Provider roundProvider,
-			Game.Provider gameProvider,
+			AttemptReader attemptReader,
 			ToGameFactoryFactory toGameFactoryFactory,
 			BestofGameFactoryFactory bestofGameFactoryFactory) {
-		this.gameFactoryProvider = gameFactoryProvider;
 		this.defaultWinningWonRoundCount = defaultWinningWonRoundCount;
 		this.noOpAfterPlayHookFactory = noOpAfterPlayHookFactory;
 		this.attemptReader = attemptReader;
-		this.roundProvider = roundProvider;
-		this.gameProvider = gameProvider;
 		this.toGameFactoryFactory = toGameFactoryFactory;
 		this.bestofGameFactoryFactory = bestofGameFactoryFactory;
 	}
@@ -38,9 +29,8 @@ public class DefaultGameFactoryFactory {
 		}
 
 		if (args.length == 0) {
-			return gameFactoryProvider.provide(defaultWinningWonRoundCount,
-					noOpAfterPlayHookFactory, attemptReader, roundProvider,
-					gameProvider);
+			return new GameFactory(defaultWinningWonRoundCount,
+					noOpAfterPlayHookFactory, attemptReader);
 		} else if ("-to".equals(args[0])) {
 			return toGameFactoryFactory.createGameFactory(args);
 		} else if ("-bestof".equals(args[0])) {

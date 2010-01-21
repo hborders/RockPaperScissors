@@ -10,7 +10,7 @@ public class ToByAfterPlayHook implements IAfterPlayHook {
 	private final Player secondPlayer;
 	private Player leadingPlayer;
 
-	ToByAfterPlayHook(WonRoundCount extendingWinninWonRoundCount,
+	public ToByAfterPlayHook(WonRoundCount extendingWinninWonRoundCount,
 			WonRoundCount winningWonRoundCount, Player firstPlayer,
 			Player secondPlayer) {
 		this.extendingWinninWonRoundCount = extendingWinninWonRoundCount;
@@ -49,13 +49,62 @@ public class ToByAfterPlayHook implements IAfterPlayHook {
 		}
 	}
 
-	public static class Provider {
-		public ToByAfterPlayHook provide(
-				WonRoundCount extendingWinninWonRoundCount,
-				WonRoundCount winningWonRoundCount, Player firstPlayer,
-				Player secondPlayer) {
-			return new ToByAfterPlayHook(extendingWinninWonRoundCount,
-					winningWonRoundCount, firstPlayer, secondPlayer);
-		}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((extendingWinninWonRoundCount == null) ? 0
+						: extendingWinninWonRoundCount.hashCode());
+		result = prime * result
+				+ ((firstPlayer == null) ? 0 : firstPlayer.hashCode());
+		result = prime * result
+				+ ((leadingPlayer == null) ? 0 : leadingPlayer.hashCode());
+		result = prime * result
+				+ ((secondPlayer == null) ? 0 : secondPlayer.hashCode());
+		result = prime
+				* result
+				+ ((winningWonRoundCount == null) ? 0 : winningWonRoundCount
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ToByAfterPlayHook other = (ToByAfterPlayHook) obj;
+		if (extendingWinninWonRoundCount == null) {
+			if (other.extendingWinninWonRoundCount != null)
+				return false;
+		} else if (!extendingWinninWonRoundCount
+				.equals(other.extendingWinninWonRoundCount))
+			return false;
+		if (firstPlayer == null) {
+			if (other.firstPlayer != null)
+				return false;
+		} else if (!firstPlayer.equals(other.firstPlayer))
+			return false;
+		if (leadingPlayer == null) {
+			if (other.leadingPlayer != null)
+				return false;
+		} else if (!leadingPlayer.equals(other.leadingPlayer))
+			return false;
+		if (secondPlayer == null) {
+			if (other.secondPlayer != null)
+				return false;
+		} else if (!secondPlayer.equals(other.secondPlayer))
+			return false;
+		if (winningWonRoundCount == null) {
+			if (other.winningWonRoundCount != null)
+				return false;
+		} else if (!winningWonRoundCount.equals(other.winningWonRoundCount))
+			return false;
+		return true;
 	}
 }

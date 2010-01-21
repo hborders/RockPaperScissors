@@ -6,27 +6,14 @@ public class ToByGameFactoryFactory {
 
 	private final RoundCountFactory roundCountFactory;
 	private final ToByWonRoundCountFactory toByWonRoundCountFactory;
-	private final ToByAfterPlayHookFactory.Provider toByAfterPlayHookFactoryProvider;
-	private final ToByAfterPlayHook.Provider toByAfterPlayHookProvider;
-	private final Round.Provider roundProvider;
 	private final AttemptReader attemptReader;
-	private final GameFactory.Provider gameFactoryProvider;
-	private final Game.Provider gameProvider;
 
 	ToByGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToByWonRoundCountFactory toByWonRoundCountFactory,
-			ToByAfterPlayHookFactory.Provider toByAfterPlayHookFactoryProvider,
-			ToByAfterPlayHook.Provider toByAfterPlayHookProvider,
-			Round.Provider roundProvider, AttemptReader attemptReader,
-			GameFactory.Provider gameFactoryProvider, Game.Provider gameProvider) {
+			AttemptReader attemptReader) {
 		this.roundCountFactory = roundCountFactory;
 		this.toByWonRoundCountFactory = toByWonRoundCountFactory;
-		this.toByAfterPlayHookFactoryProvider = toByAfterPlayHookFactoryProvider;
-		this.toByAfterPlayHookProvider = toByAfterPlayHookProvider;
-		this.roundProvider = roundProvider;
 		this.attemptReader = attemptReader;
-		this.gameFactoryProvider = gameFactoryProvider;
-		this.gameProvider = gameProvider;
 	}
 
 	public GameFactory createGameFactory(RoundCount toRoundCount, String[] args)
@@ -40,12 +27,10 @@ public class ToByGameFactoryFactory {
 				WonRoundCount extendingWonRoundCount = toByWonRoundCountFactory
 						.createExtendingWonRoundCount(toRoundCount,
 								byRoundCount);
-				ToByAfterPlayHookFactory toByAfterPlayHookFactory = toByAfterPlayHookFactoryProvider
-						.provide(toByAfterPlayHookProvider,
-								extendingWonRoundCount, winningWonRoundCount);
-				return gameFactoryProvider.provide(winningWonRoundCount,
-						toByAfterPlayHookFactory, attemptReader, roundProvider,
-						gameProvider);
+				ToByAfterPlayHookFactory toByAfterPlayHookFactory = new ToByAfterPlayHookFactory(
+						extendingWonRoundCount, winningWonRoundCount);
+				return new GameFactory(winningWonRoundCount,
+						toByAfterPlayHookFactory, attemptReader);
 			} catch (InvalidRoundCountException invalidRoundCountException) {
 			}
 		}

@@ -13,8 +13,6 @@ public class GameFactoryTest {
 	private WonRoundCount mockWinningWonRoundCount;
 	private IAfterPlayHookFactory mockAfterPlayHookFactory;
 	private AttemptReader mockAttemptReader;
-	private Round.Provider mockRoundProvider;
-	private Game.Provider mockGameProvider;
 
 	private GameFactory testObject;
 
@@ -22,27 +20,20 @@ public class GameFactoryTest {
 	private Player mockSecondPlayer;
 
 	private IAfterPlayHook mockAfterPlayHook;
-	private Round mockRound;
-	private Game mockGame;
 
 	@Before
 	public void setup() {
 		mockWinningWonRoundCount = mock(WonRoundCount.class);
 		mockAfterPlayHookFactory = mock(IAfterPlayHookFactory.class);
 		mockAttemptReader = mock(AttemptReader.class);
-		mockRoundProvider = mock(Round.Provider.class);
-		mockGameProvider = mock(Game.Provider.class);
 
 		testObject = new GameFactory(mockWinningWonRoundCount,
-				mockAfterPlayHookFactory, mockAttemptReader, mockRoundProvider,
-				mockGameProvider);
+				mockAfterPlayHookFactory, mockAttemptReader);
 
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
 
 		mockAfterPlayHook = mock(IAfterPlayHook.class);
-		mockRound = mock(Round.class);
-		mockGame = mock(Game.class);
 	}
 
 	@Test
@@ -51,15 +42,11 @@ public class GameFactoryTest {
 		when(
 				mockAfterPlayHookFactory.createAfterPlayHook(mockFirstPlayer,
 						mockSecondPlayer)).thenReturn(mockAfterPlayHook);
-		when(mockRoundProvider.provide(mockAttemptReader, mockAfterPlayHook))
-				.thenReturn(mockRound);
-		when(
-				mockGameProvider.provide(mockWinningWonRoundCount,
-						mockFirstPlayer, mockSecondPlayer, mockRound))
-				.thenReturn(mockGame);
 
 		Game game = testObject.createGame(mockFirstPlayer, mockSecondPlayer);
 
-		assertEquals(mockGame, game);
+		assertEquals(new Game(mockWinningWonRoundCount, mockFirstPlayer,
+				mockSecondPlayer, new Round(mockAttemptReader,
+						mockAfterPlayHook)), game);
 	}
 }

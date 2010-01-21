@@ -11,7 +11,7 @@ public class AttemptReader {
 	private final Writer writer;
 	private final AttemptFactory attemptFactory;
 
-	AttemptReader(BufferedReader bufferedReader, Writer writer,
+	public AttemptReader(BufferedReader bufferedReader, Writer writer,
 			AttemptFactory attemptFactory) {
 		this.bufferedReader = bufferedReader;
 		this.writer = writer;
@@ -32,12 +32,5 @@ public class AttemptReader {
 		} while (attempt == null);
 
 		return attempt;
-	}
-
-	public static class Provider {
-		public AttemptReader provide(BufferedReader bufferedReader,
-				Writer writer, AttemptFactory attemptFactory) {
-			return new AttemptReader(bufferedReader, writer, attemptFactory);
-		}
 	}
 }

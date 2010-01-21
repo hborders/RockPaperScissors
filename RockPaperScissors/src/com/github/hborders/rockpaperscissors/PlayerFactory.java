@@ -7,16 +7,10 @@ import java.io.Writer;
 public class PlayerFactory {
 	private final BufferedReader bufferedReader;
 	private final Writer writer;
-	private final WonRoundCount.Provider wonRoundCountProvider;
-	private final Player.Provider playerProvider;
 
-	PlayerFactory(BufferedReader bufferedReader, Writer writer,
-			WonRoundCount.Provider wonRoundCountProvider,
-			Player.Provider playerProvider) {
+	public PlayerFactory(BufferedReader bufferedReader, Writer writer) {
 		this.bufferedReader = bufferedReader;
 		this.writer = writer;
-		this.wonRoundCountProvider = wonRoundCountProvider;
-		this.playerProvider = playerProvider;
 	}
 
 	public Player createPlayer(int playerNumber) throws IOException {
@@ -28,10 +22,9 @@ public class PlayerFactory {
 			if (input != null) {
 				String rawPlayerName = input.trim();
 				if (rawPlayerName.length() > 0) {
-					WonRoundCount wonRoundCount = wonRoundCountProvider
-							.provide(0);
-					player = playerProvider.provide(rawPlayerName,
-							playerNumber, wonRoundCount);
+					WonRoundCount wonRoundCount = new WonRoundCount(0);
+					player = new Player(rawPlayerName, playerNumber,
+							wonRoundCount);
 				}
 			}
 		}

@@ -3,7 +3,7 @@ package com.github.hborders.rockpaperscissors;
 public class WonRoundCount implements Comparable<WonRoundCount> {
 	private int rawWonRoundCount;
 
-	WonRoundCount(int rawWonRoundCount) {
+	public WonRoundCount(int rawWonRoundCount) {
 		this.rawWonRoundCount = rawWonRoundCount;
 	}
 
@@ -46,11 +46,5 @@ public class WonRoundCount implements Comparable<WonRoundCount> {
 		if (rawWonRoundCount != other.rawWonRoundCount)
 			return false;
 		return true;
-	}
-
-	static class Provider {
-		public WonRoundCount provide(int rawWonRoundCount) {
-			return new WonRoundCount(rawWonRoundCount);
-		}
 	}
 }

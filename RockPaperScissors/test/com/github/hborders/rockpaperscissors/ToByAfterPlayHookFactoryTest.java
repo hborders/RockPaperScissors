@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ToByAfterPlayHookFactoryTest {
-	private ToByAfterPlayHook.Provider mockToByAfterPlayHookProvider;
 	private WonRoundCount mockExtendingWonRoundCount;
 	private WonRoundCount mockWinningWonRoundCount;
 
@@ -16,35 +15,25 @@ public class ToByAfterPlayHookFactoryTest {
 	private Player mockFirstPlayer;
 	private Player mockSecondPlayer;
 
-	private ToByAfterPlayHook mockToByAfterPlayHook;
-
 	@Before
 	public void setup() {
-		mockToByAfterPlayHookProvider = mock(ToByAfterPlayHook.Provider.class);
 		mockExtendingWonRoundCount = mock(WonRoundCount.class);
 		mockWinningWonRoundCount = mock(WonRoundCount.class);
 
-		testObject = new ToByAfterPlayHookFactory(
-				mockToByAfterPlayHookProvider, mockExtendingWonRoundCount,
+		testObject = new ToByAfterPlayHookFactory(mockExtendingWonRoundCount,
 				mockWinningWonRoundCount);
 
 		mockFirstPlayer = mock(Player.class);
 		mockSecondPlayer = mock(Player.class);
-
-		mockToByAfterPlayHook = mock(ToByAfterPlayHook.class);
 	}
 
 	@Test
 	public void createAfterPlayHook_returns_ToByAfterPlayHook() {
-		when(
-				mockToByAfterPlayHookProvider.provide(
-						mockExtendingWonRoundCount, mockWinningWonRoundCount,
-						mockFirstPlayer, mockSecondPlayer)).thenReturn(
-				mockToByAfterPlayHook);
-
 		ToByAfterPlayHook toByAfterPlayHook = testObject.createAfterPlayHook(
 				mockFirstPlayer, mockSecondPlayer);
 
-		assertEquals(mockToByAfterPlayHook, toByAfterPlayHook);
+		assertEquals(new ToByAfterPlayHook(mockExtendingWonRoundCount,
+				mockWinningWonRoundCount, mockFirstPlayer, mockSecondPlayer),
+				toByAfterPlayHook);
 	}
 }

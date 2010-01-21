@@ -13,14 +13,8 @@ import org.mockito.InOrder;
 public class PlayerFactoryTest {
 	private BufferedReader mockBufferedReader;
 	private Writer mockWriter;
-	private Player.Provider mockPlayerProvider;
-	private WonRoundCount.Provider mockWonRoundCountProvider;
 
 	private PlayerFactory testObject;
-
-	private WonRoundCount mockWonRoundCount;
-
-	private Player mockPlayer;
 
 	private InOrder inOrder;
 
@@ -28,15 +22,8 @@ public class PlayerFactoryTest {
 	public void setup() {
 		mockBufferedReader = mock(BufferedReader.class);
 		mockWriter = mock(Writer.class);
-		mockPlayerProvider = mock(Player.Provider.class);
-		mockWonRoundCountProvider = mock(WonRoundCount.Provider.class);
 
-		testObject = new PlayerFactory(mockBufferedReader, mockWriter,
-				mockWonRoundCountProvider, mockPlayerProvider);
-
-		mockWonRoundCount = mock(WonRoundCount.class);
-
-		mockPlayer = mock(Player.class);
+		testObject = new PlayerFactory(mockBufferedReader, mockWriter);
 
 		inOrder = inOrder(mockBufferedReader, mockWriter);
 	}
@@ -46,14 +33,10 @@ public class PlayerFactoryTest {
 			throws Exception {
 		when(mockBufferedReader.readLine()).thenReturn("  foo  ").thenThrow(
 				new RuntimeException("Possible infinite loop"));
-		when(mockWonRoundCountProvider.provide(0))
-				.thenReturn(mockWonRoundCount);
-		when(mockPlayerProvider.provide("foo", 1, mockWonRoundCount))
-				.thenReturn(mockPlayer);
 
 		Player player = testObject.createPlayer(1);
 
-		assertEquals(mockPlayer, player);
+		assertEquals(new Player("foo", 1, new WonRoundCount(0)), player);
 
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
 		inOrder.verify(mockWriter).flush();
@@ -64,14 +47,10 @@ public class PlayerFactoryTest {
 	public void createPlayer_reprompts_when_input_is_null() throws Exception {
 		when(mockBufferedReader.readLine()).thenReturn(null).thenReturn("bar")
 				.thenThrow(new RuntimeException("Possible infinite loop"));
-		when(mockWonRoundCountProvider.provide(0))
-				.thenReturn(mockWonRoundCount);
-		when(mockPlayerProvider.provide("bar", 1, mockWonRoundCount))
-				.thenReturn(mockPlayer);
 
 		Player player = testObject.createPlayer(1);
 
-		assertEquals(mockPlayer, player);
+		assertEquals(new Player("bar", 1, new WonRoundCount(0)), player);
 
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
 		inOrder.verify(mockWriter).flush();
@@ -86,14 +65,10 @@ public class PlayerFactoryTest {
 			throws Exception {
 		when(mockBufferedReader.readLine()).thenReturn("   ").thenReturn("bar")
 				.thenThrow(new RuntimeException("Possible infinite loop"));
-		when(mockWonRoundCountProvider.provide(0))
-				.thenReturn(mockWonRoundCount);
-		when(mockPlayerProvider.provide("bar", 1, mockWonRoundCount))
-				.thenReturn(mockPlayer);
 
 		Player player = testObject.createPlayer(1);
 
-		assertEquals(mockPlayer, player);
+		assertEquals(new Player("bar", 1, new WonRoundCount(0)), player);
 
 		inOrder.verify(mockWriter).write("Player 1 Name: ");
 		inOrder.verify(mockWriter).flush();
