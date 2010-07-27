@@ -2,6 +2,7 @@ package com.github.hborders.rockpaperscissors;
 
 import com.github.hborders.rockpaperscissors.GameFactory.Provider;
 import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
+import com.google.inject.Inject;
 
 public class DefaultGameFactoryFactory {
 
@@ -14,7 +15,8 @@ public class DefaultGameFactoryFactory {
 	private final ToGameFactoryFactory toGameFactoryFactory;
 	private final BestofGameFactoryFactory bestofGameFactoryFactory;
 
-	DefaultGameFactoryFactory(Provider gameFactoryProvider,
+	@Inject
+	public DefaultGameFactoryFactory(Provider gameFactoryProvider,
 			WonRoundCount defaultWinningWonRoundCount,
 			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,
 			AttemptReader attemptReader, Round.Provider roundProvider,

@@ -1,11 +1,13 @@
 package com.github.hborders.rockpaperscissors;
 
 import com.github.hborders.rockpaperscissors.WonRoundCount.Provider;
+import com.google.inject.Inject;
 
 public class ToByWonRoundCountFactory {
 	private final WonRoundCount.Provider wonRoundCountProvider;
 
-	ToByWonRoundCountFactory(Provider wonRoundCountProvider) {
+	@Inject
+	public ToByWonRoundCountFactory(Provider wonRoundCountProvider) {
 		this.wonRoundCountProvider = wonRoundCountProvider;
 	}
 

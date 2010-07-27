@@ -3,6 +3,7 @@ package com.github.hborders.rockpaperscissors;
 import com.github.hborders.rockpaperscissors.GameFactory.Provider;
 import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
 import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
+import com.google.inject.Inject;
 
 public class ToGameFactoryFactory {
 
@@ -15,7 +16,8 @@ public class ToGameFactoryFactory {
 	private final Round.Provider roundProvider;
 	private final Game.Provider gameProvider;
 
-	ToGameFactoryFactory(RoundCountFactory roundCountFactory,
+	@Inject
+	public ToGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToByGameFactoryFactory toByGameFactoryFactory,
 			ToWonRoundCountFactory toWonRoundCountFactory,
 			Provider gameFactoryProvider,

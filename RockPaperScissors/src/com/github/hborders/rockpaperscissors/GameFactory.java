@@ -10,7 +10,7 @@ public class GameFactory {
 	private final Round.Provider roundProvider;
 	private final Game.Provider gameProvider;
 
-	public GameFactory(WonRoundCount winningWonRoundCount,
+	GameFactory(WonRoundCount winningWonRoundCount,
 			IAfterPlayHookFactory afterPlayHookFactory,
 			AttemptReader attemptReader, Round.Provider roundProvider,
 			Game.Provider gameProvider) {

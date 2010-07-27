@@ -4,13 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 
+import com.google.inject.Inject;
+
 public class PlayerFactory {
 	private final BufferedReader bufferedReader;
 	private final Writer writer;
 	private final WonRoundCount.Provider wonRoundCountProvider;
 	private final Player.Provider playerProvider;
 
-	PlayerFactory(BufferedReader bufferedReader, Writer writer,
+	@Inject
+	public PlayerFactory(BufferedReader bufferedReader, Writer writer,
 			WonRoundCount.Provider wonRoundCountProvider,
 			Player.Provider playerProvider) {
 		this.bufferedReader = bufferedReader;

@@ -23,7 +23,7 @@ public class ToByAfterPlayHookFactory implements IAfterPlayHookFactory {
 				winningWonRoundCount, firstPlayer, secondPlayer);
 	}
 
-	static class Provider {
+	public static class Provider {
 		public ToByAfterPlayHookFactory provide(
 				ToByAfterPlayHook.Provider toByAfterPlayHookProvider,
 				WonRoundCount extendingWonRoundCount,

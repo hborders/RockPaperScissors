@@ -1,6 +1,7 @@
 package com.github.hborders.rockpaperscissors;
 
 import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
+import com.google.inject.Inject;
 
 public class ToByGameFactoryFactory {
 
@@ -13,7 +14,8 @@ public class ToByGameFactoryFactory {
 	private final GameFactory.Provider gameFactoryProvider;
 	private final Game.Provider gameProvider;
 
-	ToByGameFactoryFactory(RoundCountFactory roundCountFactory,
+	@Inject
+	public ToByGameFactoryFactory(RoundCountFactory roundCountFactory,
 			ToByWonRoundCountFactory toByWonRoundCountFactory,
 			ToByAfterPlayHookFactory.Provider toByAfterPlayHookFactoryProvider,
 			ToByAfterPlayHook.Provider toByAfterPlayHookProvider,

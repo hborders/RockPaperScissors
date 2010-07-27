@@ -4,6 +4,7 @@ import com.github.hborders.rockpaperscissors.BestofWonRoundCountFactory.InvalidW
 import com.github.hborders.rockpaperscissors.GameFactory.Provider;
 import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
 import com.github.hborders.rockpaperscissors.RoundCountFactory.InvalidRoundCountException;
+import com.google.inject.Inject;
 
 public class BestofGameFactoryFactory {
 
@@ -15,7 +16,8 @@ public class BestofGameFactoryFactory {
 	private final Round.Provider roundProvider;
 	private final Game.Provider gameProvider;
 
-	BestofGameFactoryFactory(RoundCountFactory roundCountFactory,
+	@Inject
+	public BestofGameFactoryFactory(RoundCountFactory roundCountFactory,
 			BestofWonRoundCountFactory bestofWonRoundCountFactory,
 			Provider gameFactoryProvider,
 			NoOpAfterPlayHookFactory noOpAfterPlayHookFactory,

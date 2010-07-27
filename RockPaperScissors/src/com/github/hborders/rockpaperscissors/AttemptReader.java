@@ -5,13 +5,15 @@ import java.io.IOException;
 import java.io.Writer;
 
 import com.github.hborders.rockpaperscissors.AttemptFactory.InvalidRawAttemptException;
+import com.google.inject.Inject;
 
 public class AttemptReader {
 	private final BufferedReader bufferedReader;
 	private final Writer writer;
 	private final AttemptFactory attemptFactory;
 
-	AttemptReader(BufferedReader bufferedReader, Writer writer,
+	@Inject
+	public AttemptReader(BufferedReader bufferedReader, Writer writer,
 			AttemptFactory attemptFactory) {
 		this.bufferedReader = bufferedReader;
 		this.writer = writer;
@@ -32,12 +34,5 @@ public class AttemptReader {
 		} while (attempt == null);
 
 		return attempt;
-	}
-
-	public static class Provider {
-		public AttemptReader provide(BufferedReader bufferedReader,
-				Writer writer, AttemptFactory attemptFactory) {
-			return new AttemptReader(bufferedReader, writer, attemptFactory);
-		}
 	}
 }

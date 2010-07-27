@@ -2,19 +2,21 @@ package com.github.hborders.rockpaperscissors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 
 import com.github.hborders.rockpaperscissors.NoOpAfterPlayHook.NoOpAfterPlayHookFactory;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 public class RockPaperScissors {
 	public static void main(String[] args) {
-		RockPaperScissors rockPaperScissors = new RockPaperScissors(
-				new InputStreamReader(System.in), new OutputStreamWriter(
-						System.out));
+		Injector injector = Guice.createInjector(new StandardCommandLineModule());
+		RockPaperScissors rockPaperScissors = injector
+				.getInstance(RockPaperScissors.class);
+
 		rockPaperScissors.play(args);
 	}
 
@@ -37,7 +39,8 @@ public class RockPaperScissors {
 				(PrintWriter) defaultGameFactoryFactoryAndPlayerFactoryAndPrintWriter[2]);
 	}
 
-	RockPaperScissors(UsagePrinter usagePrinter,
+	@Inject
+	public RockPaperScissors(UsagePrinter usagePrinter,
 			DefaultGameFactoryFactory defaultGameFactoryFactory,
 			PlayerFactory playerFactory, PrintWriter printWriter) {
 		this.usagePrinter = usagePrinter;

@@ -48,7 +48,7 @@ public class WonRoundCount implements Comparable<WonRoundCount> {
 		return true;
 	}
 
-	static class Provider {
+	public static class Provider {
 		public WonRoundCount provide(int rawWonRoundCount) {
 			return new WonRoundCount(rawWonRoundCount);
 		}
